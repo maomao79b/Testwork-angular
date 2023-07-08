@@ -3,17 +3,23 @@ import { Customer } from 'src/app/model/model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CustomerServiceService{
+export class CustomerServiceService {
+  constructor(private http: HttpClient) {}
 
-constructor(private http: HttpClient) { }
+  //GET
+  async getCustomers() {
+    const response = await this.http
+      .get<Customer[]>('http://localhost:5148/api/Customer')
+      .toPromise();
+    return response;
+  }
 
-//GET
-async getCustomers(){
-  const response = await this.http.get<Customer[]>("http://localhost:5148/api/Customer").toPromise();
-  return response;
-}
-
-
+  //DELETE
+  async deleteCustomer(id: any){
+    await this.http
+      .delete<Customer[]>('http://localhost:5148/api/Customer?id='+id)
+      .toPromise();
+  }
 }

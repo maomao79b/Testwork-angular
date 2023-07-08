@@ -16,4 +16,11 @@ async getEmployees(){
   return response;
 }
 
+//DELETE
+async deleteEmployee(id: any){
+  await this.http
+    .delete<Employee[]>('http://localhost:5148/api/Employee?id='+id)
+    .toPromise();
+}
+
 }
