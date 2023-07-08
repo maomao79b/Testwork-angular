@@ -1,0 +1,37 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.button-custom {
+  width: 76px;
+  height: 30px;
+  border-radius: 5px;
+  color: #FFF;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit {
+  background: #ffc700;
+}
+
+.edit:hover {
+  background: #c19a0f;
+}
+
+.delete {
+  background-color: #FF451C;
+}
+
+.delete:hover {
+  background-color: #dd2800;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+

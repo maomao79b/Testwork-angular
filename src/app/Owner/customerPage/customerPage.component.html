@@ -1,0 +1,56 @@
+<div class="main">
+  <div class="head">
+    <!-- Search bar -->
+    <div class="card flex flex-wrap justify-content-center gap-3">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" [(ngModel)]="searchText" pInputText placeholder="ค้นหา" (input)="search()"/>
+      </span>
+    </div>
+    <!-- Create Button -->
+    <p-button label="เพิ่มสมาชิก" icon="pi pi-plus"></p-button>
+  </div>
+  <!-- Table customer -->
+  <div class="card">
+    <p-table
+      [value]="customerFilter"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 12.5%">รหัส</th>
+          <th style="width: 12.5%">ชื่อ-นามสกุล</th>
+          <th style="width: 12.5%">อายุ</th>
+          <th style="width: 12.5%">ที่อยู่</th>
+          <th style="width: 12.5%">เบอร์โทร</th>
+          <th style="width: 12.5%">อีเมล</th>
+          <th style="width: 12.5%">รหัสผ่าน</th>
+          <th style="width: 12.5%"></th>
+          <th style="width: 12.5%"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr>
+          <td>{{ customer.id }}</td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.age }}</td>
+          <td>{{ customer.address }}</td>
+          <td>{{ customer.phone }}</td>
+          <td>{{ customer.email }}</td>
+          <td>{{ customer.password }}</td>
+          <td>
+            <p-button label="แก้ไข" styleClass="p-button-warning"></p-button>
+          </td>
+          <td>
+            <p-button label="ลบ" styleClass="p-button-danger"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
