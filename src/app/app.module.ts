@@ -9,17 +9,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-// import { CustomerPageComponent } from './customerPage/customerPage.component';
+import { CustomerPageComponent } from './customerPage/customerPage.component';
 import { EmployeePageComponent } from './employeePage/employeePage.component';
 import { AcceptProductPageComponent } from './acceptProductPage/acceptProductPage.component';
 import { ReportPageComponent } from './reportPage/reportPage.component';
 import { ProductPageComponent } from './productPage/productPage.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule  } from '@angular/forms';
-import { OwnerModule } from './Owner/owner/owner.module';
+
 
 const appRoute: Routes = [
-  // {path: '', component: CustomerPageComponent},
+  {path: '', component: CustomerPageComponent},
   {path: 'employee', component: EmployeePageComponent},
   {path: 'acceptProduct', component: AcceptProductPageComponent},
   {path: 'report', component: ReportPageComponent},
@@ -29,7 +29,7 @@ const appRoute: Routes = [
   declarations: [
     AppComponent,
       NavbarComponent,
-      // CustomerPageComponent,
+      CustomerPageComponent,
       EmployeePageComponent,
       AcceptProductPageComponent,
       ReportPageComponent,
@@ -47,7 +47,6 @@ const appRoute: Routes = [
     InputTextModule,
     FormsModule,
     HttpClientModule,
-    OwnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

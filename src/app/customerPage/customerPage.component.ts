@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
-import { Customer } from '../../model/model';
-import { CustomerServiceService } from '../../service/customer/customerService.service';
+import { Customer } from '../model/model';
+import { CustomerServiceService } from '../service/customer/customerService.service';
 @Component({
   selector: 'app-customerPage',
   templateUrl: './customerPage.component.html',
