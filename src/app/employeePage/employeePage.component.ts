@@ -32,6 +32,13 @@ export class EmployeePageComponent implements OnInit {
     })
   }
 
+  async deleteEmployee(Eid: any): Promise<void> {
+    Eid = parseInt(Eid);
+    const response = await this.service.deleteEmployee(Eid);
+    this.employeeFilter = this.employeeList.filter((employee) => {
+      return employee.id !== Eid;
+    });
+  }
 
 
 }

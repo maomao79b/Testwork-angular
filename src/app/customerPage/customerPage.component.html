@@ -44,10 +44,10 @@
           <td>{{ customer.email }}</td>
           <td>{{ customer.password }}</td>
           <td>
-            <p-button label="แก้ไข" styleClass="p-button-warning"></p-button>
+            <p-button label="แก้ไข" styleClass="p-button-warning" ></p-button>
           </td>
           <td>
-            <p-button label="ลบ" styleClass="p-button-danger"></p-button>
+            <p-button label="ลบ" styleClass="p-button-danger" [style.margin-left.px]="-60" (onClick)="deleteCustomer(customer.id)"></p-button>
           </td>
         </tr>
       </ng-template>

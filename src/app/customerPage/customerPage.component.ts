@@ -5,29 +5,44 @@ import { CustomerServiceService } from '../service/customer/customerService.serv
 @Component({
   selector: 'app-customerPage',
   templateUrl: './customerPage.component.html',
-  styleUrls: ['./customerPage.component.css']
+  styleUrls: ['./customerPage.component.css'],
 })
 export class CustomerPageComponent implements OnInit {
-
   customerList: Customer[] = [];
   customerFilter: Customer[] = [];
 
-  constructor(private service: CustomerServiceService) { }
+  constructor(private service: CustomerServiceService) {}
 
   async ngOnInit(): Promise<void> {
     const response = await this.service.getCustomers();
-    this.customerList = await <Customer[]>response;
+    this.customerList = await (<Customer[]>response);
     this.customerFilter = await this.customerList;
   }
 
-  searchText: string = "";
+  searchText: string = '';
 
   search(): void {
-    this.customerFilter = this.customerList.filter(customer => {
-      console.log(this.searchText);
-      return customer.id.toString().toLocaleLowerCase().includes(this.searchText.toLowerCase()) ||
-      customer.name.toLocaleLowerCase().includes(this.searchText.toLowerCase()) ||
-      customer.email.toLocaleLowerCase().includes(this.searchText.toLowerCase());
-    })
+    this.customerFilter = this.customerList.filter((customer) => {
+      return (
+        customer.id
+          .toString()
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase()) ||
+        customer.name
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase()) ||
+        customer.email
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase())
+      );
+    });
+  }
+
+  async deleteCustomer(Cid: any): Promise<void> {
+    Cid = parseInt(Cid);
+    const response = await this.service.deleteCustomer(Cid);
+    this.customerFilter = this.customerList.filter((customer) => {
+      return customer.id !== Cid;
+    });
   }
 }

@@ -1,0 +1,10 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}

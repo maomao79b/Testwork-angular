@@ -49,7 +49,7 @@
             <p-button label="แก้ไข" styleClass="p-button-warning"></p-button>
           </td>
           <td>
-            <p-button label="ลบ" styleClass="p-button-danger"></p-button>
+            <p-button label="ลบ" styleClass="p-button-danger" [style.margin-left.px]="-27" (onClick)="deleteEmployee(employee.id)"></p-button>
           </td>
         </tr>
       </ng-template>

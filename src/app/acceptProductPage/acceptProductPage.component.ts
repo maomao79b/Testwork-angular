@@ -4,16 +4,42 @@ import { AcceptProduct } from 'src/app/model/model';
 @Component({
   selector: 'app-acceptProductPage',
   templateUrl: './acceptProductPage.component.html',
-  styleUrls: ['./acceptProductPage.component.css']
+  styleUrls: ['./acceptProductPage.component.css'],
 })
 export class AcceptProductPageComponent implements OnInit {
+  acceptProductList: AcceptProduct[] = [];
+  acceptProductFilter: AcceptProduct[] = [];
 
-  productList: AcceptProduct[] = [];
+  constructor(private service: AcceptProductServiceService) {}
 
-  constructor(private service: AcceptProductServiceService) { }
+  async ngOnInit(): Promise<void> {
+    const response = await this.service.getAcceptProducts();
+    this.acceptProductList = <AcceptProduct[]>response;
+    this.acceptProductFilter = this.acceptProductList;
+    console.log(this.acceptProductList);
+  }
+  searchText: string = '';
 
-  ngOnInit() {
-    this.productList = this.service.getAcceptProduct();
+  search(): void {
+    this.acceptProductFilter = this.acceptProductList.filter((acceptPoduct) => {
+      console.log(this.searchText);
+      return (
+        acceptPoduct.id
+          .toString()
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase()) ||
+        acceptPoduct.Ename
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase())
+      );
+    });
   }
 
+  async deleteAcceptProduct(id: any): Promise<void> {
+    id = parseInt(id);
+    const response = await this.service.deleteAcceptProduct(id);
+    this.acceptProductFilter = this.acceptProductList.filter((accept) => {
+      return accept.id !== id;
+    });
+  }
 }

@@ -1,4 +1,4 @@
-export interface Customer{
+export interface Customer {
   id: number;
   name: string;
   age: number;
@@ -8,7 +8,7 @@ export interface Customer{
   password: string;
 }
 
-export interface Employee{
+export interface Employee {
   id: number;
   name: string;
   age: number;
@@ -21,10 +21,11 @@ export interface Employee{
 
 export interface AcceptProduct {
   id: number;
-  employeeName: string;
-  date: Date;
+  Eid: number;
+  Ename: string;
+  productName: string;
   description: string;
-  image: string;
+  date: Date;
   price: number;
+  image: JSON;
 }
-
