@@ -34,7 +34,7 @@
           <th style="width: 10%">วันที่</th>
           <th style="width: 10%">ราคา</th>
           <th style="width: 11%"></th>
-          <th style="width: 1%;"></th>
+          <th style="width: 1%"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-acceptProduct>
@@ -52,7 +52,20 @@
             ></p-button>
           </td>
           <td>
-            <p-button label="อนุมัติ" styleClass="p-button-success" [style.margin-left.px]="-30"></p-button>
+            <p-button
+              label="อนุมัติ"
+              styleClass="p-button-success"
+              [style.margin-left.px]="-30"
+              (onClick)="
+                insertToProduct(
+                  acceptProduct.id,
+                  acceptProduct.Ename,
+                  acceptProduct.description,
+                  acceptProduct.price,
+                  acceptProduct.image
+                )
+              "
+            ></p-button>
           </td>
         </tr>
       </ng-template>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AcceptProductServiceService } from '../service/acceptProduct/acceptProductService.service';
-import { AcceptProduct } from 'src/app/model/model';
+import { AcceptProductService } from '../service/acceptProduct/acceptProduct.service';
+import { AcceptProduct, Product } from 'src/app/model/model';
+import { ProductService } from '../service/product/product.service';
 @Component({
   selector: 'app-acceptProductPage',
   templateUrl: './acceptProductPage.component.html',
@@ -10,10 +11,10 @@ export class AcceptProductPageComponent implements OnInit {
   acceptProductList: AcceptProduct[] = [];
   acceptProductFilter: AcceptProduct[] = [];
 
-  constructor(private service: AcceptProductServiceService) {}
+  constructor(private serviceAccept: AcceptProductService, private serviceProduct: ProductService) {}
 
   async ngOnInit(): Promise<void> {
-    const response = await this.service.getAcceptProducts();
+    const response = await this.serviceAccept.getAcceptProducts();
     this.acceptProductList = <AcceptProduct[]>response;
     this.acceptProductFilter = this.acceptProductList;
     console.log(this.acceptProductList);
@@ -35,11 +36,21 @@ export class AcceptProductPageComponent implements OnInit {
     });
   }
 
+  //DELETE
   async deleteAcceptProduct(id: any): Promise<void> {
     id = parseInt(id);
-    const response = await this.service.deleteAcceptProduct(id);
+    await this.serviceAccept.deleteAcceptProduct(id);
     this.acceptProductFilter = this.acceptProductList.filter((accept) => {
       return accept.id !== id;
     });
   }
+
+
+
+  //POST TO PRODUCT
+  async insertToProduct(id: any, name: string, description: string, price: string, image: string): Promise<void> {
+    await this.serviceProduct.insertProduct(name, description, price, image);
+    await this.deleteAcceptProduct(id);
+  }
+
 }
