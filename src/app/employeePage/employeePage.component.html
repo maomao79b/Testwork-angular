@@ -46,7 +46,7 @@
           <td>{{ employee.password }}</td>
           <td>{{ employee.position }}</td>
           <td>
-            <p-button label="แก้ไข" styleClass="p-button-warning"></p-button>
+            <p-button label="แก้ไข" styleClass="p-button-warning" routerLink="/editEmployee" routerLinkActive="active"></p-button>
           </td>
           <td>
             <p-button label="ลบ" styleClass="p-button-danger" [style.margin-left.px]="-27" (onClick)="deleteEmployee(employee.id)"></p-button>

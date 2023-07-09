@@ -12,15 +12,24 @@ constructor(private http: HttpClient) { }
 
 //GET
 async getEmployees(){
-  const response = await this.http.get<Employee[]>("http://localhost:5148/api/Employee").toPromise();
-  return response;
+  try {
+    const response = await this.http.get<Employee[]>("http://localhost:5148/api/Employee").toPromise();
+    return response;
+  } catch (error) {
+    console.log("getEmployees: ", error);
+    return null;
+  }
 }
 
 //DELETE
 async deleteEmployee(id: any){
-  await this.http
+  try {
+    await this.http
     .delete<Employee[]>('http://localhost:5148/api/Employee?id='+id)
     .toPromise();
+  } catch (error) {
+    console.log("deleteEmployee: ", error);
+  }
 }
 
 }

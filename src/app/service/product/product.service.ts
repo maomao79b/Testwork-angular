@@ -20,7 +20,7 @@ export class ProductService {
         .post<Product[]>(`http://localhost:5148/api/Product?name=${name}&description=${description}&price=${price}&image=${image}`,{})
         .subscribe();
     } catch (error) {
-      console.error('เกิดข้อผิดพลาดในการส่งข้อมูลสินค้า:', error);
+      console.error('insertProduct: ', error);
     }
   }
 }

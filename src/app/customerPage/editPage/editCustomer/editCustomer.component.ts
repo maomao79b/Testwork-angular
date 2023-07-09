@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditCustomerComponent implements OnInit {
 
+  visible: boolean = false;
+
   constructor() { }
 
   ngOnInit() {

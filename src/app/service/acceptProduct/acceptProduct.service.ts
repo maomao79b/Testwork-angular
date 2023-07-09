@@ -9,17 +9,27 @@ export class AcceptProductService {
 
   //GET
   async getAcceptProducts() {
-    const response = await this.http
-      .get<AcceptProduct[]>('http://localhost:5148/api/AcceptProduct')
-      .toPromise();
-    return response;
+    try {
+      const response = await this.http
+        .get<AcceptProduct[]>('http://localhost:5148/api/AcceptProduct')
+        .toPromise();
+      return response;
+
+    } catch (error) {
+      console.log("getAcceptProducts: ",error);
+      return null;
+    }
   }
 
   //DELETE
   async deleteAcceptProduct(id: any){
-    await this.http
-      .delete<AcceptProduct[]>('http://localhost:5148/api/AcceptProduct?id='+id)
-      .toPromise();
+    try {
+      await this.http
+        .delete<AcceptProduct[]>('http://localhost:5148/api/AcceptProduct?id='+id)
+        .toPromise();
+    } catch (error) {
+      console.log("deleteAcceptProduct: ",error);
+    }
   }
 
   // //POST
