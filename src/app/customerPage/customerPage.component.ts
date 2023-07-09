@@ -9,19 +9,22 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
   styleUrls: ['./customerPage.component.css'],
 })
 export class CustomerPageComponent implements OnInit {
-  // ----------------------------------------------
+  // --------------------- Attribute -------------------------
   customerList: Customer[] = [];
   customerFilter: Customer[] = [];
 
-  visible: boolean = false;
+  addVisible: boolean = false;
+  editVisible: boolean = false;
 
-  id: number | undefined;
-  name: string | undefined;
-  age: number | undefined;
-  address: string | undefined;
-  phone: string | undefined;
-  email: string | undefined;
-  password: string | undefined;
+  searchText: string = '';
+
+  id: any;
+  name: any;
+  age: any;
+  address: any;
+  phone: any;
+  email: any;
+  password: any;
 
   // ----------------------------------------------
 
@@ -36,7 +39,6 @@ export class CustomerPageComponent implements OnInit {
   }
 
   // ---------------------- function ---------------------
-  searchText: string = '';
 
   search(): void {
     this.customerFilter = this.customerList.filter((customer) => {
@@ -55,9 +57,9 @@ export class CustomerPageComponent implements OnInit {
     });
   }
 
-  showEditDialog(id: string) {
+  showEditDialog(id: any) {
     const Cid = parseInt(id);
-    this.visible = true;
+    this.editVisible = true;
     this.customerList.filter((customer) => {
       if (customer.id == Cid) {
         this.id = customer.id;
@@ -72,13 +74,13 @@ export class CustomerPageComponent implements OnInit {
   }
 
   showAddDialog() {
-    this.visible = true;
+    this.addVisible = true;
   }
 
   //----------------------- services --------------------
   //GET
   async getCustomer(): Promise<void> {
-    const response = await this.service.getCustomers();
+    const response = await this.service.getCustomers("","");
     this.customerList = await (<Customer[]>response);
     this.customerFilter = await this.customerList;
   }
@@ -94,16 +96,6 @@ export class CustomerPageComponent implements OnInit {
   //UPDATE
   async confirmEdit() {
     try {
-      const customerDialog = this.customerList.filter((customer) => {
-        if (customer.id == this.id) {
-          customer.name = this.name!;
-          customer.age = this.age!;
-          customer.address = this.address!;
-          customer.phone = this.phone!;
-          customer.email = this.email!;
-          customer.password = this.password!;
-        }
-      });
       await this.service.updateCustomer(
         this.id,
         this.name,
@@ -113,12 +105,14 @@ export class CustomerPageComponent implements OnInit {
         this.email,
         this.password
       );
-      this.visible = false;
+      setTimeout(() => window.location.reload(), 0);
+      this.editVisible = false;
     } catch (error) {
       console.log(error);
     }
   }
 
+  //INSERT
   async confirmInsertCustomer() {
     try {
       await this.service.insertCustomer(
@@ -129,20 +123,8 @@ export class CustomerPageComponent implements OnInit {
         this.email,
         this.password
       );
-      const response = await this.service.getCustomers();
-      this.customerList = await (<Customer[]>response);
-      this.customerFilter = await this.customerList;
-      // let newCustomer: Customer = {
-      //   id: id!,
-      //   name: this.name!,
-      //   age: this.age!,
-      //   address: this.address!,
-      //   phone: this.phone!,
-      //   email: this.email!,
-      //   password: this.password!,
-      // };
-      // this.customerList.push(newCustomer);
-      this.visible = false;
+      setTimeout(() => window.location.reload(), 0);
+      this.addVisible = false;
     } catch (error) {
       console.log(error);
     }

@@ -9,10 +9,10 @@ export class CustomerServiceService {
   constructor(private http: HttpClient) {}
 
   //GET
-  async getCustomers() {
+  async getCustomers(id: string, name: string) { // ถ้าไม่ส่ง id และ name จะเป็นการ getAll
     try {
       const response = await this.http
-        .get<Customer[]>('http://localhost:5148/api/Customer')
+        .get<Customer[]>(`http://localhost:5148/api/Customer?id=${id}&name=${name}`,{})
         .toPromise();
       return response;
     } catch (error) {

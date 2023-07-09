@@ -34,3 +34,28 @@
   display: flex;
   justify-content: space-between;
 }
+
+.input-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.inputspacDialog {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: row;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.longInputDialog {
+  width: 444px;
+}
+
+tr:hover {
+  background-color: rgba(231, 227, 227, 0.445);
+}

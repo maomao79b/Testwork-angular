@@ -8,3 +8,7 @@
   display: flex;
   justify-content: space-between;
 }
+
+tr:hover {
+  background-color: rgba(231, 227, 227, 0.445);
+}

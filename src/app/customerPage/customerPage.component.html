@@ -74,7 +74,7 @@
 <div class="card flex justify-content-center">
   <p-dialog
     header="แก้ไขข้อมูล"
-    [(visible)]="visible"
+    [(visible)]="editVisible"
     [modal]="true"
     [style]="{ width: 'auto' }"
     [draggable]="false"
@@ -123,11 +123,11 @@
         />
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Phone</label>
+        <label htmlFor="Phone">Phone</label>
         <input
           pInputText
-          id="username"
-          aria-describedby="username-help"
+          id="Phone"
+          aria-describedby="Phone-help"
           [(ngModel)]="phone"
         />
       </div>
@@ -165,7 +165,7 @@
 <div class="card flex justify-content-center">
   <p-dialog
     header="เพิ่มสมาชิก"
-    [(visible)]="visible"
+    [(visible)]="addVisible"
     [modal]="true"
     [style]="{ width: 'auto' }"
     [draggable]="false"
@@ -238,7 +238,7 @@
     </div>
 
     <div class="card flex justify-content-center">
-      <button pButton pRipple label="ยืนยันการแก้ไข" (click)="confirmInsertCustomer()" class="p-button-success"></button>
+      <button pButton pRipple label="บันทึก" (click)="confirmInsertCustomer()" class="p-button-success"></button>
     </div>
   </p-dialog>
 </div>

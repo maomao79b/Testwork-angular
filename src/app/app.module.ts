@@ -17,9 +17,7 @@ import { ReportPageComponent } from './reportPage/reportPage.component';
 import { ProductPageComponent } from './productPage/productPage.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule  } from '@angular/forms';
-import { EditCustomerComponent } from './customerPage/editPage/editCustomer/editCustomer.component';
-import { EditEmployeeComponent } from './employeePage/editPage/editEmployee/editEmployee.component';
-
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 const appRoute: Routes = [
   {path: '', component: CustomerPageComponent},
@@ -27,8 +25,6 @@ const appRoute: Routes = [
   {path: 'acceptProduct', component: AcceptProductPageComponent},
   {path: 'report', component: ReportPageComponent},
   {path: 'producr', component: ProductPageComponent},
-  {path: 'editCustomer', component: EditCustomerComponent},
-  {path: 'editEmployee', component: EditEmployeeComponent},
 
 ];
 @NgModule({
@@ -40,8 +36,6 @@ const appRoute: Routes = [
       AcceptProductPageComponent,
       ReportPageComponent,
       ProductPageComponent,
-      EditCustomerComponent,
-      EditEmployeeComponent
    ],
   imports: [
     BrowserModule,
@@ -55,7 +49,8 @@ const appRoute: Routes = [
     InputTextModule,
     FormsModule,
     HttpClientModule,
-    DialogModule
+    DialogModule,
+    KeyFilterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -55,3 +55,7 @@
 .longInputDialog {
   width: 444px;
 }
+
+tr:hover {
+  background-color: rgba(231, 227, 227, 0.445);
+}

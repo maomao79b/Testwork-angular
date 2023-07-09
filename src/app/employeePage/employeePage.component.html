@@ -4,11 +4,22 @@
     <div class="card flex flex-wrap justify-content-center gap-3">
       <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
-        <input #inputSearch type="text" [(ngModel)]="searchText" pInputText placeholder="ค้นหา" (input)="search()" />
+        <input
+          #inputSearch
+          type="text"
+          [(ngModel)]="searchText"
+          pInputText
+          placeholder="ค้นหา"
+          (input)="search()"
+        />
       </span>
     </div>
     <!-- Create Button -->
-    <p-button label="เพิ่มสมาชิก" icon="pi pi-plus"></p-button>
+    <p-button
+      label="เพิ่มสมาชิก"
+      icon="pi pi-plus"
+      (onClick)="showAddDialog()"
+    ></p-button>
   </div>
   <!-- Table employee -->
   <div class="card">
@@ -46,13 +57,227 @@
           <td>{{ employee.password }}</td>
           <td>{{ employee.position }}</td>
           <td>
-            <p-button label="แก้ไข" styleClass="p-button-warning" routerLink="/editEmployee" routerLinkActive="active"></p-button>
+            <p-button
+              label="แก้ไข"
+              styleClass="p-button-warning"
+              (onClick)="showEditDialog(employee.id)"
+            ></p-button>
           </td>
           <td>
-            <p-button label="ลบ" styleClass="p-button-danger" [style.margin-left.px]="-27" (onClick)="deleteEmployee(employee.id)"></p-button>
+            <p-button
+              label="ลบ"
+              styleClass="p-button-danger"
+              [style.margin-left.px]="-27"
+              (onClick)="deleteEmployee(employee.id)"
+            ></p-button>
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
+</div>
+
+<!-- Edit Dialog -->
+<div class="card flex justify-content-center">
+  <p-dialog
+    header="แก้ไขข้อมูล"
+    [(visible)]="editVisible"
+    [modal]="true"
+    [style]="{ width: 'auto' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Customer ID</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="id"
+          [disabled]="true"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Name</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="name"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Position</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="position"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Age</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="age"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Address</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="address"
+          class="longInputDialog"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Phone</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="phone"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Email</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="email"
+          class="longInputDialog"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Password</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="password"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center">
+      <button
+        pButton
+        pRipple
+        label="ยืนยันการแก้ไข"
+        (click)="confirmEdit()"
+        class="p-button-success"
+      ></button>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- Add Dialog -->
+<div class="card flex justify-content-center">
+  <p-dialog
+    header="เพิ่มสมาชิก"
+    [(visible)]="addVisible"
+    [modal]="true"
+    [style]="{ width: 'auto' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Name</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="name"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Position</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="position"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Age</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="age"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Address</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="address"
+          class="longInputDialog"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Phone</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="phone"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Email</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="email"
+          class="longInputDialog"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="username">Password</label>
+        <input
+          pInputText
+          id="username"
+          aria-describedby="username-help"
+          [(ngModel)]="password"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center">
+      <button
+        pButton
+        pRipple
+        label="บันทึก"
+        (click)="confirmInsertEmployee()"
+        class="p-button-success"
+      ></button>
+    </div>
+  </p-dialog>
 </div>
