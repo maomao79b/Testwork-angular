@@ -12,3 +12,11 @@
 tr:hover {
   background-color: rgba(231, 227, 227, 0.445);
 }
+
+.flex.flex-column.gap-2.input-dialog label {
+  padding-right: 30px;
+}
+
+.inputspacDialog div{
+  padding-bottom: 20px;
+}

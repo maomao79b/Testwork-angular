@@ -39,7 +39,7 @@
           <th style="width: 12.25%">อายุ</th>
           <th style="width: 12.25%">ที่อยู่</th>
           <th style="width: 12.25%">เบอร์โทร</th>
-          <th style="width: 12.25%">อีเมล</th>
+          <th style="width: 12.25%">ชื่อผู้ใช้</th>
           <th style="width: 12.25%">รหัสผ่าน</th>
           <th style="width: 12.25%">ตำแหน่ง</th>
           <th style="width: 1%"></th>
@@ -53,7 +53,7 @@
           <td>{{ employee.age }}</td>
           <td>{{ employee.address }}</td>
           <td>{{ employee.phone }}</td>
-          <td>{{ employee.email }}</td>
+          <td>{{ employee.username }}</td>
           <td>{{ employee.password }}</td>
           <td>{{ employee.position }}</td>
           <td>
@@ -154,12 +154,12 @@
 
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Email</label>
+        <label htmlFor="username">Username</label>
         <input
           pInputText
           id="username"
           aria-describedby="username-help"
-          [(ngModel)]="email"
+          [(ngModel)]="username"
           class="longInputDialog"
         />
       </div>
@@ -250,12 +250,12 @@
 
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Email</label>
+        <label htmlFor="username">Username</label>
         <input
           pInputText
           id="username"
           aria-describedby="username-help"
-          [(ngModel)]="email"
+          [(ngModel)]="username"
           class="longInputDialog"
         />
       </div>

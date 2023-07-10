@@ -18,12 +18,11 @@ export class EmployeePageComponent implements OnInit {
   searchText: string = '';
 
   id: number | undefined;
-  username: string | undefined;
   name: string | undefined;
   age: number | undefined;
   address: string | undefined;
   phone: string | undefined;
-  email: string | undefined;
+  username: string | undefined;
   password: string | undefined;
   position: string | undefined;
 
@@ -48,7 +47,7 @@ export class EmployeePageComponent implements OnInit {
         employee.name
           .toLocaleLowerCase()
           .includes(this.searchText.toLowerCase()) ||
-        employee.email
+        employee.username
           .toLocaleLowerCase()
           .includes(this.searchText.toLowerCase())
       );
@@ -60,12 +59,11 @@ export class EmployeePageComponent implements OnInit {
     this.employeeList.filter((employee) => {
       if (employee.id == Eid) {
         this.id = employee.id;
-        this.username = employee.username;
         this.name = employee.name;
         this.age = employee.age;
         this.address = employee.address;
         this.phone = employee.phone;
-        this.email = employee.email;
+        this.username = employee.username;
         this.password = employee.password;
         this.position = employee.position;
       }
@@ -89,12 +87,11 @@ export class EmployeePageComponent implements OnInit {
     try {
       await this.service.updateEmployee(
         this.id,
-        this.username,
         this.name,
         this.age,
         this.address,
         this.phone,
-        this.email,
+        this.username,
         this.password,
         this.position
       );
@@ -109,12 +106,11 @@ export class EmployeePageComponent implements OnInit {
   async confirmInsertEmployee() {
     try {
       await this.service.insertEmployee(
-        this.username,
         this.name,
         this.age,
         this.address,
         this.phone,
-        this.email,
+        this.username,
         this.password,
         this.position
       );

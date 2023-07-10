@@ -39,13 +39,13 @@ export class CustomerServiceService {
     age: any,
     address: any,
     phone: any,
-    email: any,
+    username: any,
     password: any
   ) {
     try {
       await this.http
         .put<Customer[]>(
-          `http://localhost:5148/api/Customer?id=${id}&name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}`,
+          `http://localhost:5148/api/Customer?id=${id}&name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}`,
           {}
         )
         .subscribe();
@@ -60,13 +60,13 @@ export class CustomerServiceService {
     age: any,
     address: any,
     phone: any,
-    email: any,
+    username: any,
     password: any
   ) {
     try {
       await this.http
         .post<Customer[]>(
-          `http://localhost:5148/api/Customer?name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}`,
+          `http://localhost:5148/api/Customer?name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}`,
           {}
         )
         .subscribe();

@@ -4,18 +4,17 @@ export interface Customer {
   age: number;
   address: string;
   phone: string;
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface Employee {
   id: number;
-  username: string;
   name: string;
   age: number;
   address: string;
   phone: string;
-  email: string;
+  username: string;
   password: string;
   position: string;
 }
@@ -24,7 +23,8 @@ export interface AcceptProduct {
   id: number;
   Eid: number;
   Ename: string;
-  productName: string;
+  brand: string;
+  model: string;
   description: string;
   date: Date;
   price: number;
@@ -33,7 +33,8 @@ export interface AcceptProduct {
 
 export interface Product {
   id: number;
-  name: string;
+  brand: string;
+  model: string;
   description: string;
   price: number;
   image: string;

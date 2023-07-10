@@ -23,7 +23,7 @@ export class CustomerPageComponent implements OnInit {
   age: any;
   address: any;
   phone: any;
-  email: any;
+  username: any;
   password: any;
 
   // ----------------------------------------------
@@ -50,7 +50,7 @@ export class CustomerPageComponent implements OnInit {
         customer.name
           .toLocaleLowerCase()
           .includes(this.searchText.toLowerCase()) ||
-        customer.email
+        customer.username
           .toLocaleLowerCase()
           .includes(this.searchText.toLowerCase())
       );
@@ -67,7 +67,7 @@ export class CustomerPageComponent implements OnInit {
         this.age = customer.age;
         this.address = customer.address;
         this.phone = customer.phone;
-        this.email = customer.email;
+        this.username = customer.username;
         this.password = customer.password;
       }
     });
@@ -102,7 +102,7 @@ export class CustomerPageComponent implements OnInit {
         this.age,
         this.address,
         this.phone,
-        this.email,
+        this.username,
         this.password
       );
       setTimeout(() => window.location.reload(), 0);
@@ -120,7 +120,7 @@ export class CustomerPageComponent implements OnInit {
         this.age,
         this.address,
         this.phone,
-        this.email,
+        this.username,
         this.password
       );
       setTimeout(() => window.location.reload(), 0);

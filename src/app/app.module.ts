@@ -10,6 +10,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule  } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { CookieService } from 'ngx-cookie-service';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -20,6 +21,7 @@ import { ReportPageComponent } from './reportPage/reportPage.component';
 import { ProductPageComponent } from './productPage/productPage.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { LoginPageComponent } from './login/loginPage/loginPage.component';
+
 
 const appRoute: Routes = [
   {path: '', component: LoginPageComponent},
@@ -55,6 +57,7 @@ const appRoute: Routes = [
     HttpClientModule,
     DialogModule,
     CardModule,
+    InputTextareaModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

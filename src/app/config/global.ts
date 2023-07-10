@@ -10,3 +10,7 @@ export class Tabmenu {
   public static readonly CUSTOMER_TABS: string = "CUSTOMER_TABS";
   public static readonly EMPLOYEE_TABS: string = "EMPLOYEE_TABS";
 }
+
+export class Position {
+  public static readonly OWNER = "OWNER";
+}

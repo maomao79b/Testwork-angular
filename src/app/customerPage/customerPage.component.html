@@ -34,7 +34,7 @@
           <th style="width: 12.5%">อายุ</th>
           <th style="width: 12.5%">ที่อยู่</th>
           <th style="width: 12.5%">เบอร์โทร</th>
-          <th style="width: 12.5%">อีเมล</th>
+          <th style="width: 12.5%">ชื่อผู้ใช้</th>
           <th style="width: 12.5%">รหัสผ่าน</th>
           <th style="width: 12.5%"></th>
           <th style="width: 12.5%"></th>
@@ -47,7 +47,7 @@
           <td>{{ customer.age }}</td>
           <td>{{ customer.address }}</td>
           <td>{{ customer.phone }}</td>
-          <td>{{ customer.email }}</td>
+          <td>{{ customer.username }}</td>
           <td>{{ customer.password }}</td>
           <td>
             <p-button
@@ -135,12 +135,12 @@
 
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Email</label>
+        <label htmlFor="username">Username</label>
         <input
           pInputText
           id="username"
           aria-describedby="username-help"
-          [(ngModel)]="email"
+          [(ngModel)]="username"
           class="longInputDialog"
         />
       </div>
@@ -217,12 +217,12 @@
 
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Email</label>
+        <label htmlFor="username">Username</label>
         <input
           pInputText
           id="username"
           aria-describedby="username-help"
-          [(ngModel)]="email"
+          [(ngModel)]="username"
           class="longInputDialog"
         />
       </div>

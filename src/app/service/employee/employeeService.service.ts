@@ -36,19 +36,18 @@ export class EmployeeServiceService {
   //UPDATE
   async updateEmployee(
     id: any,
-    username: any,
     name: any,
     age: any,
     address: any,
     phone: any,
-    email: any,
+    username: any,
     password: any,
     position: any
   ) {
     try {
       await this.http
         .put<Employee[]>(
-          `http://localhost:5148/api/Employee?id=${id}&username=${username}&name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}&position=${position}`,
+          `http://localhost:5148/api/Employee?id=${id}&name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}&position=${position}`,
           {}
         )
         .toPromise();
@@ -59,19 +58,18 @@ export class EmployeeServiceService {
 
   //INSERT
   async insertEmployee(
-    username: any,
     name: any,
     age: any,
     address: any,
     phone: any,
-    email: any,
+    username: any,
     password: any,
     position: any
   ) {
     try {
       await this.http
         .post<Employee[]>(
-          `http://localhost:5148/api/Employee?username=${username}&name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}&position=${position}`,
+          `http://localhost:5148/api/Employee?name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}&position=${position}`,
           {}
         )
         .toPromise();

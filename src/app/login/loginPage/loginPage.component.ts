@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Login } from 'src/app/config/global';
+import { Login, Position } from 'src/app/config/global';
 import { Employee } from 'src/app/model/model';
 import { EmployeeServiceService } from 'src/app/service/employee/employeeService.service';
 
@@ -27,8 +27,14 @@ export class LoginPageComponent implements OnInit {
     await this.getLogin(this.username!, this.password!);
 
     if(this.employee.length === 1){
-      this.cookieService.set(Login.LoginStatus, Login.LOGIN);
-      window.location.reload();
+      this.employee.forEach(element => {
+        if(element.position === Position.OWNER){
+          this.cookieService.set(Login.LoginStatus, Login.LOGIN);
+          window.location.reload();
+        }else{
+          alert("ต้องเป็น Owner เท่านั้น");
+        }
+      });
     }else{
       alert("username หรือ password ไม่ถูกต้อง");
     }

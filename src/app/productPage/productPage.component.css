@@ -1,3 +1,51 @@
 tr:hover {
   background-color: rgba(231, 227, 227, 0.445);
 }
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Detail Dialog */
+#detailDialog .flex.flex-column.gap-2.input-dialog label {
+  padding-right: 30px;
+}
+
+#detailDialog div{
+  padding-bottom: 20px;
+  max-width: 600px;
+}
+
+/* Edit Dialog */
+#EditDialog .input-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#EditDialog .inputspacDialog {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: row;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+#EditDialog .longInputDialog {
+  width: 444px;
+}
+
+tr:hover {
+  background-color: rgba(231, 227, 227, 0.445);
+}
