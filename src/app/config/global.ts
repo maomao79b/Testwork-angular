@@ -1,7 +1,8 @@
 
-export class GlobalConstant{
-
-  // public static custometTab: string = "customerTab";
+export class Login{
+  public static readonly LoginStatus: string = "LoginStatus";
+  public static readonly LOGIN: string = "LOGIN";
+  public static readonly LOGOUT: string = "LOGOUT";
 }
 
 export class Tabmenu {

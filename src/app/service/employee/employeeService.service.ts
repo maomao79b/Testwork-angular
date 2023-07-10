@@ -36,6 +36,7 @@ export class EmployeeServiceService {
   //UPDATE
   async updateEmployee(
     id: any,
+    username: any,
     name: any,
     age: any,
     address: any,
@@ -47,7 +48,7 @@ export class EmployeeServiceService {
     try {
       await this.http
         .put<Employee[]>(
-          `http://localhost:5148/api/Employee?id=${id}&name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}&position=${position}`,
+          `http://localhost:5148/api/Employee?id=${id}&username=${username}&name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}&position=${position}`,
           {}
         )
         .toPromise();
@@ -58,6 +59,7 @@ export class EmployeeServiceService {
 
   //INSERT
   async insertEmployee(
+    username: any,
     name: any,
     age: any,
     address: any,
@@ -69,7 +71,7 @@ export class EmployeeServiceService {
     try {
       await this.http
         .post<Employee[]>(
-          `http://localhost:5148/api/Employee?name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}&position=${position}`,
+          `http://localhost:5148/api/Employee?username=${username}&name=${name}&age=${age}&address=${address}&phone=${phone}&email=${email}&password=${password}&position=${position}`,
           {}
         )
         .toPromise();
@@ -78,4 +80,18 @@ export class EmployeeServiceService {
     }
   }
 
+  //GET
+  async getLogin(username: string, password: string) {
+    try {
+      const response = await this.http
+        .get<Employee[]>(
+          `http://localhost:5148/api/Employee/login?username=${username}&password=${password}`
+        )
+        .toPromise();
+      return response;
+    } catch (error) {
+      console.log('getEmployees: ', error);
+      return null;
+    }
+  }
 }

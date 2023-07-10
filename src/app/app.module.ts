@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogModule } from 'primeng/dialog';
+import { FormsModule  } from '@angular/forms';
+import { CardModule } from 'primeng/card';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -16,11 +19,11 @@ import { AcceptProductPageComponent } from './acceptProductPage/acceptProductPag
 import { ReportPageComponent } from './reportPage/reportPage.component';
 import { ProductPageComponent } from './productPage/productPage.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule  } from '@angular/forms';
-import { KeyFilterModule } from 'primeng/keyfilter';
+import { LoginPageComponent } from './login/loginPage/loginPage.component';
 
 const appRoute: Routes = [
-  {path: '', component: CustomerPageComponent},
+  {path: '', component: LoginPageComponent},
+  {path: 'customer', component: CustomerPageComponent},
   {path: 'employee', component: EmployeePageComponent},
   {path: 'acceptProduct', component: AcceptProductPageComponent},
   {path: 'report', component: ReportPageComponent},
@@ -36,6 +39,7 @@ const appRoute: Routes = [
       AcceptProductPageComponent,
       ReportPageComponent,
       ProductPageComponent,
+      LoginPageComponent
    ],
   imports: [
     BrowserModule,
@@ -50,9 +54,9 @@ const appRoute: Routes = [
     FormsModule,
     HttpClientModule,
     DialogModule,
-    KeyFilterModule
+    CardModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

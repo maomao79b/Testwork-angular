@@ -18,6 +18,7 @@ export class EmployeePageComponent implements OnInit {
   searchText: string = '';
 
   id: number | undefined;
+  username: string | undefined;
   name: string | undefined;
   age: number | undefined;
   address: string | undefined;
@@ -32,7 +33,6 @@ export class EmployeePageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const response = await this.service.getEmployees();
     this.employeeList = await (<Employee[]>response);
-    console.log(response);
     this.employeeFilter = await this.employeeList;
   }
 
@@ -60,6 +60,7 @@ export class EmployeePageComponent implements OnInit {
     this.employeeList.filter((employee) => {
       if (employee.id == Eid) {
         this.id = employee.id;
+        this.username = employee.username;
         this.name = employee.name;
         this.age = employee.age;
         this.address = employee.address;
@@ -88,6 +89,7 @@ export class EmployeePageComponent implements OnInit {
     try {
       await this.service.updateEmployee(
         this.id,
+        this.username,
         this.name,
         this.age,
         this.address,
@@ -107,6 +109,7 @@ export class EmployeePageComponent implements OnInit {
   async confirmInsertEmployee() {
     try {
       await this.service.insertEmployee(
+        this.username,
         this.name,
         this.age,
         this.address,

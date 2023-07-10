@@ -1,6 +1,12 @@
-<div class="main">
-  <app-navbar></app-navbar>
-  <div class="structure">
-    <router-outlet></router-outlet>
-  </div>
+<div *ngIf="login !== 'LOGIN' ; else isOn">
+  <app-loginPage (onLogin)="login"></app-loginPage>
 </div>
+
+<ng-template #isOn>
+  <div class="main">
+    <app-navbar></app-navbar>
+    <div class="structure">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-template>

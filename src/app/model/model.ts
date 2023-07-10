@@ -10,6 +10,7 @@ export interface Customer {
 
 export interface Employee {
   id: number;
+  username: string;
   name: string;
   age: number;
   address: string;
