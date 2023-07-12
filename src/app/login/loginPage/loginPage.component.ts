@@ -7,7 +7,7 @@ import { EmployeeServiceService } from 'src/app/service/employee/employeeService
 @Component({
   selector: 'app-loginPage',
   templateUrl: './loginPage.component.html',
-  styleUrls: ['./loginPage.component.css']
+  styleUrls: ['./loginPage.component.css'],
 })
 export class LoginPageComponent implements OnInit {
   username: string | undefined;
@@ -16,32 +16,50 @@ export class LoginPageComponent implements OnInit {
 
   @Output() onLogin = new EventEmitter();
 
-  constructor(private service: EmployeeServiceService, private cookieService: CookieService) { }
+  constructor(
+    private service: EmployeeServiceService,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit() {
-    console.log(Login
-      .LoginStatus)
+    console.log(Login.LoginStatus);
   }
 
-  async checkPassword(){
+  // ------------ Settings Cookie ------------
+  setCookiePosition(position: string) {
+    this.cookieService.set(Position.POSITION, position);
+  }
+  setCookieLogin() {
+    this.cookieService.set(Login.LoginStatus, Login.LOGIN);
+  }
+
+
+  // ---------------- Functions --------------------------------
+  async checkPassword() {
     await this.getLogin(this.username!, this.password!);
 
-    if(this.employee.length === 1){
-      this.employee.forEach(element => {
-        if(element.position === Position.OWNER){
-          this.cookieService.set(Login.LoginStatus, Login.LOGIN);
-          window.location.reload();
-        }else{
-          alert("ต้องเป็น Owner เท่านั้น");
+    if (this.employee.length === 1) {
+      this.employee.forEach((element) => {
+        let position = element.position.toUpperCase();
+
+        if (position === Position.OWNER) {
+          this.setCookiePosition(Position.OWNER);
+        } else if (position === Position.SALER) {
+          this.setCookiePosition(Position.SALER);
+        } else if (position === Position.WAREHOUSE) {
+          this.setCookiePosition(Position.WAREHOUSE);
         }
+        this.setCookieLogin();
+        window.location.reload();
       });
-    }else{
-      alert("username หรือ password ไม่ถูกต้อง");
+    } else {
+      alert('username หรือ password ไม่ถูกต้อง');
     }
   }
+
   //-------------------- service --------------------
   //GET
-  async getLogin(username: string, password: string): Promise<void>{
+  async getLogin(username: string, password: string): Promise<void> {
     const response = await this.service.getLogin(username, password);
     this.employee = await (<Employee[]>response);
   }

@@ -25,7 +25,7 @@ tr:hover {
 }
 
 /* Edit Dialog */
-#EditDialog .input-dialog {
+#Edit-Add-Dialog .input-dialog {
   display: flex;
   justify-content: center;
   align-items: start;
@@ -33,7 +33,7 @@ tr:hover {
   gap: 2px;
 }
 
-#EditDialog .inputspacDialog {
+#Edit-Add-Dialog .inputspacDialog {
   display: flex;
   justify-content: start;
   align-items: start;
@@ -42,7 +42,7 @@ tr:hover {
   margin-bottom: 20px;
 }
 
-#EditDialog .longInputDialog {
+#Edit-Add-Dialog .longInputDialog {
   width: 444px;
 }
 

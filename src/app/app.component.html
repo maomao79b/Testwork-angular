@@ -1,5 +1,5 @@
-<div *ngIf="login !== 'LOGIN' ; else isOn">
-  <app-loginPage (onLogin)="login"></app-loginPage>
+<div *ngIf="login !== 'LOGIN'; else isOn">
+  <app-loginPage (onLogin)="(login)"></app-loginPage>
 </div>
 
 <ng-template #isOn>

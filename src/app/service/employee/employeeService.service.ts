@@ -33,7 +33,7 @@ export class EmployeeServiceService {
     }
   }
 
-  //UPDATE
+  //Put
   async updateEmployee(
     id: any,
     name: any,
@@ -56,7 +56,7 @@ export class EmployeeServiceService {
     }
   }
 
-  //INSERT
+  //Post
   async insertEmployee(
     name: any,
     age: any,

@@ -1,8 +1,67 @@
-<div class="navbar">
-  <div class="navbar-item" style="width: 60px !important;" routerLink="/customer" routerLinkActive="active">ลูกค้า</div>
-  <div class="navbar-item" style="width: 80px !important;" routerLink="/employee" routerLinkActive="active">พนักงาน</div>
-  <div class="navbar-item" routerLink="/acceptProduct" routerLinkActive="active">อนุมัติสินค้า</div>
-  <div class="navbar-item" routerLink="/report" routerLinkActive="active">แสดงรายการ</div>
-  <div class="navbar-item" routerLink="/producr" routerLinkActive="active">จัดการสินค้า</div>
-  <div class="navbar-item" (click)="Logout()">Logout</div>
+<!-- Owner -->
+<div *ngIf="position === textOwner; else sale">
+  <div class="navbar">
+    <div
+      class="navbar-item"
+      style="width: 60px !important"
+      routerLink="/customer"
+      routerLinkActive="active"
+    >
+      ลูกค้า
+    </div>
+    <div
+      class="navbar-item"
+      style="width: 80px !important"
+      routerLink="/employee"
+      routerLinkActive="active"
+    >
+      พนักงาน
+    </div>
+    <div
+      class="navbar-item"
+      routerLink="/packproduct"
+      routerLinkActive="active"
+    >
+      จัดชุดสินค้า
+    </div>
+    <div
+      class="navbar-item"
+      routerLink="/acceptProduct"
+      routerLinkActive="active"
+    >
+      อนุมัติสินค้า
+    </div>
+    <div class="navbar-item" routerLink="/report" routerLinkActive="active">
+      แสดงรายการ
+    </div>
+    <div class="navbar-item" routerLink="/product" routerLinkActive="active">
+      จัดการสินค้า
+    </div>
+    <div class="navbar-item" (click)="Logout()">Logout</div>
+  </div>
 </div>
+
+<!-- Saler -->
+<ng-template #sale>
+  <div *ngIf="position === textSaler; else warehouse">
+    <div class="navbar">
+      <div
+        class="navbar-item"
+        style="width: 60px !important"
+        routerLink="/customer"
+        routerLinkActive="active"
+      >
+        ลูกค้า
+      </div>
+      <div class="navbar-item" routerLink="/product" routerLinkActive="active">
+        ค้นหาสินค้า
+      </div>
+      <div class="navbar-item" (click)="Logout()">Logout</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #warehouse>
+
+</ng-template>
+

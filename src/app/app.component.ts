@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Login } from './config/global';
+import { Login, Position } from './config/global';
 import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-root',
@@ -8,34 +8,42 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AppComponent implements OnInit {
   title = 'shop';
-  LoginStatus: any;
 
+  // ------------- Login Attribute --------------------------------
+  LoginStatus: any;
   get login(){
     return this.LoginStatus;
   }
   set login(value: any){
     this.LoginStatus = value;
   }
+  // ------------- Position Attribute --------------------------------
+  PositionValue: any;
+  get position(){
+    return this.PositionValue;
+  }
+  set position(value: any){
+    this.PositionValue = value;
+  }
 
-  // เข้าถึงค่าคุกกี้
-  getCookieValue(): string {
+  getCookiePosition(): string {
+    return this.cookieService.get(Position.POSITION);
+  }
+
+  getCookieLogin(): string {
     return this.cookieService.get(Login.LoginStatus);
   }
 
-  // ตั้งค่าคุกกี้
-  setCookieValue(value: string): void {
+  setCookieLogin(value: string): void {
     this.cookieService.set(Login.LoginStatus, value);
-  }
-
-  // ลบคุกกี้
-  deleteCookie(): void {
-    this.cookieService.delete(Login.LoginStatus);
   }
 
   constructor(private cookieService: CookieService) { }
 
   ngOnInit() {
-    this.login = this.getCookieValue();
+    this.login = this.getCookieLogin();
+    this.position = this.getCookiePosition()
+    // this.setCookieLogin(Login.LOGOUT);
   }
 
 }

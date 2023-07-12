@@ -21,6 +21,7 @@ import { ReportPageComponent } from './reportPage/reportPage.component';
 import { ProductPageComponent } from './productPage/productPage.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { LoginPageComponent } from './login/loginPage/loginPage.component';
+import { PackProductComponent } from './packProduct/packProduct.component';
 
 
 const appRoute: Routes = [
@@ -29,7 +30,8 @@ const appRoute: Routes = [
   {path: 'employee', component: EmployeePageComponent},
   {path: 'acceptProduct', component: AcceptProductPageComponent},
   {path: 'report', component: ReportPageComponent},
-  {path: 'producr', component: ProductPageComponent},
+  {path: 'product', component: ProductPageComponent},
+  {path: 'packproduct', component: PackProductComponent},
 
 ];
 @NgModule({
@@ -41,7 +43,8 @@ const appRoute: Routes = [
       AcceptProductPageComponent,
       ReportPageComponent,
       ProductPageComponent,
-      LoginPageComponent
+      LoginPageComponent,
+      PackProductComponent
    ],
   imports: [
     BrowserModule,

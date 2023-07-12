@@ -12,5 +12,8 @@ export class Tabmenu {
 }
 
 export class Position {
-  public static readonly OWNER = "OWNER";
+  public static readonly POSITION: string = "POSITION";
+  public static readonly OWNER: string = "OWNER";
+  public static readonly SALER: string = "SALER";
+  public static readonly WAREHOUSE: string = "WAREHOUSE";
 }

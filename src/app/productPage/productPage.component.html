@@ -14,7 +14,12 @@
       </span>
     </div>
     <!-- Create Button -->
-    <!-- <p-button label="เพิ่มสมาชิก" icon="pi pi-plus" (onClick)="showAddDialog()"></p-button> -->
+    <p-button
+      label="เพิ่มสมาชิก"
+      icon="pi pi-plus"
+      (onClick)="showAddDialog()"
+      *ngIf="position === textOwner"
+    ></p-button>
   </div>
   <!-- Table customer -->
   <div class="card">
@@ -34,8 +39,10 @@
           <th style="width: 20%">รุ่น</th>
           <th style="width: 66%">รายละเอียด</th>
           <th style="width: 5%">ราคา</th>
-          <th style="width: 5%"></th>
-          <th style="width: 1%"></th>
+          <div *ngIf="position === textOwner">
+            <th style="width: 5%"></th>
+            <th style="width: 1%"></th>
+          </div>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product>
@@ -45,20 +52,23 @@
           <td (click)="showDialog(product.id)">{{ product.model }}</td>
           <td (click)="showDialog(product.id)">{{ product.description }}</td>
           <td (click)="showDialog(product.id)">{{ product.price }}</td>
-          <td>
-            <p-button
-              label="แก้ไข"
-              styleClass="p-button-warning"
-              (onClick)="showEditDialog(product.id)"
-            ></p-button>
-          </td>
-          <td>
-            <p-button
-              label="ลบ"
-              styleClass="p-button-danger"
-              [style.margin-left.px]="-25"
-            ></p-button>
-          </td>
+          <div *ngIf="position === textOwner">
+            <td>
+              <p-button
+                label="แก้ไข"
+                styleClass="p-button-warning"
+                (onClick)="showEditDialog(product.id)"
+              ></p-button>
+            </td>
+            <td>
+              <p-button
+                label="ลบ"
+                styleClass="p-button-danger"
+                [style.margin-left.px]="-25"
+                (onClick)="deleteProduct(product.id)"
+              ></p-button>
+            </td>
+          </div>
         </tr>
       </ng-template>
     </p-table>
@@ -80,7 +90,7 @@
       class="card flex justify-content-center inputspacDialog"
     >
       <div style="display: flex; justify-content: center">
-        <img src="{{ image }}" alt="" style="width: 300px; height: 300px" />
+        <img src="{{ image }}" alt style="width: 300px; height: 300px" />
       </div>
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="id"><strong>ID : </strong>{{ id }}</label>
@@ -100,7 +110,7 @@
 </div>
 
 <!-- Edit Dialog -->
-<div class="card flex justify-content-center" id="EditDialog">
+<div class="card flex justify-content-center" id="Edit-Add-Dialog">
   <p-dialog
     header="แก้ไขข้อมูล"
     [(visible)]="editVisible"
@@ -110,17 +120,16 @@
     [resizable]="false"
   >
     <div style="display: flex; justify-content: center">
-      <img src="{{ image }}" alt="" style="width: 300px; height: 300px" />
+      <img src="{{ image }}" alt style="width: 300px; height: 300px" />
     </div>
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id">ID</label>
+        <label htmlFor="image">Image</label>
         <input
           pInputText
-          id="id"
-          aria-describedby="id-help"
-          [(ngModel)]="id"
-          [disabled]="true"
+          id="image"
+          aria-describedby="image-help"
+          [(ngModel)]="image"
         />
       </div>
       <div class="flex flex-column gap-2 input-dialog">
@@ -155,20 +164,7 @@
       </div>
     </div>
 
-    <!-- <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="description">Description</label>
-        <input
-          pInputText
-          id="description"
-          aria-describedby="description-help"
-          [(ngModel)]="description"
-          class="longInputDialog"
-        />
-      </div>
-    </div> -->
-
-    <div class="card flex justify-content-center">
+    <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="description">Description</label>
         <textarea
@@ -176,18 +172,103 @@
           cols="30"
           pInputTextarea
           [(ngModel)]="description"
-          style="width: 444px;"
+          style="width: 444px"
         ></textarea>
       </div>
     </div>
 
     <div class="card flex justify-content-center">
-      <button
-        pButton
-        pRipple
-        label="ยืนยันการแก้ไข"
-        class="p-button-success"
-      ></button>
+      <div class="flex flex-column gap-2 input-dialog">
+        <button
+          pButton
+          pRipple
+          label="ยืนยันการแก้ไข"
+          class="p-button-success"
+          (click)="confirmEdit()"
+        ></button>
+      </div>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- Add Dialog -->
+<div class="card flex justify-content-center" id="Edit-Add-Dialog">
+  <p-dialog
+    header="เพิ่มสินค้า"
+    [(visible)]="addVisible"
+    [modal]="true"
+    [style]="{ width: 'auto' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div
+      class="card flex justify-content-center inputspacDialog"
+      style="justify-content: center !important"
+    >
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="brand">Brand</label>
+        <input
+          pInputText
+          id="brand"
+          aria-describedby="brand-help"
+          [(ngModel)]="brand"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="model">Model</label>
+        <input
+          pInputText
+          id="model"
+          aria-describedby="model-help"
+          [(ngModel)]="model"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="price">Price</label>
+        <input
+          pInputText
+          id="price"
+          aria-describedby="price-help"
+          [(ngModel)]="price"
+        />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="image">Image</label>
+        <input
+          pInputText
+          id="image"
+          aria-describedby="image-help"
+          [(ngModel)]="image"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="description">Description</label>
+        <textarea
+          rows="5"
+          cols="30"
+          pInputTextarea
+          [(ngModel)]="description"
+          style="width: 444px"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center">
+      <div class="flex flex-column gap-2 input-dialog">
+        <button
+          pButton
+          pRipple
+          label="บันทึกข้อมูล"
+          class="p-button-success"
+          (click)="insetProduct()"
+        ></button>
+      </div>
     </div>
   </p-dialog>
 </div>
