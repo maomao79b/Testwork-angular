@@ -1,20 +1,22 @@
 <div class="main">
   <div class="head">
-    <!-- Search bar -->
+    <!-- Add bar -->
     <div class="card flex flex-wrap justify-content-center gap-3">
       <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
+        <i class="pi pi-box"></i>
         <input
           type="text"
+          id="textInputId"
           [(ngModel)]="searchText"
           pInputText
-          placeholder="หมายเลข ID สินค้า"
+          placeholder="ID สินค้า"
           (input)="addProduct()"
         />
       </span>
+      <p-button label="เพิ่มสินค้า" icon="pi pi-plus" [style.margin-left.px]=20 ></p-button>
     </div>
     <!-- Create Button -->
-    <p-button label="เพิ่มสมาชิก" icon="pi pi-plus"></p-button>
+    <p-button label="ส่งอนุมัติ" icon="pi pi-send" styleClass="p-button-success"></p-button>
   </div>
   <!-- Table customer -->
   <div class="card">
@@ -50,7 +52,6 @@
               label="ลบ"
               styleClass="p-button-danger"
               [style.margin-left.px]="-25"
-              (onClick)="deleteProduct(product.id)"
             ></p-button>
           </td>
         </tr>

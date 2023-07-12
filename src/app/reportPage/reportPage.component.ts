@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { CurrentPath } from '../config/global';
 
 @Component({
   selector: 'app-reportPage',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private cookieService: CookieService) { }
 
   ngOnInit() {
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.REPORT_PATH);
   }
 
 }

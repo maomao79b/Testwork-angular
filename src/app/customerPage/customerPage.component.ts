@@ -1,8 +1,10 @@
+import { CookieService } from 'ngx-cookie-service';
 import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { Customer } from '../model/model';
 import { CustomerServiceService } from '../service/customer/customerService.service';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
+import { CurrentPath } from '../config/global';
 @Component({
   selector: 'app-customerPage',
   templateUrl: './customerPage.component.html',
@@ -18,23 +20,24 @@ export class CustomerPageComponent implements OnInit {
 
   searchText: string = '';
 
-  id: any;
-  name: any;
-  age: any;
-  address: any;
-  phone: any;
-  username: any;
-  password: any;
+  id: number | undefined;
+  name: string | undefined;
+  age: number | undefined;
+  address: string | undefined;
+  phone: string | undefined;
+  username: string | undefined;
+  password: string | undefined;
 
   // ----------------------------------------------
 
   constructor(
     private service: CustomerServiceService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private cookieService: CookieService
   ) {}
 
   ngOnInit() {
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
     this.getCustomer();
   }
 
@@ -96,16 +99,18 @@ export class CustomerPageComponent implements OnInit {
   //UPDATE
   async confirmEdit() {
     try {
-      await this.service.updateCustomer(
-        this.id,
-        this.name,
-        this.age,
-        this.address,
-        this.phone,
-        this.username,
-        this.password
-      );
-      setTimeout(() => window.location.reload(), 0);
+      let customers: Customer = {
+        id: this.id!,
+        name: this.name!,
+        age: this.age!,
+        address: this.address!,
+        phone: this.phone!,
+        username: this.username!,
+        password: this.password!
+
+      }
+      await this.service.updateCustomer(customers);
+      location.reload();
       this.editVisible = false;
     } catch (error) {
       console.log(error);

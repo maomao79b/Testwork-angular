@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from 'src/app/model/model';
 @Injectable({
@@ -6,6 +6,11 @@ import { Product } from 'src/app/model/model';
 })
 export class ProductService {
   constructor(private http: HttpClient) {}
+
+  url: string = 'http://localhost:5148/api/Product';
+  headers: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   //GET
   async getProducts() {
@@ -21,21 +26,14 @@ export class ProductService {
   }
 
   //POST
-  insertProduct(
-    brand: any,
-    model: any,
-    description: any,
-    price: any,
-    image: any
-  ) {
+  insertProduct(products: Product) {
     try {
-      this.http
-        .post<Product[]>(
-          `http://localhost:5148/api/Product?brand=${brand}&model=${model}&description=${description}&price=${price}&image=${image}`,
-          {}
-        ).toPromise();
+      console.log("this is product: ", products);
+      let response = this.http.post<Product[]>(this.url, products,{headers : this.headers}).toPromise();
+      return response;
     } catch (error) {
       console.error('insertProduct: ', error);
+      return null;
     }
   }
 
@@ -51,19 +49,10 @@ export class ProductService {
   }
 
   //Put
-  updateProduct(
-    id: number,
-    brand: string,
-    model: string,
-    description: string,
-    price: number,
-    image: string
-  ) {
+  updateProduct(products: Product) {
     try {
-      this.http.put<Product[]>(
-        `http://localhost:5148/api/Product?id=${id}&brand=${brand}&model=${model}&description=${description}&price=${price}&image=${image}`,
-        {}
-      ).toPromise();
+      this.http
+        .put<Product[]>(this.url, products, {headers : this.headers}).toPromise();
     } catch (error) {
       console.log('updateProduct: ', error);
     }

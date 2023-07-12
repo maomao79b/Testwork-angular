@@ -1,0 +1,4 @@
+//----------------------- acceptProduct ----------------------------
+INSERT INTO `acceptproduct` (`id`, `Eid`, `Ename`, `brand`, `model`, `description`, `date`, `price`, `amount`, `image`)
+VALUES (NULL, '1', 'Jack', 'MSI', 'Notebook MSI M16 B13UDX-834TH (Core Black)', 'Notebook MSI M16 B13UDX-834TH (Core Black)',
+'2023-07-12', '52900', '10', 'https://img.advice.co.th/images_nas/pic_product4/A0152076/A0152076OK_ORI_1.jpg');

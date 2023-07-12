@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Customer } from 'src/app/model/model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerServiceService {
+
+  url: string = "http://localhost:5148/api/Customer";
+  headers: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
+
   constructor(private http: HttpClient) {}
 
   //GET
@@ -33,22 +39,10 @@ export class CustomerServiceService {
   }
 
   //PUT
-  async updateCustomer(
-    id: any,
-    name: any,
-    age: any,
-    address: any,
-    phone: any,
-    username: any,
-    password: any
-  ) {
+  async updateCustomer(customers: Customer) {
     try {
       await this.http
-        .put<Customer[]>(
-          `http://localhost:5148/api/Customer?id=${id}&name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}`,
-          {}
-        )
-        .subscribe();
+        .put<Customer[]>(this.url, customers, {headers: this.headers})
     } catch (error) {
       console.error('updateCustomer: ', error);
     }

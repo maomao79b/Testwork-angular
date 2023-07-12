@@ -5,10 +5,14 @@ export class Login{
   public static readonly LOGOUT: string = "LOGOUT";
 }
 
-export class Tabmenu {
-  public static CURRENT_TAB: string = "CUSTOMER_TABS";
-  public static readonly CUSTOMER_TABS: string = "CUSTOMER_TABS";
-  public static readonly EMPLOYEE_TABS: string = "EMPLOYEE_TABS";
+export class CurrentPath {
+  public static readonly CURRENT_PATH: string = "CURRENT_PATH";
+  public static readonly CUSTOMERS_PATH: string = "/customer";
+  public static readonly EMPLOYEES_PATH: string = "/employee";
+  public static readonly PACKPRODUCT_PATH: string = "/packproduct";
+  public static readonly ACCEPTPRODUCTS_PATH: string = "/acceptProduct";
+  public static readonly REPORT_PATH: string = "/report";
+  public static readonly PRODUCT_PATH: string = "/product";
 }
 
 export class Position {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../model/model';
 import { EmployeeServiceService } from '../service/employee/employeeService.service';
+import { CookieService } from 'ngx-cookie-service';
+import { CurrentPath } from '../config/global';
 
 @Component({
   selector: 'app-employeePage',
@@ -27,12 +29,13 @@ export class EmployeePageComponent implements OnInit {
   position: string | undefined;
 
   // --------------------------------------------------------
-  constructor(private service: EmployeeServiceService) {}
+  constructor(private service: EmployeeServiceService, private cookieService: CookieService) {}
 
   async ngOnInit(): Promise<void> {
     const response = await this.service.getEmployees();
     this.employeeList = await (<Employee[]>response);
     this.employeeFilter = await this.employeeList;
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.EMPLOYEES_PATH);
   }
 
   // ---------------------- function ---------------------

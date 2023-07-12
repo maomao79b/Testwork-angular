@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Login, Position } from './config/global';
+import { CurrentPath, Login, Position } from './config/global';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -38,12 +39,19 @@ export class AppComponent implements OnInit {
     this.cookieService.set(Login.LoginStatus, value);
   }
 
-  constructor(private cookieService: CookieService) { }
-
-  ngOnInit() {
+  constructor(private cookieService: CookieService, private router: Router) {
     this.login = this.getCookieLogin();
     this.position = this.getCookiePosition()
-    // this.setCookieLogin(Login.LOGOUT);
+    if(this.login === Login.LOGIN){
+      if(this.position === Position.OWNER || this.position === Position.SALER){
+        let currentPath = this.cookieService.get(CurrentPath.CURRENT_PATH);
+        this.router.navigate([currentPath]);
+      }
+    }
+  }
+
+  ngOnInit() {
+
   }
 
 }

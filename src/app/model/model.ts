@@ -28,6 +28,7 @@ export interface AcceptProduct {
   description: string;
   date: Date;
   price: number;
+  amount: number;
   image: string;
 }
 
@@ -37,5 +38,6 @@ export interface Product {
   model: string;
   description: string;
   price: number;
+  amount: number;
   image: string;
 }

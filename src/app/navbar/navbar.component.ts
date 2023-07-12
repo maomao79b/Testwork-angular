@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Login, Position, Tabmenu } from '../config/global';
+import { Login, Position, CurrentPath } from '../config/global';
 import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-navbar',
@@ -19,14 +19,11 @@ export class NavbarComponent implements OnInit {
     this.position = this.getCookiePosition();
   }
 
-  ChangeTab(tabName: string){
-    Tabmenu.CURRENT_TAB = tabName;
-    console.log(Tabmenu.CURRENT_TAB);
-  }
-
   // ------------------------------ CookieService --------------------------------
   Logout(){
     this.cookieServive.set(Login.LoginStatus, Login.LOGOUT);
+    this.cookieServive.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
+    this.cookieServive.set(Position.POSITION, Position.POSITION);
     window.location.reload();
   }
 

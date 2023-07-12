@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../model/model';
 import { ProductService } from '../service/product/product.service';
+import { CookieService } from 'ngx-cookie-service';
+import { CurrentPath } from '../config/global';
 
 @Component({
   selector: 'app-packProduct',
@@ -22,10 +24,11 @@ export class PackProductComponent implements OnInit {
   price: number | undefined;
   image: string | undefined;
 
-  constructor(private service: ProductService) {}
+  constructor(private service: ProductService, private cookieService: CookieService) {}
 
   ngOnInit() {
-    this.getProducts();
+    // this.getProducts();
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.PACKPRODUCT_PATH)
   }
 
   showDialog(id: number) {
@@ -67,30 +70,17 @@ export class PackProductComponent implements OnInit {
   }
 
   // --------------------- service ------------------------
-  //DELETE
-  async deleteProduct(Pid: any): Promise<void> {
-    Pid = parseInt(Pid);
-    const response = await this.service.deleteProduct(Pid);
-    setTimeout(() => window.location.reload(), 0);
-  }
-
-  //GET
-  async getProducts() {
-    const response = await this.service.getProducts();
-    this.productList = await (<Product[]>response);
-    this.productFilter = this.productList;
-  }
 
   //INSERT
   async insetProduct() {
     try {
-      await this.service.insertProduct(
-        this.brand,
-        this.model,
-        this.description,
-        this.price,
-        this.image
-      );
+      // await this.service.insertProduct(
+      //   this.brand,
+      //   this.model,
+      //   this.description,
+      //   this.price,
+      //   this.image
+      // );
       setTimeout(() => window.location.reload(), 0);
     } catch (error) {
       console.log(error);

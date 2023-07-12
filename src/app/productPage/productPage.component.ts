@@ -1,8 +1,8 @@
+import { Product } from './../model/model';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../model/model';
 import { ProductService } from '../service/product/product.service';
-import { Position } from '../config/global';
+import { CurrentPath, Position } from '../config/global';
 
 @Component({
   selector: 'app-productPage',
@@ -25,6 +25,7 @@ export class ProductPageComponent implements OnInit {
   model: string | undefined;
   description: string | undefined;
   price: number | undefined;
+  amount: number | undefined;
   image: string | undefined;
 
   position: string | undefined;
@@ -36,6 +37,7 @@ export class ProductPageComponent implements OnInit {
   ngOnInit() {
     this.getProducts();
     this.position = this.getCookiePosition();
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.PRODUCT_PATH);
   }
 
   showDialog(id: number) {
@@ -46,19 +48,11 @@ export class ProductPageComponent implements OnInit {
         this.model = p.model;
         this.description = p.description;
         this.price = p.price;
+        this.amount = p.amount;
         this.image = p.image;
       }
     });
     this.visible = true;
-
-    // let ss = {
-    //   "employees":["John", "Anna", "Peter"]
-    //   }
-    // let ss2 = JSON.parse(ss);
-    // let ss3 = JSON.stringify(ss);
-    // let ss4 = JSON.parse(ss3);
-    // console.log("Encode : ",ss2);
-    // console.log("Decode : ",);
   }
 
   showEditDialog(id: string) {
@@ -71,7 +65,7 @@ export class ProductPageComponent implements OnInit {
         this.model = product.model;
         this.description = product.description;
         this.price = product.price;
-        this.price = product.price;
+        this.amount = product.amount;
         this.image = product.image;
       }
     });
@@ -81,7 +75,8 @@ export class ProductPageComponent implements OnInit {
     this.brand = "";
     this.model = "";
     this.description = "";
-    this.price = undefined;
+    this.price = 0;
+    this.amount = 0;
     this.image = "";
     this.addVisible = true;
   }
@@ -118,7 +113,7 @@ export class ProductPageComponent implements OnInit {
     setTimeout(() => window.location.reload(), 0);
   }
 
-  //GET
+  // GET
   async getProducts() {
     const response = await this.service.getProducts();
     this.productList = await (<Product[]>response);
@@ -128,15 +123,17 @@ export class ProductPageComponent implements OnInit {
   //UPDATE
   async confirmEdit() {
     try {
-      await this.service.updateProduct(
-        this.id!,
-        this.brand!,
-        this.model!,
-        this.description!,
-        this.price!,
-        this.image!
-      );
-      setTimeout(() => window.location.reload(), 0);
+      let product: Product = {
+        id: this.id!,
+        brand: this.brand!,
+        model: this.model!,
+        description: this.description!,
+        price: this.price!,
+        amount: this.amount!,
+        image: this.image!
+      }
+      await this.service.updateProduct(product);
+      location.reload()
       this.editVisible = false;
     } catch (error) {
       console.log(error);
@@ -146,15 +143,20 @@ export class ProductPageComponent implements OnInit {
   //INSERT
   async insetProduct() {
     try {
-      await this.service.insertProduct(
-        this.brand,
-        this.model,
-        this.description,
-        this.price,
-        this.image
-      );
-      setTimeout(() => window.location.reload(), 0);
+      let product: Product = {
+        id: 0,
+        brand: this.brand!,
+        model: this.model!,
+        description: this.description!,
+        price: this.price!,
+        amount: this.amount!,
+        image: this.image!
+      }
+
+      let response = await this.service.insertProduct(product);
+      console.log(response);
       this.addVisible = false;
+      location.reload()
     } catch (error) {
       console.log(error);
     }
