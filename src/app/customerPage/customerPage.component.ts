@@ -1,9 +1,7 @@
 import { CookieService } from 'ngx-cookie-service';
-import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { Customer } from '../model/model';
 import { CustomerServiceService } from '../service/customer/customerService.service';
-import { Router } from '@angular/router';
 import { CurrentPath } from '../config/global';
 @Component({
   selector: 'app-customerPage',
@@ -28,16 +26,17 @@ export class CustomerPageComponent implements OnInit {
   username: string | undefined;
   password: string | undefined;
 
-  // ----------------------------------------------
+  // --------------------- Begin Start -------------------------
 
   constructor(
     private service: CustomerServiceService,
-    private router: Router,
     private cookieService: CookieService
   ) {}
-
   ngOnInit() {
-    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
+    this.cookieService.set(
+      CurrentPath.CURRENT_PATH,
+      CurrentPath.CUSTOMERS_PATH
+    );
     this.getCustomer();
   }
 
@@ -46,11 +45,18 @@ export class CustomerPageComponent implements OnInit {
   search(): void {
     this.customerFilter = this.customerList.filter((customer) => {
       return (
-        customer.id
-          .toString()
+        customer.id.toString().includes(this.searchText.toLowerCase()) ||
+        customer.name
           .toLocaleLowerCase()
           .includes(this.searchText.toLowerCase()) ||
-        customer.name
+        customer.age.toString().includes(this.searchText.toLowerCase()) ||
+        customer.username
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase()) ||
+        customer.address
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLowerCase()) ||
+        customer.phone
           .toLocaleLowerCase()
           .includes(this.searchText.toLowerCase()) ||
         customer.username
@@ -59,7 +65,6 @@ export class CustomerPageComponent implements OnInit {
       );
     });
   }
-
   showEditDialog(id: any) {
     const Cid = parseInt(id);
     this.editVisible = true;
@@ -75,27 +80,26 @@ export class CustomerPageComponent implements OnInit {
       }
     });
   }
-
   showAddDialog() {
     this.addVisible = true;
   }
 
   //----------------------- services --------------------
+
   //GET
   async getCustomer(): Promise<void> {
-    const response = await this.service.getCustomers("","");
+    const response = await this.service.getCustomers('', '');
     this.customerList = await (<Customer[]>response);
     this.customerFilter = await this.customerList;
   }
-
   //DELETE
   async deleteCustomer(Cid: any): Promise<void> {
     Cid = parseInt(Cid);
-    const response = await this.service.deleteCustomer(Cid);
-    const index = this.customerFilter.findIndex((c) => c.id === Cid);
-    this.customerFilter.splice(index, 1);
+    await this.service.deleteCustomer(Cid);
+    location.reload();
+    // const index = this.customerFilter.findIndex((c) => c.id === Cid);
+    // this.customerFilter.splice(index, 1);
   }
-
   //UPDATE
   async confirmEdit() {
     try {
@@ -106,9 +110,8 @@ export class CustomerPageComponent implements OnInit {
         address: this.address!,
         phone: this.phone!,
         username: this.username!,
-        password: this.password!
-
-      }
+        password: this.password!,
+      };
       await this.service.updateCustomer(customers);
       location.reload();
       this.editVisible = false;
@@ -116,19 +119,20 @@ export class CustomerPageComponent implements OnInit {
       console.log(error);
     }
   }
-
   //INSERT
   async confirmInsertCustomer() {
     try {
-      await this.service.insertCustomer(
-        this.name,
-        this.age,
-        this.address,
-        this.phone,
-        this.username,
-        this.password
-      );
-      setTimeout(() => window.location.reload(), 0);
+      let customers: Customer = {
+        id: 0,
+        name: this.name!,
+        age: this.age!,
+        address: this.address!,
+        phone: this.phone!,
+        username: this.username!,
+        password: this.password!,
+      };
+      await this.service.insertCustomer(customers);
+      location.reload();
       this.addVisible = false;
     } catch (error) {
       console.log(error);

@@ -42,28 +42,17 @@ export class CustomerServiceService {
   async updateCustomer(customers: Customer) {
     try {
       await this.http
-        .put<Customer[]>(this.url, customers, {headers: this.headers})
+        .put<Customer[]>(this.url, customers, {headers: this.headers}).toPromise();
     } catch (error) {
       console.error('updateCustomer: ', error);
     }
   }
 
   //POST
-  async insertCustomer(
-    name: any,
-    age: any,
-    address: any,
-    phone: any,
-    username: any,
-    password: any
-  ) {
+  async insertCustomer(customers: Customer) {
     try {
       await this.http
-        .post<Customer[]>(
-          `http://localhost:5148/api/Customer?name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}`,
-          {}
-        )
-        .subscribe();
+        .post<Customer[]>(this.url, customers, {headers: this.headers}).toPromise();
     } catch (error) {
       console.error('insertCustomer: ', error);
     }
