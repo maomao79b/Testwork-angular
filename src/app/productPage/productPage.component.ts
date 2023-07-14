@@ -2,7 +2,7 @@ import { Product } from './../model/model';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product/product.service';
-import { CurrentPath, Position } from '../config/global';
+import { Category, CurrentPath, Position } from '../config/global';
 
 @Component({
   selector: 'app-productPage',
@@ -30,6 +30,7 @@ export class ProductPageComponent implements OnInit {
 
   position: string | undefined;
   textOwner: string = Position.OWNER;
+  category: string | undefined;
 
   // --------------------- Function ------------------------
   constructor(private service: ProductService, private cookieService: CookieService) {}
@@ -130,6 +131,7 @@ export class ProductPageComponent implements OnInit {
         description: this.description!,
         price: this.price!,
         amount: this.amount!,
+        category: this.category!,
         image: this.image!
       }
       await this.service.updateProduct(product);
@@ -150,6 +152,7 @@ export class ProductPageComponent implements OnInit {
         description: this.description!,
         price: this.price!,
         amount: this.amount!,
+        category: this.category!,
         image: this.image!
       }
 

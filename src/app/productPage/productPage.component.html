@@ -40,6 +40,7 @@
           <th style="width: 66%">รายละเอียด</th>
           <th style="width: 5%">ราคา</th>
           <th style="width: 5%">จำนวน</th>
+          <th style="width: 5%">หมวดหมู่</th>
           <th style="width: 5%" *ngIf="position === textOwner"></th>
           <th style="width: 1%" *ngIf="position === textOwner"></th>
         </tr>
@@ -52,6 +53,7 @@
           <td (click)="showDialog(product.id)">{{ product.description }}</td>
           <td (click)="showDialog(product.id)">{{ product.price }}</td>
           <td (click)="showDialog(product.id)">{{ product.amount }}</td>
+          <td (click)="showDialog(product.id)">{{ product.category }}</td>
           <td *ngIf="position === textOwner">
             <p-button
               label="แก้ไข"

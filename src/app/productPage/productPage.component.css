@@ -28,15 +28,15 @@ tr:hover {
 #Edit-Add-Dialog .input-dialog {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   flex-direction: column;
   gap: 2px;
 }
 
 #Edit-Add-Dialog .inputspacDialog {
   display: flex;
-  justify-content: start;
-  align-items: start;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: row;
   gap: 30px;
   margin-bottom: 20px;

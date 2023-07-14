@@ -16,7 +16,20 @@ export class ProductService {
   async getProducts() {
     try {
       const response = await this.http
-        .get<Product[]>('http://localhost:5148/api/Product')
+        .get<Product[]>('http://localhost:5148/api/Product?id=')
+        .toPromise();
+      return response;
+    } catch (error) {
+      console.log('getProduct: ', error);
+      return null;
+    }
+  }
+
+  //GET
+  async getProductsById(id: string) {
+    try {
+      const response = await this.http
+        .get<Product>('http://localhost:5148/api/Product?id='+id)
         .toPromise();
       return response;
     } catch (error) {

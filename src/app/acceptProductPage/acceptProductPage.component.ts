@@ -25,6 +25,7 @@ export class AcceptProductPageComponent implements OnInit {
   price: number | undefined;
   amount: number | undefined;
   image: string | undefined;
+  category: string = "จัดชุด";
 
 
   //-------------------------------------------------------------------------------
@@ -101,11 +102,10 @@ export class AcceptProductPageComponent implements OnInit {
         description: this.description!,
         price: this.price!,
         amount: this.amount!,
+        category: this.category!,
         image: this.image!
       }
-      console.log("0");
       await this.serviceProduct.insertProduct(product);
-      console.log("1");
       this.deleteAcceptProduct(id);
     } catch (error) {
       console.log(error);

@@ -21,9 +21,10 @@ export class NavbarComponent implements OnInit {
 
   // ------------------------------ CookieService --------------------------------
   Logout(){
-    this.cookieServive.set(Login.LoginStatus, Login.LOGOUT);
-    this.cookieServive.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
-    this.cookieServive.set(Position.POSITION, Position.POSITION);
+    // this.cookieServive.set(Login.LoginStatus, Login.LOGOUT);
+    // this.cookieServive.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
+    // this.cookieServive.set(Position.POSITION, Position.POSITION);
+    this.cookieServive.deleteAll();
     window.location.reload();
   }
 

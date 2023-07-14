@@ -21,3 +21,14 @@ export class Position {
   public static readonly SALER: string = "SALER";
   public static readonly WAREHOUSE: string = "WAREHOUSE";
 }
+
+export class Account {
+  public static readonly ACCOUNT: string = "ACCOUNT";
+  public static readonly ACCOUNT_NAME: string = "ACCOUNT_NAME";
+  public static readonly ACCOUNT_ID: string = "ACCOUNT_ID";
+}
+
+export class Category {
+  public static readonly SET: string = "SET";
+  public static readonly NORMAL: string = "NORMAL";
+}

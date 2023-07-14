@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Login, Position } from 'src/app/config/global';
+import { Account, CurrentPath, Login, Position } from 'src/app/config/global';
 import { Employee } from 'src/app/model/model';
 import { EmployeeServiceService } from 'src/app/service/employee/employeeService.service';
 
@@ -32,6 +32,13 @@ export class LoginPageComponent implements OnInit {
   setCookieLogin() {
     this.cookieService.set(Login.LoginStatus, Login.LOGIN);
   }
+  setCookieAccount(id: string, name: string){
+    this.cookieService.set(Account.ACCOUNT_ID, id);
+    this.cookieService.set(Account.ACCOUNT_NAME, name);
+  }
+  setCurrentPath(){
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
+  }
 
 
   // ---------------- Functions --------------------------------
@@ -41,7 +48,6 @@ export class LoginPageComponent implements OnInit {
     if (this.employee.length === 1) {
       this.employee.forEach((element) => {
         let position = element.position.toUpperCase();
-
         if (position === Position.OWNER) {
           this.setCookiePosition(Position.OWNER);
         } else if (position === Position.SALER) {
@@ -49,7 +55,9 @@ export class LoginPageComponent implements OnInit {
         } else if (position === Position.WAREHOUSE) {
           this.setCookiePosition(Position.WAREHOUSE);
         }
+        this.setCookieAccount(element.id.toString(), element.name);
         this.setCookieLogin();
+        this.setCurrentPath();
         window.location.reload();
       });
     } else {

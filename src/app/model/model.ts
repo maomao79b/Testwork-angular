@@ -31,6 +31,19 @@ export interface AcceptProduct {
   amount: number;
   image: string;
 }
+export interface PackProducts {
+  id: number;
+  Eid: number;
+  Ename: string;
+  brand: string;
+  model: string;
+  description: string;
+  date: Date;
+  price: number;
+  amount: number;
+  status: string;
+  image: string;
+}
 
 export interface Product {
   id: number;
@@ -39,5 +52,7 @@ export interface Product {
   description: string;
   price: number;
   amount: number;
+  category: string;
   image: string;
 }
+

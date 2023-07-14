@@ -15,6 +15,21 @@ tr:hover {
 }
 
 /* Detail Dialog */
+#addDialog .flex.flex-column.gap-2.input-dialog label {
+  padding-right: 30px;
+}
+
+#addDialog div{
+  padding-bottom: 20px;
+  max-width: 600px;
+}
+
+tr:hover {
+  cursor: pointer;
+  background-color: rgba(231, 227, 227, 0.445);
+}
+
+/* Detail Dialog */
 #detailDialog .flex.flex-column.gap-2.input-dialog label {
   padding-right: 30px;
 }
@@ -24,6 +39,51 @@ tr:hover {
   max-width: 600px;
 }
 
-tr:hover {
-  background-color: rgba(231, 227, 227, 0.445);
+/* Edit Dialog */
+#Edit-Add-Dialog .input-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
 }
+
+#Edit-Add-Dialog .inputspacDialog {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+#Edit-Add-Dialog .longInputDialog {
+  width: 444px;
+}
+
+/* #addDialog .input-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#addDialog .inputspacDialog2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 30px;
+}
+
+#addDialog .longInputDialog {
+  width: 444px;
+} */
+
+/* .addPackInput {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+} */
