@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AcceptProductService } from '../service/acceptProduct/acceptProduct.service';
-import { AcceptProduct, Product } from 'src/app/model/model';
+import { AcceptProduct, Product, UpdateStatusAccept } from 'src/app/model/model';
 import { ProductService } from '../service/product/product.service';
 import { CookieService } from 'ngx-cookie-service';
-import { CurrentPath } from '../config/global';
+import { Category, CurrentPath, StatusProductToRequestAceept } from '../config/global';
 @Component({
   selector: 'app-acceptProductPage',
   templateUrl: './acceptProductPage.component.html',
@@ -13,6 +13,8 @@ export class AcceptProductPageComponent implements OnInit {
   //----------------------- Attribute ----------------------------------------------------
   acceptProductList: AcceptProduct[] = [];
   acceptProductFilter: AcceptProduct[] = [];
+  productsList: Product[] = [];
+  productsFilter: Product[] = [];
 
   visible: boolean = false;
 
@@ -25,17 +27,16 @@ export class AcceptProductPageComponent implements OnInit {
   price: number | undefined;
   amount: number | undefined;
   image: string | undefined;
-  category: string = "จัดชุด";
-
-
+  product: string[] = [];
   //-------------------------------------------------------------------------------
   constructor(private serviceAccept: AcceptProductService, private serviceProduct: ProductService, private cookieService: CookieService) {}
 
   async ngOnInit(): Promise<void> {
-    const response = await this.serviceAccept.getAcceptProducts();
+    this.getProducts();
+    const response = await this.serviceAccept.getAcceptProductsConfirm();
     this.acceptProductList = <AcceptProduct[]>response;
     this.acceptProductFilter = this.acceptProductList;
-    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.PACKPRODUCT_PATH)
+    this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.ACCEPTPRODUCTS_PATH)
   }
   searchText: string = '';
 
@@ -56,6 +57,7 @@ export class AcceptProductPageComponent implements OnInit {
   }
 
   showDialog(id: number){
+    this.productsFilter = [];
     this.acceptProductList.filter(p => {
       if(p.id === id){
         this.id = p.id;
@@ -66,18 +68,31 @@ export class AcceptProductPageComponent implements OnInit {
         this.description = p.description;
         this.price = p.price;
         this.amount = p.amount;
+        this.product = p.product.split(',');
         this.image = p.image;
       }
     })
+    for (let numId of this.product){
+      let newNum = parseInt(numId)
+      for (let p of this.productsList){
+        if(newNum === p.id){
+          this.productsFilter.push(p);
+        }
+      }
+    }
     this.visible = true;
   }
 
 
   //----------------------- services --------------------
-  //DELETE
-  async deleteAcceptProduct(id: any): Promise<void> {
+  // Update DISAPPROVAL
+  async disAcceptProduct(id: any): Promise<void> {
     id = parseInt(id);
-    await this.serviceAccept.deleteAcceptProduct(id);
+    let update: UpdateStatusAccept = {
+      id: id,
+      status: StatusProductToRequestAceept.DISAPPROVAL
+    }
+    await this.serviceAccept.updateStatus(update);
     window.location.reload();
   }
 
@@ -102,14 +117,33 @@ export class AcceptProductPageComponent implements OnInit {
         description: this.description!,
         price: this.price!,
         amount: this.amount!,
-        category: this.category!,
+        category: Category.SET,
         image: this.image!
       }
+      let update: UpdateStatusAccept = await {
+        id: parseInt(id),
+        status: StatusProductToRequestAceept.APPROVED
+      }
       await this.serviceProduct.insertProduct(product);
-      this.deleteAcceptProduct(id);
+      await this.serviceAccept.updateStatus(update);
+      location.reload();
+      // this.deleteAcceptProduct(id);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  //GET PRODUCT
+  async getProducts() {
+    const response = await this.serviceProduct.getProducts();
+    this.productsList = await (<Product[]>response);
+    // this.productsFilter = this.productsList;
+    // console.log(this.productsList);
+  }
+
+  // --------------------- Cookie Service ------------------------
+  getAccoutDeatial(account: string){
+    return this.cookieService.get(account)
   }
 
 }

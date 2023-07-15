@@ -3,29 +3,28 @@
     <!-- Search bar -->
     <div class="card flex flex-wrap justify-content-center gap-3">
       <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
+        <i class="pi pi-box"></i>
         <input
           type="text"
-          [(ngModel)]="searchText"
+          [(ngModel)]="addProductText"
           pInputText
-          placeholder="ค้นหา"
-          (input)="search()"
+          placeholder="ID สินค้า"
         />
       </span>
+      <!-- Create Button -->
+      <p-button
+        label="เพิ่มสินค้า"
+        icon="pi pi-plus"
+        (onClick)="addProduct()"
+        [style]="{'margin-left':'20px'}"
+      ></p-button>
     </div>
-    <!-- Create Button -->
-    <p-button
-      label="เพิ่มสมาชิก"
-      icon="pi pi-plus"
-      (onClick)="showAddDialog()"
-      *ngIf="position === textOwner"
-    ></p-button>
   </div>
   <!-- Table customer -->
   <div class="card">
     <p-table
       [value]="productFilter"
-      [paginator]="true"
+      [paginator]="false"
       [rows]="10"
       [showCurrentPageReport]="true"
       [tableStyle]="{ 'min-width': '50rem' }"
@@ -37,31 +36,29 @@
           <th style="width: 1%">รหัส</th>
           <th style="width: 2%">ยี่ห้อ</th>
           <th style="width: 20%">รุ่น</th>
-          <th style="width: 66%">รายละเอียด</th>
           <th style="width: 5%">ราคา</th>
           <th style="width: 5%">จำนวน</th>
           <th style="width: 5%">หมวดหมู่</th>
-          <th style="width: 5%" *ngIf="position === textOwner"></th>
-          <th style="width: 1%" *ngIf="position === textOwner"></th>
+          <th style="width: 5%" ></th>
+          <th style="width: 1%" ></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product>
+      <ng-template pTemplate="body" let-product let-i="rowIndex">
         <tr>
-          <td (click)="showDialog(product.id)">{{ product.id }}</td>
-          <td (click)="showDialog(product.id)">{{ product.brand }}</td>
-          <td (click)="showDialog(product.id)">{{ product.model }}</td>
-          <td (click)="showDialog(product.id)" class="content"><span class="truncate">{{ product.description }}</span></td>
-          <td (click)="showDialog(product.id)">{{ product.price }}</td>
-          <td (click)="showDialog(product.id)">{{ product.amount }}</td>
-          <td (click)="showDialog(product.id)">{{ product.category }}</td>
-          <td *ngIf="position === textOwner">
+          <td (click)="showDialog(product.id)">{{ product[0].id }}</td>
+          <td (click)="showDialog(product.id)">{{ product[0].brand }}</td>
+          <td (click)="showDialog(product.id)">{{ product[0].model }}</td>
+          <td (click)="showDialog(product.id)">{{ product[0].price }}</td>
+          <td (click)="showDialog(product.id)">{{ amountProduct[i] }}</td>
+          <td (click)="showDialog(product.id)">{{ product[0].category }}</td>
+          <td>
             <p-button
               label="แก้ไข"
               styleClass="p-button-warning"
               (onClick)="showEditDialog(product.id)"
             ></p-button>
           </td>
-          <td *ngIf="position === textOwner">
+          <td>
             <p-button
               label="ลบ"
               styleClass="p-button-danger"
@@ -71,12 +68,13 @@
           </td>
         </tr>
       </ng-template>
+      <ng-template pTemplate="summary"> ราคารวม {{ total }} บาท </ng-template>
     </p-table>
   </div>
 </div>
 
 <!-- Dialog -->
-<div class="card flex justify-content-center">
+<!-- <div class="card flex justify-content-center">
   <p-dialog
     header="รายละเอียดสินค้า"
     [(visible)]="visible"
@@ -108,10 +106,10 @@
       </div>
     </div>
   </p-dialog>
-</div>
+</div> -->
 
 <!-- Edit Dialog -->
-<div class="card flex justify-content-center" id="Edit-Add-Dialog">
+<!-- <div class="card flex justify-content-center" id="Edit-Add-Dialog">
   <p-dialog
     header="แก้ไขข้อมูล"
     [(visible)]="editVisible"
@@ -204,10 +202,10 @@
       </div>
     </div>
   </p-dialog>
-</div>
+</div> -->
 
 <!-- Add Dialog -->
-<div class="card flex justify-content-center" id="Edit-Add-Dialog">
+<!-- <div class="card flex justify-content-center" id="Edit-Add-Dialog">
   <p-dialog
     header="เพิ่มสินค้า"
     [(visible)]="addVisible"
@@ -299,4 +297,4 @@
       </div>
     </div>
   </p-dialog>
-</div>
+</div> -->

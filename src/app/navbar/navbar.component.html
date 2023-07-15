@@ -45,6 +45,9 @@
 <ng-template #sale>
   <div *ngIf="position === textSaler; else warehouse">
     <div class="navbar">
+      <div class="navbar-item" routerLink="/sale" routerLinkActive="active">
+        ขายสินค้า
+      </div>
       <div
         class="navbar-item"
         style="width: 60px !important"

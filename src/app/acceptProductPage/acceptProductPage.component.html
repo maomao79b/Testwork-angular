@@ -43,19 +43,41 @@
       <ng-template pTemplate="body" let-acceptProduct>
         <tr>
           <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.id }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.Ename }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.brand }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.model }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.description }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.date | date }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.price }}</td>
-          <td (click)="showDialog(acceptProduct.id)">{{ acceptProduct.amount }}</td>
+          <td (click)="showDialog(acceptProduct.id)">
+            {{ acceptProduct.Ename }}
+          </td>
+          <td (click)="showDialog(acceptProduct.id)">
+            {{ acceptProduct.brand }}
+          </td>
+          <td (click)="showDialog(acceptProduct.id)">
+            {{ acceptProduct.model }}
+          </td>
+          <td
+            (click)="showDialog(acceptProduct.id)"
+            [style]="{
+              'max-width': '500px',
+              'white-space': 'nowrap',
+              'overflow': 'hidden',
+              'text-overflow': 'ellipsis'
+            }"
+          >
+            {{ acceptProduct.description }}
+          </td>
+          <td (click)="showDialog(acceptProduct.id)">
+            {{ acceptProduct.date | date }}
+          </td>
+          <td (click)="showDialog(acceptProduct.id)">
+            {{ acceptProduct.price }}
+          </td>
+          <td (click)="showDialog(acceptProduct.id)">
+            {{ acceptProduct.amount }}
+          </td>
           <!-- เพิ่ม td ของ amount -->
           <td>
             <p-button
               label="ไม่อนุมัติ"
               styleClass="p-button-danger"
-              (onClick)="deleteAcceptProduct(acceptProduct.id)"
+              (onClick)="disAcceptProduct(acceptProduct.id)"
             ></p-button>
           </td>
           <td>
@@ -63,9 +85,7 @@
               label="อนุมัติ"
               styleClass="p-button-success"
               [style.margin-left.px]="-27"
-              (onClick)="
-              insetProduct(acceptProduct.id)
-              "
+              (onClick)="insetProduct(acceptProduct.id)"
             ></p-button>
           </td>
         </tr>
@@ -84,25 +104,29 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div class="card flex justify-content-center inputspacDialog">
-      <div style="display: flex; justify-content: center;">
-        <img src="{{image}}" alt="" style="width: 300px; height: 300px;">
+  <div style="display: flex; justify-content: center">
+    <div *ngFor="let item of productsFilter">
+      <img src="{{item.image}}" alt="" style="width: 300px; height: 300px" />
+    </div>
+  </div>
+    <div class="card flex justify-content-center inputspacDialog" id="detailDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="id"><strong>Employee ID : </strong>{{ Eid }}</label>
+        <label htmlFor="id"><strong>Employee Name : </strong>{{ Ename }}</label>
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>Employee ID : </strong>{{Eid}}</label>
-        <label htmlFor="id"><strong>Employee Name : </strong>{{Ename}}</label>
+        <label htmlFor="id"><strong>ID : </strong> {{ id }}</label>
+        <label htmlFor="id"><strong>Brand : </strong>{{ brand }}</label>
+        <label htmlFor="id"><strong>Model : </strong>{{ model }}</label>
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>ID : </strong> {{id}}</label>
-        <label htmlFor="id"><strong>Brand : </strong>{{brand}}</label>
-        <label htmlFor="id"><strong>Model : </strong>{{model}}</label>
+        <label htmlFor="id"
+          ><strong>Description : </strong>{{ description }}</label
+        >
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>Description : </strong>{{description}}</label>
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>Amount : </strong>{{amount}} </label>
-        <label htmlFor="id"><strong>Price : </strong>{{price}} Bath</label>
+        <label htmlFor="id"><strong>Amount : </strong>{{ amount }} </label>
+        <label htmlFor="id"><strong>Price : </strong>{{ price }} Bath</label>
       </div>
     </div>
   </p-dialog>

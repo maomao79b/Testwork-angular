@@ -50,3 +50,16 @@ tr:hover {
   cursor: pointer;
   background-color: rgba(231, 227, 227, 0.445);
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content {
+  max-width:500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

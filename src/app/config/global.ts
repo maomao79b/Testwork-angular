@@ -13,6 +13,7 @@ export class CurrentPath {
   public static readonly ACCEPTPRODUCTS_PATH: string = "/acceptProduct";
   public static readonly REPORT_PATH: string = "/report";
   public static readonly PRODUCT_PATH: string = "/product";
+  public static readonly SALE_PATH: string = "/sale";
 }
 
 export class Position {
@@ -31,4 +32,11 @@ export class Account {
 export class Category {
   public static readonly SET: string = "SET";
   public static readonly NORMAL: string = "NORMAL";
+}
+
+export class StatusProductToRequestAceept{
+  public static readonly DRAFT: string = "บันทึกร่าง";
+  public static readonly NOT_YET_APPROVED: string = "รออนุมัติ";
+  public static readonly APPROVED: string = "อนุมัติแล้ว";
+  public static readonly DISAPPROVAL: string = "ไม่อนุมัติ";
 }

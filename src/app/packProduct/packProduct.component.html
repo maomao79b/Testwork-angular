@@ -54,11 +54,11 @@
           <td (click)="showDialog(product.id)">{{ product.Ename }}</td>
           <td (click)="showDialog(product.id)">{{ product.brand }}</td>
           <td (click)="showDialog(product.id)">{{ product.model }}</td>
-          <td (click)="showDialog(product.id)">{{ product.description }}</td>
+          <td (click)="showDialog(product.id)" class="content"><span class="truncate">{{ product.description }}</span></td>
           <td (click)="showDialog(product.id)">{{ product.date | date }}</td>
           <td (click)="showDialog(product.id)">{{ product.price }}</td>
           <td (click)="showDialog(product.id)">{{ product.amount }}</td>
-          <td (click)="showDialog(product.id)">{{ product.status }}</td>
+          <td (click)="showDialog(product.id)" [style.color]="colorStatus(product.status)">{{ product.status }}</td>
           <!-- <td>
             <p-button
               label="ลบ"
@@ -86,9 +86,13 @@
       id="detailDialog"
       class="card flex justify-content-center inputspacDialog"
     >
+
       <div style="display: flex; justify-content: center">
-        <img src="{{ image }}" alt="" style="width: 300px; height: 300px" />
+        <div *ngFor="let item of productsFilter">
+          <img src="{{item.image}}" alt="" style="width: 300px; height: 300px" />
+        </div>
       </div>
+
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="id"><strong>ID : </strong>{{ id }}</label>
         <label htmlFor="id"><strong>Brand : </strong>{{ brand }}</label>
@@ -256,13 +260,13 @@
       <p-button
         label="บันทึกร่าง"
         icon="pi pi-save"
-        (onClick)="savePackProduct()"
+        (onClick)="insetProduct('SAVE')"
       ></p-button>
       <p-button
         label="ส่งอนุมัติ"
         icon="pi pi-send"
         styleClass="p-button-success"
-        (onClick)="insetProduct()"
+        (onClick)="insetProduct('APPROVAL')"
       ></p-button>
     </div>
   </p-dialog>

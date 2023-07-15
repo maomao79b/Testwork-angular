@@ -21,3 +21,19 @@ tr:hover {
 .inputspacDialog div{
   padding-bottom: 20px;
 }
+
+.content {
+  max-width:500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#detailDialog .flex.flex-column.gap-2.input-dialog label {
+  padding-right: 30px;
+}
+
+#detailDialog div{
+  padding-bottom: 20px;
+  max-width: 1080px;
+}

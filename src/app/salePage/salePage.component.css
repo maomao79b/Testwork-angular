@@ -1,0 +1,15 @@
+tr:hover {
+  background-color: rgba(231, 227, 227, 0.445);
+}
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}

@@ -22,6 +22,8 @@ import { ProductPageComponent } from './productPage/productPage.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { LoginPageComponent } from './login/loginPage/loginPage.component';
 import { PackProductComponent } from './packProduct/packProduct.component';
+import { CarouselModule } from 'primeng/carousel';
+import { SalePageComponent } from './salePage/salePage.component';
 
 
 const appRoute: Routes = [
@@ -32,6 +34,7 @@ const appRoute: Routes = [
   {path: 'report', component: ReportPageComponent},
   {path: 'product', component: ProductPageComponent},
   {path: 'packproduct', component: PackProductComponent},
+  {path: 'sale', component: SalePageComponent},
 
 ];
 @NgModule({
@@ -44,7 +47,8 @@ const appRoute: Routes = [
       ReportPageComponent,
       ProductPageComponent,
       LoginPageComponent,
-      PackProductComponent
+      PackProductComponent,
+      SalePageComponent
    ],
   imports: [
     BrowserModule,
@@ -60,7 +64,8 @@ const appRoute: Routes = [
     HttpClientModule,
     DialogModule,
     CardModule,
-    InputTextareaModule
+    InputTextareaModule,
+    CarouselModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
