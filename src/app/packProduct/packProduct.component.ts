@@ -53,40 +53,7 @@ export class PackProductComponent implements OnInit {
     private cookieService: CookieService
   ) {}
 
-  search(): void {
-    this.packProductFilter = this.packProductList.filter((packProduct) => {
-      return (
-        packProduct.id
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        packProduct.Ename.toLocaleLowerCase().includes(
-          this.searchText.toLowerCase()
-        ) ||
-        packProduct.date
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        packProduct.status
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        packProduct.price
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        packProduct.brand
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        packProduct.model
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        packProduct.description
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase())
-      );
-    });
-    // console.log(this.searchText);
-  }
+
   ngOnInit() {
     this.getPackProducts();
     this.getProducts();
@@ -230,14 +197,23 @@ export class PackProductComponent implements OnInit {
 
   colorStatus(text: string) {
     if (text === StatusProductToRequestAceept.APPROVED) {
-      return '#22C55E';
+      return 'success';
     } else if (text === StatusProductToRequestAceept.DISAPPROVAL) {
-      return '#EF4444';
+      return 'danger';
     } else if (text === StatusProductToRequestAceept.DRAFT) {
-      return '#3B82F6';
+      return 'primary';
     } else {
-      return '#F59E0B';
+      return 'warning';
     }
+    // if (text === StatusProductToRequestAceept.APPROVED) {
+    //   return '#22C55E';
+    // } else if (text === StatusProductToRequestAceept.DISAPPROVAL) {
+    //   return '#EF4444';
+    // } else if (text === StatusProductToRequestAceept.DRAFT) {
+    //   return '#3B82F6';
+    // } else {
+    //   return '#F59E0B';
+    // }
   }
 
   // --------------------- service ------------------------
@@ -250,18 +226,25 @@ export class PackProductComponent implements OnInit {
     // console.log(response);
   }
 
-  // //GET
-  // async getPackProductsById(id: string) {
-  //   const response = await this.productService.getProductsById(id);
-  //   let product = <Product>response;
-  // }
+  //Search
+  search() {
+    if(this.searchText != "" && this.searchText != null){
+      this.acceptProductService.getPackProductSearchV2(this.searchText).subscribe((result: any)=>{
+        console.log(result);
+        this.packProductFilter = result;
+      });
+    } else {
+      this.acceptProductService.getAcceptProductsV2().subscribe((result: any)=>{
+        this.packProductList = result;
+        this.packProductFilter = this.packProductList;
+      });
+    }
+  }
 
   //GET PRODUCT
   async getProducts() {
     const response = await this.productService.getProducts();
     this.productsList = await (<Product[]>response);
-    // this.productsFilter = this.productsList;
-    // console.log(this.productsList);
   }
 
   //INSERT INTO PACK_PRODUCT

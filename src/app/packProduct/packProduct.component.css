@@ -74,6 +74,11 @@ tr:hover {
   text-overflow: ellipsis;
 }
 
+/* .textStatus {
+  color: white;
+  border-radius: 25%;
+} */
+
 /* #addDialog .input-dialog {
   display: flex;
   justify-content: center;

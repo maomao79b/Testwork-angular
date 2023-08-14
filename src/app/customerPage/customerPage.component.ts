@@ -25,6 +25,7 @@ export class CustomerPageComponent implements OnInit {
   phone: string | undefined;
   username: string | undefined;
   password: string | undefined;
+  image: string | undefined;
 
   // --------------------- Begin Start -------------------------
 
@@ -41,30 +42,6 @@ export class CustomerPageComponent implements OnInit {
   }
 
   // ---------------------- function ---------------------
-
-  search(): void {
-    this.customerFilter = this.customerList.filter((customer) => {
-      return (
-        customer.id.toString().includes(this.searchText.toLowerCase()) ||
-        customer.name
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        customer.age.toString().includes(this.searchText.toLowerCase()) ||
-        customer.username
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        customer.address
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        customer.phone
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        customer.username
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase())
-      );
-    });
-  }
   showEditDialog(id: any) {
     const Cid = parseInt(id);
     this.editVisible = true;
@@ -77,14 +54,35 @@ export class CustomerPageComponent implements OnInit {
         this.phone = customer.phone;
         this.username = customer.username;
         this.password = customer.password;
+        this.image = customer.image;
       }
     });
   }
   showAddDialog() {
     this.addVisible = true;
+    this.id = undefined;
+    this.name = "";
+    this.age = undefined;
+    this.address = "";
+    this.phone = "";
+    this.username = "";
+    this.password = "";
+    this.image = "";
   }
 
   //----------------------- services --------------------
+
+  //Search
+  search(): void {
+    if(this.searchText != "" && this.searchText != null){
+      this.service.getSearchV2(this.searchText).subscribe((result: any)=>{
+        this.customerFilter = result;
+        console.log("Result", result[0]);
+      });
+    } else {
+      this.getCustomer();
+    }
+  }
 
   //GET
   async getCustomer(): Promise<void> {
@@ -111,6 +109,7 @@ export class CustomerPageComponent implements OnInit {
         phone: this.phone!,
         username: this.username!,
         password: this.password!,
+        image: this.image!,
       };
       await this.service.updateCustomer(customers);
       location.reload();
@@ -130,6 +129,7 @@ export class CustomerPageComponent implements OnInit {
         phone: this.phone!,
         username: this.username!,
         password: this.password!,
+        image: this.image!,
       };
       await this.service.insertCustomer(customers);
       location.reload();

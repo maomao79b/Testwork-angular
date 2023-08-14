@@ -82,31 +82,20 @@ export class ProductPageComponent implements OnInit {
     this.addVisible = true;
   }
 
-  search(): void {
-    this.productFilter = this.productList.filter((product) => {
-      return (
-        product.id
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        product.price
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        product.brand
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        product.model
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        product.description
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase())
-      );
-    });
-  }
-
   // --------------------- service ------------------------
+  //Search
+  search(): void {
+    if(this.searchText != "" && this.searchText != null){
+      this.service.getSearchV2(this.searchText).subscribe((result: any)=>{
+        this.productFilter = result;
+      });
+    } else {
+      this.service.getProductsV2().subscribe((result: any)=>{
+        this.productList = result;
+        this.productFilter = this.productList;
+      });
+    }
+  }
   //DELETE
   async deleteProduct(Pid: any): Promise<void> {
     Pid = parseInt(Pid);

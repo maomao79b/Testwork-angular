@@ -43,7 +43,15 @@
       <ng-template pTemplate="body" let-customer>
         <tr>
           <td>{{ customer.id }}</td>
-          <td>{{ customer.name }}</td>
+          <td>
+            <img
+              [alt]="customer.image"
+              src="{{ customer.image }}"
+              width="32" shape="circle"
+              style="vertical-align: middle"
+            />
+            <span class="ml-1 vertical-align-middle"> {{ customer.name }}</span>
+          </td>
           <td>{{ customer.age }}</td>
           <td>{{ customer.address }}</td>
           <td>{{ customer.phone }}</td>
@@ -155,6 +163,19 @@
       </div>
     </div>
 
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="image">Image</label>
+        <input
+          pInputText
+          id="image"
+          aria-describedby="image-help"
+          [(ngModel)]="image"
+          class="longInputDialog"
+        />
+      </div>
+    </div>
+
     <div class="card flex justify-content-center">
       <button pButton pRipple label="ยืนยันการแก้ไข" (click)="confirmEdit()" class="p-button-success"></button>
     </div>
@@ -233,6 +254,19 @@
           id="username"
           aria-describedby="username-help"
           [(ngModel)]="password"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="image">Image</label>
+        <input
+          pInputText
+          id="image"
+          aria-describedby="image-help"
+          [(ngModel)]="image"
+          class="longInputDialog"
         />
       </div>
     </div>

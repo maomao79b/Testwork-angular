@@ -40,3 +40,5 @@ export class StatusProductToRequestAceept{
   public static readonly APPROVED: string = "อนุมัติแล้ว";
   public static readonly DISAPPROVAL: string = "ไม่อนุมัติ";
 }
+
+

@@ -40,22 +40,6 @@ export class AcceptProductPageComponent implements OnInit {
   }
   searchText: string = '';
 
-  // เพิ่ม amount
-  search(): void {
-    this.acceptProductFilter = this.acceptProductList.filter((acceptPoduct) => {
-      console.log(this.searchText);
-      return (
-        acceptPoduct.id
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        acceptPoduct.Ename
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase())
-      );
-    });
-  }
-
   showDialog(id: number){
     this.productsFilter = [];
     this.acceptProductList.filter(p => {
@@ -85,6 +69,20 @@ export class AcceptProductPageComponent implements OnInit {
 
 
   //----------------------- services --------------------
+  //Search
+  search() {
+    if(this.searchText != "" && this.searchText != null){
+      this.serviceAccept.getAcceptProductsSearchV2(this.searchText).subscribe((result: any)=>{
+        console.log(result);
+        this.acceptProductFilter = result;
+      });
+    } else {
+      this.serviceAccept.getAcceptProductsConfirmV2().subscribe((result: any)=>{
+        this.acceptProductList = result;
+        this.acceptProductFilter = this.acceptProductList;
+      });
+    }
+  }
   // Update DISAPPROVAL
   async disAcceptProduct(id: any): Promise<void> {
     id = parseInt(id);
@@ -137,8 +135,6 @@ export class AcceptProductPageComponent implements OnInit {
   async getProducts() {
     const response = await this.serviceProduct.getProducts();
     this.productsList = await (<Product[]>response);
-    // this.productsFilter = this.productsList;
-    // console.log(this.productsList);
   }
 
   // --------------------- Cookie Service ------------------------

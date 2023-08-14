@@ -11,6 +11,11 @@ import { FormsModule  } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { CookieService } from 'ngx-cookie-service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { MenuModule } from 'primeng/menu';
+import { CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -65,7 +70,12 @@ const appRoute: Routes = [
     DialogModule,
     CardModule,
     InputTextareaModule,
-    CarouselModule
+    CarouselModule,
+    AvatarModule,
+    AvatarGroupModule,
+    MenuModule,
+    CommonModule,
+    TagModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

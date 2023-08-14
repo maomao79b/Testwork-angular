@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AcceptProduct, UpdateStatusAccept } from 'src/app/model/model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -9,15 +10,16 @@ export class AcceptProductService {
   headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
-  statusPath: string = "/status";
+  statusPath: string = '/status';
   constructor(private http: HttpClient) {}
 
   //GET ALL
-
   async getAcceptProductsConfirm() {
     try {
       const response = await this.http
-        .get<AcceptProduct[]>('http://localhost:5148/api/AcceptProduct/confirmPage')
+        .get<AcceptProduct[]>(
+          'http://localhost:5148/api/AcceptProduct/confirmPage'
+        )
         .toPromise();
       return response;
     } catch (error) {
@@ -64,14 +66,40 @@ export class AcceptProductService {
     }
   }
 
-  async updateStatus(update: UpdateStatusAccept){
+  async updateStatus(update: UpdateStatusAccept) {
     try {
-      let urlPath = this.url+this.statusPath;
+      let urlPath = this.url + this.statusPath;
       console.log(urlPath);
-      let response = await this.http.put(urlPath, update, {headers: this.headers}).toPromise();
+      let response = await this.http
+        .put(urlPath, update, { headers: this.headers })
+        .toPromise();
       console.log(response);
     } catch (error) {
       alert(error);
     }
+  }
+
+  //---------------------------- V2 -------------------------
+  //GET ALL
+  getAcceptProductsV2(): Observable<any> {
+    return this.http.get<AcceptProduct[]>(
+      `http://localhost:5148/api/AcceptProduct`
+    );
+  }
+  //GET ALL Confirm
+  getAcceptProductsConfirmV2(): Observable<any> {
+    return this.http.get<AcceptProduct[]>(
+      'http://localhost:5148/api/AcceptProduct/confirmPage'
+    );
+  }
+  getAcceptProductsSearchV2(text: string): Observable<any> {
+    return this.http.get<AcceptProduct[]>(
+      `http://localhost:5148/api/AcceptProduct/search?search=${text}`
+    );
+  }
+  getPackProductSearchV2(text: string): Observable<any> {
+    return this.http.get<AcceptProduct[]>(
+      `http://localhost:5148/api/PackProducts/search?search=${text}`
+    );
   }
 }

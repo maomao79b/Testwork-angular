@@ -1,4 +1,5 @@
 tr:hover {
+  cursor: pointer;
   background-color: rgba(231, 227, 227, 0.445);
 }
 
@@ -12,4 +13,26 @@ tr:hover {
 .head {
   display: flex;
   justify-content: space-between;
+}
+
+/* Edit Dialog */
+#Edit-Add-Dialog .input-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#Edit-Add-Dialog .inputspacDialog {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+#Edit-Add-Dialog .longInputDialog {
+  width: 444px;
 }

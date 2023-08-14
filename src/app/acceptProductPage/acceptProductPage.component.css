@@ -37,3 +37,7 @@ tr:hover {
   padding-bottom: 20px;
   max-width: 1080px;
 }
+
+::ng-deep p-button.not-accept span.p-button-label.ng-star-inserted{
+  width: 65px;
+}

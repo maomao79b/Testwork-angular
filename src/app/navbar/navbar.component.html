@@ -1,53 +1,7 @@
 <!-- Owner -->
 <div *ngIf="position === textOwner; else sale">
   <div class="navbar">
-    <div
-      class="navbar-item"
-      style="width: 60px !important"
-      routerLink="/customer"
-      routerLinkActive="active"
-    >
-      ลูกค้า
-    </div>
-    <div
-      class="navbar-item"
-      style="width: 80px !important"
-      routerLink="/employee"
-      routerLinkActive="active"
-    >
-      พนักงาน
-    </div>
-    <div
-      class="navbar-item"
-      routerLink="/packproduct"
-      routerLinkActive="active"
-    >
-      จัดชุดสินค้า
-    </div>
-    <div
-      class="navbar-item"
-      routerLink="/acceptProduct"
-      routerLinkActive="active"
-    >
-      อนุมัติสินค้า
-    </div>
-    <div class="navbar-item" routerLink="/report" routerLinkActive="active">
-      แสดงรายการ
-    </div>
-    <div class="navbar-item" routerLink="/product" routerLinkActive="active">
-      จัดการสินค้า
-    </div>
-    <div class="navbar-item" (click)="Logout()">Logout</div>
-  </div>
-</div>
-
-<!-- Saler -->
-<ng-template #sale>
-  <div *ngIf="position === textSaler; else warehouse">
-    <div class="navbar">
-      <div class="navbar-item" routerLink="/sale" routerLinkActive="active">
-        ขายสินค้า
-      </div>
+    <div class="navbarLeft">
       <div
         class="navbar-item"
         style="width: 60px !important"
@@ -56,15 +10,134 @@
       >
         ลูกค้า
       </div>
-      <div class="navbar-item" routerLink="/product" routerLinkActive="active">
-        ค้นหาสินค้า
+      <div
+        class="navbar-item"
+        style="width: 80px !important"
+        routerLink="/employee"
+        routerLinkActive="active"
+      >
+        พนักงาน
       </div>
-      <div class="navbar-item" (click)="Logout()">Logout</div>
+      <div
+        class="navbar-item"
+        routerLink="/packproduct"
+        routerLinkActive="active"
+      >
+        จัดชุดสินค้า
+      </div>
+      <div
+        class="navbar-item"
+        routerLink="/acceptProduct"
+        routerLinkActive="active"
+      >
+        อนุมัติสินค้า
+      </div>
+      <div class="navbar-item" routerLink="/report" routerLinkActive="active">
+        แสดงรายการ
+      </div>
+      <div class="navbar-item" routerLink="/product" routerLinkActive="active">
+        จัดการสินค้า
+      </div>
+    </div>
+
+    <div class="navbarRight">
+      <div class="card">
+        <div class="name-and-position">
+          <span class="name">สวัสดีคุณ.. {{ accountName }}</span>
+          <span class="position">{{ position }}</span>
+        </div>
+        <p-avatar
+          image="{{ profileImage }}"
+          styleClass="mr-2"
+          size="large"
+          shape="circle"
+          class="avatar"
+          (click)="menu.toggle($event)"
+        ></p-avatar>
+        <p-menu #menu [model]="items" [popup]="true"></p-menu>
+      </div>
+      <!-- <div class="navbar-item" (click)="Logout()">Logout</div> -->
+    </div>
+  </div>
+</div>
+
+<!-- Saler -->
+<ng-template #sale>
+  <div *ngIf="position === textSaler; else warehouse">
+    <div class="navbar">
+      <div class="navbarLeft">
+        <div class="navbar-item" routerLink="/sale" routerLinkActive="active">
+          ขายสินค้า
+        </div>
+        <div
+          class="navbar-item"
+          style="width: 60px !important"
+          routerLink="/customer"
+          routerLinkActive="active"
+        >
+          ลูกค้า
+        </div>
+        <div
+          class="navbar-item"
+          routerLink="/product"
+          routerLinkActive="active"
+        >
+          ค้นหาสินค้า
+        </div>
+      </div>
+
+      <div class="navbarRight">
+        <div class="card">
+          <div class="name-and-position">
+            <span class="name">สวัสดีคุณ.. {{ accountName }}</span>
+            <span class="position">{{ position }}</span>
+          </div>
+          <p-avatar
+            image="{{ profileImage }}"
+            styleClass="mr-2"
+            size="large"
+            shape="circle"
+            class="avatar"
+            (click)="menu.toggle($event)"
+          ></p-avatar>
+          <p-menu #menu [model]="items" [popup]="true"></p-menu>
+        </div>
+      </div>
     </div>
   </div>
 </ng-template>
 
 <ng-template #warehouse>
+  <div class="navbar">
+    <div class="navbarLeft">
+      <div
+        class="navbar-item"
+        routerLink="/packproduct"
+        routerLinkActive="active"
+      >
+        จัดชุดสินค้า
+      </div>
+      <div class="navbar-item" routerLink="/product" routerLinkActive="active">
+        จัดการสินค้า
+      </div>
+    </div>
 
+    <div class="navbarRight">
+      <div class="card">
+        <div class="name-and-position">
+          <span class="name">สวัสดีคุณ.. {{ accountName }}</span>
+          <span class="position">{{ position }}</span>
+        </div>
+        <p-avatar
+          image="{{ profileImage }}"
+          styleClass="mr-2"
+          size="large"
+          shape="circle"
+          class="avatar"
+          (click)="menu.toggle($event)"
+        ></p-avatar>
+        <p-menu #menu [model]="items" [popup]="true"></p-menu>
+      </div>
+    </div>
+  </div>
 </ng-template>
-

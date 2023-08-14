@@ -6,6 +6,7 @@ export interface Customer {
   phone: string;
   username: string;
   password: string;
+  image: string;
 }
 
 export interface Employee {
@@ -17,6 +18,7 @@ export interface Employee {
   username: string;
   password: string;
   position: string;
+  image: string;
 }
 
 export interface AcceptProduct {

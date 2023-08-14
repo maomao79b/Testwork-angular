@@ -58,7 +58,8 @@
           <td (click)="showDialog(product.id)">{{ product.date | date }}</td>
           <td (click)="showDialog(product.id)">{{ product.price }}</td>
           <td (click)="showDialog(product.id)">{{ product.amount }}</td>
-          <td (click)="showDialog(product.id)" [style.color]="colorStatus(product.status)">{{ product.status }}</td>
+          <!-- <td (click)="showDialog(product.id)" [style.color]="colorStatus(product.status)">{{ product.status }}</td> -->
+          <td (click)="showDialog(product.id)"><p-tag [value]="product.status" [severity]="colorStatus(product.status)"></p-tag></td>
           <!-- <td>
             <p-button
               label="ลบ"

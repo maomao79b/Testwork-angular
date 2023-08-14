@@ -27,6 +27,7 @@ export class EmployeePageComponent implements OnInit {
   username: string | undefined;
   password: string | undefined;
   position: string | undefined;
+  image: string | undefined;
 
   // --------------------------------------------------------
   constructor(private service: EmployeeServiceService, private cookieService: CookieService) {}
@@ -39,23 +40,7 @@ export class EmployeePageComponent implements OnInit {
   }
 
   // ---------------------- function ---------------------
-  search(): void {
-    this.employeeFilter = this.employeeList.filter((employee) => {
-      console.log(this.searchText);
-      return (
-        employee.id
-          .toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        employee.name
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        employee.username
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLowerCase())
-      );
-    });
-  }
+
   showEditDialog(id: string) {
     const Eid = parseInt(id);
     this.editVisible = true;
@@ -69,15 +54,39 @@ export class EmployeePageComponent implements OnInit {
         this.username = employee.username;
         this.password = employee.password;
         this.position = employee.position;
+        this.image = employee.image;
       }
     });
   }
 
   showAddDialog() {
     this.addVisible = true;
+    this.id = undefined;
+    this.name = "";
+    this.position = "";
+    this.age = undefined;
+    this.address = "";
+    this.phone = "";
+    this.username = "";
+    this.password = "";
+    this.image = "";
   }
 
   //----------------------- services --------------------
+  //Search
+  search(): void {
+    if(this.searchText != "" && this.searchText != null){
+      this.service.getSearchV2(this.searchText).subscribe((result: any)=>{
+        this.employeeFilter = result;
+      });
+    } else {
+      const response =  this.service.getEmployeesV2().subscribe((result: any)=>{
+        this.employeeList = result
+        this.employeeFilter =  this.employeeList;
+      });
+    }
+  }
+
   //DELETE
   async deleteEmployee(Eid: any): Promise<void> {
     Eid = parseInt(Eid);
@@ -96,7 +105,8 @@ export class EmployeePageComponent implements OnInit {
         this.phone,
         this.username,
         this.password,
-        this.position
+        this.position,
+        this.image
       );
       setTimeout(() => window.location.reload(), 0);
       this.editVisible = false;
@@ -115,7 +125,8 @@ export class EmployeePageComponent implements OnInit {
         this.phone,
         this.username,
         this.password,
-        this.position
+        this.position,
+        this.image
       );
       setTimeout(() => window.location.reload(), 0);
       this.addVisible = false;

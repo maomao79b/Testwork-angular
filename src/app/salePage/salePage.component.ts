@@ -20,6 +20,10 @@ export class SalePageComponent implements OnInit {
 
   addProductText: string = '';
 
+  editVisible: boolean = false;
+  payVisible: boolean = false;
+
+  // PRODUCT
   id: number | undefined;
   Ename: string | undefined;
   brand: string | undefined;
@@ -29,9 +33,14 @@ export class SalePageComponent implements OnInit {
   amount: number | undefined;
   status: string | undefined;
   image: string | undefined;
+
+  // SaleHistory
+  cid: number | undefined;
   total: number = 0;
   product: string[] = [];
 
+  fixAmount: number = 0;
+  fixAmountIndex: number = 0;
 
   // ------------------------ Constructor ------------------------
   constructor(private cookieService: CookieService, private saleHistoryService: SaleHistoryService, private productService: ProductService) { }
@@ -41,9 +50,13 @@ export class SalePageComponent implements OnInit {
       CurrentPath.CURRENT_PATH,
       CurrentPath.SALE_PATH
     );
+    if(localStorage.getItem('ProductList') != null) {
+      this.productList = JSON.parse(localStorage.getItem('ProductList')!);
+      this.amountProduct = JSON.parse(localStorage.getItem('amountProduct')!);
+      this.productFilter = this.productList.slice();
+    }
   }
-
-  async showDialog(id: number) {
+  async clickId(id: number) {
     // this.productsFilter = [];
     // this.packProductFilter.filter((p) => {
     //   if (p.id === id) {
@@ -68,13 +81,81 @@ export class SalePageComponent implements OnInit {
     //   }
     // }
   }
+  // async showDialog(id: number) {
+  //   // this.productsFilter = [];
+  //   // this.packProductFilter.filter((p) => {
+  //   //   if (p.id === id) {
+  //   //     this.id = p.id;
+  //   //     this.brand = p.brand;
+  //   //     this.model = p.model;
+  //   //     this.description = p.description;
+  //   //     this.price = p.price;
+  //   //     this.amount = p.amount;
+  //   //     this.product = p.product.split(',');
+  //   //     this.image = p.image;
+  //   //   }
+  //   // });
+  //   // this.visible = true;
 
-  showEditDialog(id: string){
+  //   // for (let numId of this.product){
+  //   //   let newNum = parseInt(numId)
+  //   //   for (let p of this.productsList){
+  //   //     if(newNum === p.id){
+  //   //       this.productsFilter.push(p);
+  //   //     }
+  //   //   }
+  //   // }
+  // }
 
+
+  showEditDialog(index: number, amount: number){
+    this.fixAmountIndex = index;
+    this.amount = amount;
+    this.fixAmount = this.amountProduct[index];
+    this.editVisible = true;
   }
 
-  deleteProduct(id: string){
+  minus(){
+    if(this.fixAmount-1 > 0){
+      this.fixAmount -= 1;
+    }
+  }
 
+  plus(){
+    if(this.fixAmount+1 <= this.amount!){
+      this.fixAmount += 1;
+    }else{
+      alert("สินค่าเหลือ "+this.amount+" ชิ้น");
+    }
+  }
+
+  confirmEdit(){
+    if(this.fixAmount > this.amount!){
+      this.amountProduct[this.fixAmountIndex] = this.amount!;
+      alert("สินค่าเหลือ "+this.amount+" ชิ้น");
+    }else if(this.fixAmount < 1){
+      this.deleteProduct(this.fixAmountIndex);
+      this.editVisible = false;
+    }else{
+      this.amountProduct[this.fixAmountIndex] = this.fixAmount;
+      this.editVisible = false;
+    }
+    this.saveTolocal();
+  }
+
+  deleteProduct(index: number){
+    console.log(index);
+    delete this.productList[index];
+    this.productFilter = this.productList.slice();
+    this.saveTolocal();
+  }
+
+  clearProduct(){
+    this.total = 0;
+    this.productList = [];
+    this.productFilter = this.productList.slice();
+    localStorage.removeItem('ProductList');
+    localStorage.removeItem('amountProduct');
   }
 
   async addProduct() {
@@ -86,11 +167,22 @@ export class SalePageComponent implements OnInit {
         let newproduct: Product = <Product>newProduct;
         let objLength = Object.values(newproduct).length;
         if (objLength > 0) {
-          this.amountProduct.push(1);
-          console.log(this.amountProduct);
-          this.productList.push(newproduct);
+          let count = 0 ;
+          let check = true;
+          this.productList.forEach(p=>{
+            let arr = <Array<Product>><unknown>p;
+            if(arr[0].id === parseInt(this.addProductText)){
+              this.amountProduct[count] += 1
+              check = false;
+              return;
+            }
+            count++;
+          })
+          if(check){
+            this.amountProduct.push(1);
+            this.productList.push(newproduct);
+          }
           this.productFilter = this.productList.slice();
-          console.log(this.productFilter);
           this.sumPrice();
         } else {
           console.log('Length: ', objLength);
@@ -100,6 +192,7 @@ export class SalePageComponent implements OnInit {
         alert("กรุณาใส่ตัวเลข ID");
       }
     }
+    this.saveTolocal();
   }
 
   sumPrice() {
@@ -113,6 +206,17 @@ export class SalePageComponent implements OnInit {
         this.total += parseFloat(element.price);
       });
     });
+  }
+
+  saveTolocal(){
+    localStorage.removeItem('ProductList');
+    localStorage.removeItem('amountProduct');
+    localStorage.setItem('ProductList', JSON.stringify(this.productList));
+    localStorage.setItem('amountProduct', JSON.stringify(this.amountProduct));
+  }
+
+  payBill(){
+    this.payVisible = true;
   }
 
   // ------------------------ Service ------------------------

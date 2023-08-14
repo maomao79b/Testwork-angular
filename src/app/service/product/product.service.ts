@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Product } from 'src/app/model/model';
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class ProductService {
   async getProductsById(id: string) {
     try {
       const response = await this.http
-        .get<Product>('http://localhost:5148/api/Product?id='+id)
+        .get<Product>('http://localhost:5148/api/Product?id=' + id)
         .toPromise();
       return response;
     } catch (error) {
@@ -41,8 +42,10 @@ export class ProductService {
   //POST
   insertProduct(products: Product) {
     try {
-      console.log("this is product: ", products);
-      let response = this.http.post<Product[]>(this.url, products,{headers : this.headers}).toPromise();
+      console.log('this is product: ', products);
+      let response = this.http
+        .post<Product[]>(this.url, products, { headers: this.headers })
+        .toPromise();
       return response;
     } catch (error) {
       console.error('insertProduct: ', error);
@@ -65,9 +68,22 @@ export class ProductService {
   updateProduct(products: Product) {
     try {
       this.http
-        .put<Product[]>(this.url, products, {headers : this.headers}).toPromise();
+        .put<Product[]>(this.url, products, { headers: this.headers })
+        .toPromise();
     } catch (error) {
       console.log('updateProduct: ', error);
     }
+  }
+
+  //--------------------- V2 --------------------------
+  //Search
+  getSearchV2(text: string): Observable<any> {
+    return this.http.get<Product[]>(
+      `http://localhost:5148/api/Product/search?search=${text}`
+    );
+  }
+  //GET ALL
+  getProductsV2(): Observable<any> {
+    return this.http.get<Product[]>('http://localhost:5148/api/Product?id=');
   }
 }

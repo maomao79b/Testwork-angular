@@ -34,8 +34,8 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 12.25%">รหัส</th>
-          <th style="width: 12.25%">ชื่อ-นามสกุล</th>
+          <th style="width: 7.25%">รหัส</th>
+          <th style="width: 17.25%">ชื่อ-นามสกุล</th>
           <th style="width: 12.25%">อายุ</th>
           <th style="width: 12.25%">ที่อยู่</th>
           <th style="width: 12.25%">เบอร์โทร</th>
@@ -49,7 +49,15 @@
       <ng-template pTemplate="body" let-employee>
         <tr>
           <td>{{ employee.id }}</td>
-          <td>{{ employee.name }}</td>
+          <td>
+            <img
+              [alt]="employee.image"
+              src="{{ employee.image }}"
+              width="32" shape="circle"
+              style="vertical-align: middle"
+            />
+            <span class="ml-1 vertical-align-middle"> {{ employee.name }}</span>
+          </td>
           <td>{{ employee.age }}</td>
           <td>{{ employee.address }}</td>
           <td>{{ employee.phone }}</td>
@@ -174,6 +182,19 @@
       </div>
     </div>
 
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="image">Image</label>
+        <input
+          pInputText
+          id="image"
+          aria-describedby="image-help"
+          [(ngModel)]="image"
+          class="longInputDialog"
+        />
+      </div>
+    </div>
+
     <div class="card flex justify-content-center">
       <button
         pButton
@@ -266,6 +287,19 @@
           id="username"
           aria-describedby="username-help"
           [(ngModel)]="password"
+        />
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center inputspacDialog">
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="image">Image</label>
+        <input
+          pInputText
+          id="image"
+          aria-describedby="image-help"
+          [(ngModel)]="image"
+          class="longInputDialog"
         />
       </div>
     </div>
