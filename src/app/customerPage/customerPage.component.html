@@ -47,8 +47,8 @@
             <img
               [alt]="customer.image"
               src="{{ customer.image }}"
-              width="32" shape="circle"
-              style="vertical-align: middle"
+              width="32"
+              style="vertical-align: middle; border-radius: 50%; height: 32px; width: 32px;"
             />
             <span class="ml-1 vertical-align-middle"> {{ customer.name }}</span>
           </td>
@@ -109,7 +109,7 @@
         />
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Age</label>
+        <label>Age</label>
         <input
           pInputText
           id="username"
@@ -120,6 +120,7 @@
     </div>
 
     <div class="card flex justify-content-center inputspacDialog">
+      <!-- Address -->
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="username">Address</label>
         <input
@@ -130,6 +131,7 @@
           class="longInputDialog"
         />
       </div>
+      <!-- Phone -->
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="Phone">Phone</label>
         <input
@@ -142,6 +144,7 @@
     </div>
 
     <div class="card flex justify-content-center inputspacDialog">
+      <!-- Username -->
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="username">Username</label>
         <input
@@ -152,6 +155,8 @@
           class="longInputDialog"
         />
       </div>
+
+      <!-- Password -->
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="username">Password</label>
         <input
@@ -163,6 +168,7 @@
       </div>
     </div>
 
+    <!-- Image -->
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
         <label htmlFor="image">Image</label>
@@ -176,6 +182,7 @@
       </div>
     </div>
 
+    <!-- Confirm Button -->
     <div class="card flex justify-content-center">
       <button pButton pRipple label="ยืนยันการแก้ไข" (click)="confirmEdit()" class="p-button-success"></button>
     </div>
@@ -276,3 +283,5 @@
     </div>
   </p-dialog>
 </div>
+
+<p-toast></p-toast>

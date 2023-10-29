@@ -41,8 +41,8 @@
           <th style="width: 5%">ราคา</th>
           <th style="width: 5%">จำนวน</th>
           <th style="width: 5%">หมวดหมู่</th>
-          <th style="width: 5%" *ngIf="position === textOwner"></th>
-          <th style="width: 1%" *ngIf="position === textOwner"></th>
+          <th style="width: 5%" *ngIf="position === textOwner || position === textWarehouse"></th>
+          <th style="width: 1%" *ngIf="position === textOwner || position === textWarehouse"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product>
@@ -54,14 +54,14 @@
           <td (click)="showDialog(product.id)">{{ product.price }}</td>
           <td (click)="showDialog(product.id)">{{ product.amount }}</td>
           <td (click)="showDialog(product.id)">{{ product.category }}</td>
-          <td *ngIf="position === textOwner">
+          <td *ngIf="position === textOwner || position === textWarehouse">
             <p-button
               label="แก้ไข"
               styleClass="p-button-warning"
               (onClick)="showEditDialog(product.id)"
             ></p-button>
           </td>
-          <td *ngIf="position === textOwner">
+          <td *ngIf="position === textOwner || position === textWarehouse">
             <p-button
               label="ลบ"
               styleClass="p-button-danger"

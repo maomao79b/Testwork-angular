@@ -1,3 +1,108 @@
-<p>
-  reportPage works!
-</p>
+<div class="main">
+  <div class="table-history">
+    <p-table
+      [value]="historyList"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%">รหัส</th>
+          <th style="width: 25%">รหัสลูกค้า</th>
+          <th style="width: 25%">ราคารวม</th>
+          <th style="width: 25%">วันที่ซื้อ</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-history>
+        <tr (click)="show(history.id)">
+          <td>{{ history.id }}</td>
+          <td>{{ history.cid }}</td>
+          <td>{{ history.total }}</td>
+          <td>{{ history.date | date }}</td>
+          <!-- <td *ngIf="position === textOwner || position === textWarehouse">
+            <p-button
+              label="แก้ไข"
+              styleClass="p-button-warning"
+              (onClick)="showEditDialog(product.id)"
+            ></p-button>
+          </td>
+          <td *ngIf="position === textOwner || position === textWarehouse">
+            <p-button
+              label="ลบ"
+              styleClass="p-button-danger"
+              [style.margin-left.px]="-25"
+              (onClick)="deleteProduct(product.id)"
+            ></p-button>
+          </td> -->
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Show -->
+  <div class="listproduct">
+    <p-table
+      [value]="itemHistory"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 10, 25, 50]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%">รหัส</th>
+          <th style="width: 25%">รุ่น</th>
+          <th style="width: 25%">ราคา</th>
+          <th style="width: 25%">จำนวน</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-history>
+        <tr (click)="showDialog(history.id)" (click)="changeRowColor($event)">
+          <td>{{ history.id }}</td>
+          <td>{{ history.brand }}</td>
+          <td>{{ history.price }}</td>
+          <td>{{ history.amount }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Dialog -->
+<div class="card flex justify-content-center">
+  <p-dialog
+    header="รายละเอียดสินค้า"
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: 'auto' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div
+      id="detailDialog"
+      class="card flex justify-content-center inputspacDialog"
+    >
+      <div style="display: flex; justify-content: center">
+        <img src="{{ image }}" alt style="width: 300px; height: 300px" />
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="id"><strong>ID : </strong>{{ id }}</label>
+        <label htmlFor="id"><strong>Brand : </strong>{{ brand }}</label>
+        <label htmlFor="id"><strong>Model : </strong>{{ model }}</label>
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="id"
+          ><strong>Description : </strong>{{ description }}</label
+        >
+      </div>
+      <div class="flex flex-column gap-2 input-dialog">
+        <label htmlFor="id"><strong>Amount : </strong>{{ amount }}</label>
+        <label htmlFor="id"><strong>Price : </strong>{{ price }} Bath</label>
+      </div>
+    </div>
+  </p-dialog>
+</div>

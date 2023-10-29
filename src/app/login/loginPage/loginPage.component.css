@@ -8,11 +8,13 @@
 }
 
 .imageZone {
-  background-color: aqua;
-  background: url('../../../assets/spider-man.jpg');
+  /* background-color: aqua; */
+  /* background: url('../../../assets/spider-man.jpg'); */
+  background-image: url("https://img.freepik.com/free-photo/close-up-virtual-classroom_23-2149175671.jpg?w=740&t=st=1692180997~exp=1692181597~hmac=a620e42bf2db53ed924aa3319e74fb801f124e04cc817f3fbfaf85248c213dc2");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  object-fit: contain;
   flex: 1;
 }
 

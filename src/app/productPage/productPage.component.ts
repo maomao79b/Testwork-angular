@@ -20,20 +20,24 @@ export class ProductPageComponent implements OnInit {
   editVisible: boolean = false;
   addVisible: boolean = false;
 
-  id: number | undefined;
-  brand: string | undefined;
-  model: string | undefined;
-  description: string | undefined;
-  price: number | undefined;
-  amount: number | undefined;
-  image: string | undefined;
+  id: any;
+  brand: any;
+  model: any;
+  description: any;
+  price: any;
+  amount: any;
+  image: any;
+  category: any;
 
   position: string | undefined;
   textOwner: string = Position.OWNER;
-  category: string | undefined;
+  textWarehouse: string = Position.WAREHOUSE;
 
   // --------------------- Function ------------------------
-  constructor(private service: ProductService, private cookieService: CookieService) {}
+  constructor(
+    private service: ProductService,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit() {
     this.getProducts();
@@ -57,6 +61,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   showEditDialog(id: string) {
+
     const Pid = parseInt(id);
     this.editVisible = true;
     this.productList.filter((product) => {
@@ -68,29 +73,30 @@ export class ProductPageComponent implements OnInit {
         this.price = product.price;
         this.amount = product.amount;
         this.image = product.image;
+        this.category = product.category;
       }
     });
   }
 
-  showAddDialog(){
-    this.brand = "";
-    this.model = "";
-    this.description = "";
+  showAddDialog() {
+    this.brand = '';
+    this.model = '';
+    this.description = '';
     this.price = 0;
     this.amount = 0;
-    this.image = "";
+    this.image = '';
     this.addVisible = true;
   }
 
   // --------------------- service ------------------------
   //Search
   search(): void {
-    if(this.searchText != "" && this.searchText != null){
-      this.service.getSearchV2(this.searchText).subscribe((result: any)=>{
+    if (this.searchText != '' && this.searchText != null) {
+      this.service.getSearchV2(this.searchText).subscribe((result: any) => {
         this.productFilter = result;
       });
     } else {
-      this.service.getProductsV2().subscribe((result: any)=>{
+      this.service.getProductsV2().subscribe((result: any) => {
         this.productList = result;
         this.productFilter = this.productList;
       });
@@ -111,24 +117,22 @@ export class ProductPageComponent implements OnInit {
   }
 
   //UPDATE
-  async confirmEdit() {
-    try {
-      let product: Product = {
-        id: this.id!,
-        brand: this.brand!,
-        model: this.model!,
-        description: this.description!,
-        price: this.price!,
-        amount: this.amount!,
-        category: this.category!,
-        image: this.image!
-      }
-      await this.service.updateProduct(product);
-      location.reload()
-      this.editVisible = false;
-    } catch (error) {
-      console.log(error);
-    }
+  confirmEdit() {
+    let product: Product = {
+      id: this.id,
+      brand: this.brand,
+      model: this.model,
+      description: this.description,
+      price: this.price,
+      amount: this.amount,
+      category: this.category,
+      image: this.image,
+    };
+    this.service.updateProductV2(product).subscribe(result=>{
+      console.log(result);
+    });
+    this.editVisible = false;
+    location.reload();
   }
 
   //INSERT
@@ -141,22 +145,21 @@ export class ProductPageComponent implements OnInit {
         description: this.description!,
         price: this.price!,
         amount: this.amount!,
-        category: this.category!,
-        image: this.image!
-      }
+        category: "NORMAL",
+        image: this.image!,
+      };
 
       let response = await this.service.insertProduct(product);
       console.log(response);
       this.addVisible = false;
-      location.reload()
+      location.reload();
     } catch (error) {
       console.log(error);
     }
   }
 
   // --------------------- CookieService ------------------------
-  getCookiePosition(){
+  getCookiePosition() {
     return this.cookieService.get(Position.POSITION);
   }
-
 }

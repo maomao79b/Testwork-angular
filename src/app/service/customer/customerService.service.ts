@@ -14,7 +14,7 @@ export class CustomerServiceService {
 
   constructor(private http: HttpClient) {}
 
-  //GET
+  //GET pass
   async getCustomers(id: string, name: string) {
     // ถ้าไม่ส่ง id และ name จะเป็นการ getAll
     try {
@@ -31,7 +31,7 @@ export class CustomerServiceService {
     }
   }
 
-  //DELETE
+  //DELETE pass
   async deleteCustomer(id: any) {
     try {
       await this.http
@@ -42,7 +42,7 @@ export class CustomerServiceService {
     }
   }
 
-  //PUT
+  //PUT pass
   async updateCustomer(customers: Customer) {
     try {
       await this.http
@@ -53,7 +53,7 @@ export class CustomerServiceService {
     }
   }
 
-  //POST
+  //POST pass
   async insertCustomer(customers: Customer) {
     try {
       await this.http
@@ -65,13 +65,17 @@ export class CustomerServiceService {
   }
 
   // ---------------------------------------- Version 2 -------------------------------------
-  //GET
+  //GET pass
   getCustomerV2(id: string, name: string): Observable<any> {
     return this.http.get<Customer[]>(`http://localhost:5148/api/Customer?id=${id}&name=${name}`);
   }
-  //GET
+  //GET pass
   getSearchV2(text: string): Observable<any> {
     return this.http.get<Customer[]>(`http://localhost:5148/api/Customer/search?search=${text}`);
+  }
+  //GET
+  getCheckCustomerdataV2(text: string): Observable<any> {
+    return this.http.get<Customer[]>(`http://localhost:5148/api/Customer/checkcustomerdata?id=${text}&phone=${text}`);
   }
 
 }

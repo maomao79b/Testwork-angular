@@ -33,18 +33,23 @@ export class PackProductComponent implements OnInit {
 
   visible: boolean = false;
   addVisible: boolean = false;
+  editVisible: boolean = false;
+  visibleEdit2: boolean = false;
 
   id: number | undefined;
   Ename: string | undefined;
   brand: string | undefined;
   model: string | undefined;
   description: string | undefined;
-  price: number | undefined;
+  price: number | undefined | any;
   amount: number | undefined;
   status: string | undefined;
   image: string | undefined;
   total: number = 0;
   product: string[] = [];
+
+  accountName = this.getAccoutDeatial(Account.ACCOUNT_NAME);
+  accountID = this.getAccoutDeatial(Account.ACCOUNT_ID);
 
   constructor(
     private productService: ProductService,
@@ -52,7 +57,6 @@ export class PackProductComponent implements OnInit {
     private acceptProductService: AcceptProductService,
     private cookieService: CookieService
   ) {}
-
 
   ngOnInit() {
     this.getPackProducts();
@@ -63,7 +67,7 @@ export class PackProductComponent implements OnInit {
     );
   }
 
-  async showDialog(id: number) {
+  async showDialog(id: any) {
     this.productsFilter = [];
     this.packProductFilter.filter((p) => {
       if (p.id === id) {
@@ -79,14 +83,29 @@ export class PackProductComponent implements OnInit {
     });
     this.visible = true;
 
-    for (let numId of this.product){
-      let newNum = parseInt(numId)
-      for (let p of this.productsList){
-        if(newNum === p.id){
+    for (let numId of this.product) {
+      let newNum = parseInt(numId);
+      for (let p of this.productsList) {
+        if (newNum === p.id) {
           this.productsFilter.push(p);
         }
       }
     }
+  }
+
+  showDialogEdit(id: number) {
+    this.productsList.filter((p) => {
+      if (p.id === id) {
+        this.id = p.id;
+        this.brand = p.brand;
+        this.model = p.model;
+        this.description = p.description;
+        this.price = p.price;
+        this.amount = p.amount;
+        this.image = p.image;
+      }
+    });
+    this.visibleEdit2 = true;
   }
 
   showAddItemDialog(id: number) {
@@ -127,18 +146,56 @@ export class PackProductComponent implements OnInit {
     this.Ename = '';
     this.brand = '';
     this.model = '';
+    this.amount = null!;
     this.description = '';
     this.status = '';
     this.image = '';
     this.addVisible = true;
   }
-  test(v: any) {
-    console.log('Image Path : ', v);
+
+  showEditDialog(id: any, status: any) {
+    if (status == 'บันทึกร่าง') {
+      this.addPackProducts = [];
+      this.addPackProductsFilter = [];
+      this.arrayTextIdProduct = [];
+      this.acceptProductService
+        .getAcceptProductsByIdV2(id)
+        .subscribe((result: any) => {
+          console.log(result[0].product.length);
+          if (result[0].product.length != 0) {
+            let ar = result[0].product.split(',');
+            ar.forEach((element: any) => {
+              this.productService
+                .getProductsByIdV2(element)
+                .subscribe((result: any) => {
+                  console.log(result);
+                  let objLength = Object.values(result).length;
+                  if (objLength > 0) {
+                    this.arrayTextIdProduct.push(element);
+                    console.log(this.arrayTextIdProduct);
+                    this.addPackProducts.push(result);
+                    this.addPackProductsFilter = this.addPackProducts.slice();
+                    this.sumPrice();
+                  }
+                });
+            });
+          }
+          this.Ename = result[0].Eid;
+          this.brand = result[0].brand;
+          this.model = result[0].model;
+          this.price = result[0].price;
+          this.amount = result[0].amount;
+          this.description = result[0].description;
+          this.image = result[0].image;
+        });
+      this.id = id;
+      this.editVisible = true;
+    }
   }
 
   async addProduct() {
     if (this.addProductText != '') {
-      if((/^[0-9]+$/.test(this.addProductText))){
+      if (/^[0-9]+$/.test(this.addProductText)) {
         const newProduct = await this.productService.getProductsById(
           this.addProductText
         );
@@ -153,8 +210,8 @@ export class PackProductComponent implements OnInit {
         } else {
           console.log('Length: ', objLength);
         }
-      }else{
-        alert("กรุณาใส่ตัวเลข ID");
+      } else {
+        alert('กรุณาใส่ตัวเลข ID');
       }
     }
   }
@@ -216,6 +273,12 @@ export class PackProductComponent implements OnInit {
     // }
   }
 
+  iconsSetting(text: string) {
+    if (text === StatusProductToRequestAceept.DRAFT) {
+      return 'pi pi-pencil';
+    }
+  }
+
   // --------------------- service ------------------------
 
   //GET
@@ -228,16 +291,20 @@ export class PackProductComponent implements OnInit {
 
   //Search
   search() {
-    if(this.searchText != "" && this.searchText != null){
-      this.acceptProductService.getPackProductSearchV2(this.searchText).subscribe((result: any)=>{
-        console.log(result);
-        this.packProductFilter = result;
-      });
+    if (this.searchText != '' && this.searchText != null) {
+      this.acceptProductService
+        .getPackProductSearchV2(this.searchText)
+        .subscribe((result: any) => {
+          console.log(result);
+          this.packProductFilter = result;
+        });
     } else {
-      this.acceptProductService.getAcceptProductsV2().subscribe((result: any)=>{
-        this.packProductList = result;
-        this.packProductFilter = this.packProductList;
-      });
+      this.acceptProductService
+        .getAcceptProductsV2()
+        .subscribe((result: any) => {
+          this.packProductList = result;
+          this.packProductFilter = this.packProductList;
+        });
     }
   }
 
@@ -253,8 +320,6 @@ export class PackProductComponent implements OnInit {
   //INSERT IN TO ACCRPTPRODUCT
   async insetProduct(action: string) {
     if (this.arrayTextIdProduct.length > 0 && this.arrayTextIdProduct != null) {
-      let accountName = this.getAccoutDeatial(Account.ACCOUNT_NAME);
-      let accountID = this.getAccoutDeatial(Account.ACCOUNT_ID);
       let status = '';
       let product = this.arrayTextIdProduct.toString();
       if (action === 'SAVE') {
@@ -266,8 +331,8 @@ export class PackProductComponent implements OnInit {
         console.log(new Date());
         let packProduct: AcceptProduct = {
           id: 0,
-          Eid: parseInt(accountID),
-          Ename: accountName,
+          Eid: parseInt(this.accountID),
+          Ename: this.accountName,
           brand: this.brand!,
           model: this.model!,
           description: this.description!,
@@ -290,6 +355,36 @@ export class PackProductComponent implements OnInit {
     } else {
       alert('กรุณาเพิ่มสินค้าที่ต้องการจัดโปรโมชั่น');
     }
+  }
+
+  //UPDATE INTO PACK_PRODUCT
+  updateProduct(action: string) {
+    let status = '';
+    let product = this.arrayTextIdProduct.toString();
+    if (action === 'SAVE') {
+      status = StatusProductToRequestAceept.DRAFT;
+    } else if (action === 'APPROVAL') {
+      status = StatusProductToRequestAceept.NOT_YET_APPROVED;
+    }
+    let packProduct: AcceptProduct = {
+      id: this.id!,
+      Eid: parseInt(this.accountID),
+      Ename: this.accountName,
+      brand: this.brand!,
+      model: this.model!,
+      description: this.description!,
+      date: new Date(),
+      price: this.price!,
+      amount: this.amount!,
+      status: status,
+      product: product, //fix this !!!! to array
+      image: this.image!,
+    };
+    console.log('before');
+    this.acceptProductService.updateProductV2(packProduct).subscribe();
+    console.log('after');
+
+    setTimeout(() => window.location.reload(), 0);
   }
 
   // --------------------- Cookie Service ------------------------

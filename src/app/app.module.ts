@@ -16,6 +16,8 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { MenuModule } from 'primeng/menu';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -75,7 +77,9 @@ const appRoute: Routes = [
     AvatarGroupModule,
     MenuModule,
     CommonModule,
-    TagModule
+    TagModule,
+    MessagesModule,
+    ToastModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

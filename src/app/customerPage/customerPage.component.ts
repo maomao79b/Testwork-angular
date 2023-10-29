@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../model/model';
 import { CustomerServiceService } from '../service/customer/customerService.service';
 import { CurrentPath } from '../config/global';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-customerPage',
   templateUrl: './customerPage.component.html',
   styleUrls: ['./customerPage.component.css'],
+  providers: [MessageService],
 })
 export class CustomerPageComponent implements OnInit {
   // --------------------- Attribute -------------------------
@@ -31,8 +33,9 @@ export class CustomerPageComponent implements OnInit {
 
   constructor(
     private service: CustomerServiceService,
-    private cookieService: CookieService
-  ) {}
+    private cookieService: CookieService,
+    private messageService: MessageService
+  ) { }
   ngOnInit() {
     this.cookieService.set(
       CurrentPath.CURRENT_PATH,
@@ -100,42 +103,72 @@ export class CustomerPageComponent implements OnInit {
   }
   //UPDATE
   async confirmEdit() {
-    try {
-      let customers: Customer = {
-        id: this.id!,
-        name: this.name!,
-        age: this.age!,
-        address: this.address!,
-        phone: this.phone!,
-        username: this.username!,
-        password: this.password!,
-        image: this.image!,
-      };
-      await this.service.updateCustomer(customers);
-      location.reload();
-      this.editVisible = false;
-    } catch (error) {
-      console.log(error);
+    if (this.checkformat()){
+      try {
+        let customers: Customer = {
+          id: this.id!,
+          name: this.name!,
+          age: this.age!,
+          address: this.address!,
+          phone: this.phone!,
+          username: this.username!,
+          password: this.password!,
+          image: this.image!,
+        };
+        await this.service.updateCustomer(customers);
+        location.reload();
+        this.editVisible = false;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: '',
+        detail: 'อายุและเบอร์เป็นตัวเลขเท่านั้น',
+      });
     }
+
   }
   //INSERT
   async confirmInsertCustomer() {
-    try {
-      let customers: Customer = {
-        id: 0,
-        name: this.name!,
-        age: this.age!,
-        address: this.address!,
-        phone: this.phone!,
-        username: this.username!,
-        password: this.password!,
-        image: this.image!,
-      };
-      await this.service.insertCustomer(customers);
-      location.reload();
-      this.addVisible = false;
-    } catch (error) {
-      console.log(error);
+    if (this.checkformat()){
+      try {
+        let customers: Customer = {
+          id: 0,
+          name: this.name!,
+          age: this.age!,
+          address: this.address!,
+          phone: this.phone!,
+          username: this.username!,
+          password: this.password!,
+          image: this.image!,
+        };
+        await this.service.insertCustomer(customers);
+        location.reload();
+        this.addVisible = false;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: '',
+        detail: 'อายุและเบอร์เป็นตัวเลขเท่านั้น',
+      });
     }
   }
+
+  checkformat() {
+    if(this.isNumber(this.age) && this.isNumber(this.phone)){
+      return true ;
+    } else {
+      return false;
+    }
+  }
+
+  isNumber(n: any) {
+    return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+  }
 }
+

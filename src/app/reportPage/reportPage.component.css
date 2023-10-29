@@ -1,0 +1,47 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 27px;
+  margin-top: 0;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.show {
+  background-color: red;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100%; */
+}
+
+tr:hover {
+  cursor: pointer;
+  background-color: rgba(231, 227, 227, 0.445);
+}
+
+.image img {
+  width: 160px;
+}
+
+/* Detail Dialog */
+#detailDialog .flex.flex-column.gap-2.input-dialog label {
+  padding-right: 30px;
+}
+
+#detailDialog div{
+  padding-bottom: 20px;
+  max-width: 600px;
+}
+
+/* คลาสสำหรับแถวที่ถูกเลือก */
+.highlighted-row {
+  background-color: rgba(231, 227, 227, 0.445);
+}
+

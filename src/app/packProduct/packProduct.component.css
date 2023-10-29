@@ -74,6 +74,10 @@ tr:hover {
   text-overflow: ellipsis;
 }
 
+::ng-deep p-tag span.p-tag-value {
+  width: 54px;
+}
+
 /* .textStatus {
   color: white;
   border-radius: 25%;

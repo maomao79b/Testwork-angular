@@ -152,12 +152,12 @@
   >
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">ID ลูกค้า</label>
+        <label htmlFor="brand">ID/Phone ลูกค้า</label>
         <input
           pInputText
           id="fixAmount"
           aria-describedby="fixAmount-help"
-          [(ngModel)]="cid"
+          [(ngModel)]="cidOrPhone"
           [style]="{ 'text-align': 'center' }"
         />
       </div>
@@ -167,7 +167,7 @@
           pInputText
           id="fixAmount"
           aria-describedby="fixAmount-help"
-          [(ngModel)]="cid"
+          [(ngModel)]="getpaid"
           [style]="{ 'text-align': 'center' }"
         />
       </div>
@@ -180,9 +180,25 @@
           pRipple
           label="ชำระเงิน"
           class="p-button-success"
-          (click)="insertSaleHistory()"
+          (click)="checkCustomerData()"
         ></button>
       </div>
     </div>
   </p-dialog>
 </div>
+
+<!-- Change Dialog -->
+<div class="card flex justify-content-center" id="Edit-Add-Dialog">
+  <p-dialog
+    [(visible)]="changeVisible"
+    [modal]="true"
+    [style]="{ width: 'auto' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+  <div>
+    <h1>เงินทอน <span style="color: green;">{{ change }}</span> บาท</h1><br/>
+  </div>
+  </p-dialog>
+</div>
+<p-toast></p-toast>

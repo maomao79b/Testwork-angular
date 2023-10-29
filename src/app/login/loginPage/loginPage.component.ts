@@ -43,11 +43,23 @@ export class LoginPageComponent implements OnInit {
 
   // ---------------- Functions --------------------------------
   async checkPassword() {
-    await this.getLogin(this.username!, this.password!);
+    let login: Login = {
+      username: this.username,
+      password: this.password
+    }
+    await this.getLogin(login!);
+  }
 
-    if (this.employee.length === 1) {
-      this.employee.forEach((element) => {
-        let position = element.position.toUpperCase();
+  //-------------------- service --------------------
+  //GET
+  async getLogin(login: Login): Promise<void> {
+    await this.service.getLogin(login).subscribe((result:any)=>{
+
+      console.log(result != null);
+      console.log(result.position);
+
+      if (result != null) {
+        let position = result.position.toUpperCase();
         if (position === Position.OWNER) {
           this.setCookiePosition(Position.OWNER);
         } else if (position === Position.SALER) {
@@ -55,20 +67,13 @@ export class LoginPageComponent implements OnInit {
         } else if (position === Position.WAREHOUSE) {
           this.setCookiePosition(Position.WAREHOUSE);
         }
-        this.setCookieAccount(element.id.toString(), element.name);
+        this.setCookieAccount(result.id.toString(), result.name);
         this.setCookieLogin();
         this.setCurrentPath();
         window.location.reload();
-      });
-    } else {
-      alert('username หรือ password ไม่ถูกต้อง');
-    }
-  }
-
-  //-------------------- service --------------------
-  //GET
-  async getLogin(username: string, password: string): Promise<void> {
-    const response = await this.service.getLogin(username, password);
-    this.employee = await (<Employee[]>response);
+      } else {
+        alert('username หรือ password ไม่ถูกต้อง');
+      }
+    });
   }
 }

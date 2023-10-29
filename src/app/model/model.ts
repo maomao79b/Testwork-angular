@@ -35,19 +35,10 @@ export interface AcceptProduct {
   product: string;
   image: string;
 }
-// export interface PackProducts {
-//   id: number;
-//   Eid: number;
-//   Ename: string;
-//   brand: string;
-//   model: string;
-//   description: string;
-//   date: Date;
-//   price: number;
-//   amount: number;
-//   status: string;
-//   image: string;
-// }
+export interface Login {
+  username: string;
+  password: string;
+}
 
 export interface Product {
   id: number;
@@ -69,6 +60,6 @@ export interface SaleHistory {
   id: number;
   cid: number;
   total: number;
-  date: Date;
   product: string;
+  amount: string;
 }
