@@ -2,26 +2,26 @@ import { Injectable } from '@angular/core';
 import { Customer } from 'src/app/model/model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Environment } from 'src/app/config/global';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerServiceService {
-  url: string = 'http://localhost:5148/api/Customer';
+  baseUrl: string = Environment.Customers;
   headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
 
   constructor(private http: HttpClient) {}
 
-  //GET pass
-  async getCustomers(id: string, name: string) {
+  //GET
+  async getCustomers() {
     // ถ้าไม่ส่ง id และ name จะเป็นการ getAll
     try {
       const response = await this.http
         .get<Customer[]>(
-          `http://localhost:5148/api/Customer?id=${id}&name=${name}`,
-          {}
+          this.baseUrl
         )
         .toPromise();
       return response;
@@ -31,33 +31,33 @@ export class CustomerServiceService {
     }
   }
 
-  //DELETE pass
+  //DELETE
   async deleteCustomer(id: any) {
     try {
       await this.http
-        .delete<Customer[]>('http://localhost:5148/api/Customer?id=' + id)
+        .delete<Customer[]>(this.baseUrl + '/' + id)
         .toPromise();
     } catch (error) {
       console.log('deleteCustomer: ', error);
     }
   }
 
-  //PUT pass
-  async updateCustomer(customers: Customer) {
+  //PUT
+  async updateCustomer(id: any, customers: Customer) {
     try {
       await this.http
-        .put<Customer[]>(this.url, customers, { headers: this.headers })
+        .put<Customer[]>(this.baseUrl + '/' + id, customers)
         .toPromise();
     } catch (error) {
       console.error('updateCustomer: ', error);
     }
   }
 
-  //POST pass
+  //POST
   async insertCustomer(customers: Customer) {
     try {
       await this.http
-        .post<Customer[]>(this.url, customers, { headers: this.headers })
+        .post<Customer[]>(this.baseUrl, customers)
         .toPromise();
     } catch (error) {
       console.error('insertCustomer: ', error);
@@ -65,17 +65,17 @@ export class CustomerServiceService {
   }
 
   // ---------------------------------------- Version 2 -------------------------------------
-  //GET pass
-  getCustomerV2(id: string, name: string): Observable<any> {
-    return this.http.get<Customer[]>(`http://localhost:5148/api/Customer?id=${id}&name=${name}`);
+  //GET
+  getCustomerV2(): Observable<any> {
+    return this.http.get<Customer[]>(this.baseUrl);
   }
-  //GET pass
+  //GET
   getSearchV2(text: string): Observable<any> {
-    return this.http.get<Customer[]>(`http://localhost:5148/api/Customer/search?search=${text}`);
+    return this.http.get<Customer[]>(this.baseUrl + '/search/' + text);
   }
   //GET
   getCheckCustomerdataV2(text: string): Observable<any> {
-    return this.http.get<Customer[]>(`http://localhost:5148/api/Customer/checkcustomerdata?id=${text}&phone=${text}`);
+    return this.http.get<Customer[]>(this.baseUrl + '/checkcustomerdata/' + text);
   }
 
 }

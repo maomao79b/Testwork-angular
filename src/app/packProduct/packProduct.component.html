@@ -50,16 +50,16 @@
       </ng-template>
       <ng-template pTemplate="body" let-product>
         <tr>
-          <td (click)="showDialog(product.id)">{{ product.id }}</td>
-          <td (click)="showDialog(product.id)">{{ product.Ename }}</td>
-          <td (click)="showDialog(product.id)">{{ product.brand }}</td>
-          <td (click)="showDialog(product.id)">{{ product.model }}</td>
-          <td (click)="showDialog(product.id)" class="content"><span class="truncate">{{ product.description }}</span></td>
-          <td (click)="showDialog(product.id)">{{ product.date | date }}</td>
-          <td (click)="showDialog(product.id)">{{ product.price }}</td>
-          <td (click)="showDialog(product.id)">{{ product.amount }}</td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.id }}</td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.ename }}</td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.brand }}</td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.model }}</td>
+          <td (click)="showDialog(product.id, product.status)" class="content"><span class="truncate">{{ product.description }}</span></td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.date | date }}</td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.price }}</td>
+          <td (click)="showDialog(product.id, product.status)">{{ product.amount }}</td>
           <!-- <td (click)="showDialog(product.id)" [style.color]="colorStatus(product.status)">{{ product.status }}</td> -->
-          <td><p-tag [icon]="iconsSetting(product.status)" [value]="product.status" [severity]="colorStatus(product.status)" (click)="showEditDialog(product.id, product.status)"></p-tag></td>
+          <td><p-tag [icon]="iconsSetting(product.status)" [value]="product.status" [severity]="colorStatus(product.status)" (click)="showDialog(product.id, product.status)"></p-tag></td>
           <!-- <td>
             <p-button
               label="ลบ"
@@ -83,6 +83,7 @@
     [draggable]="false"
     [resizable]="false"
   >
+  <form [formGroup]="inputForms">
     <div
       id="detailDialog"
       class="card flex justify-content-center inputspacDialog"
@@ -95,19 +96,20 @@
       </div>
 
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>ID : </strong>{{ id }}</label>
-        <label htmlFor="id"><strong>Brand : </strong>{{ brand }}</label>
-        <label htmlFor="id"><strong>Model : </strong>{{ model }}</label>
+        <label for="id"><strong>ID : </strong>{{ inputForms.controls["id"].value }}</label>
+        <label for="brand"><strong>Brand : </strong>{{ inputForms.controls["brand"].value }}</label>
+        <label for="model"><strong>Model : </strong>{{ inputForms.controls["model"].value }}</label>
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"
-          ><strong>Description : </strong>{{ description }}</label
+        <label for="description"
+          ><strong>Description : </strong>{{ inputForms.controls["description"].value }}</label
         >
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>Price : </strong>{{ price }} Bath</label>
+        <label for="price"><strong>Price : </strong>{{ inputForms.controls["price"].value }} Bath</label>
       </div>
     </div>
+  </form>
   </p-dialog>
 </div>
 
@@ -197,27 +199,27 @@
       </ng-template>
       <ng-template pTemplate="body" let-product>
         <tr>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].id }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.id }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].brand }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.brand }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].model }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.model }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].price }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.price }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].amount }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.amount }}
           </td>
           <td>
             <p-button
               label="ลบ"
               styleClass="p-button-danger"
               [style.margin-left.px]="-25"
-              (onClick)="deleteItem(product[0].id, product[0].price)"
+              (onClick)="deleteItem(product.id, product.price)"
             >
             </p-button>
           </td>
@@ -226,71 +228,72 @@
       <ng-template pTemplate="summary"> ราคารวม {{ total }} บาท </ng-template>
     </p-table>
     <br />
+    <form [formGroup]="inputForms">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="brand">Brand</label>
+          <input
+            pInputText
+            id="brand"
+            aria-describedby="brand"
+            formControlName="brand"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="model">Model</label>
+          <input
+            pInputText
+            id="model"
+            aria-describedby="model"
+            formControlName="model"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="price">Price</label>
+          <input
+            pInputText
+            id="price"
+            aria-describedby="price"
+            formControlName="price"
+          />
+        </div>
+      </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">Brand</label>
-        <input
-          pInputText
-          id="brand"
-          aria-describedby="brand-help"
-          [(ngModel)]="brand"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="amount">Amount</label>
+          <input
+            pInputText
+            id="amount"
+            aria-describedby="amount"
+            formControlName="amount"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            style="width: 444px"
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="model">Model</label>
-        <input
-          pInputText
-          id="model"
-          aria-describedby="model-help"
-          [(ngModel)]="model"
-        />
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="price">Price</label>
-        <input
-          pInputText
-          id="price"
-          aria-describedby="price-help"
-          [(ngModel)]="price"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="amount">Amount</label>
-        <input
-          pInputText
-          id="amount"
-          aria-describedby="amount-help"
-          [(ngModel)]="amount"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="description">Description</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="description"
+            style="width: 444px"
+          ></textarea>
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          style="width: 444px"
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-        />
-      </div>
-    </div>
-
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="description">Description</label>
-        <textarea
-          rows="5"
-          cols="30"
-          pInputTextarea
-          [(ngModel)]="description"
-          style="width: 444px"
-        ></textarea>
-      </div>
-    </div>
+    </form>
 
     <div class="card flex justify-content-center inputspacDialog">
       <p-button
@@ -359,27 +362,28 @@
       </ng-template>
       <ng-template pTemplate="body" let-product>
         <tr>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].id }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.id }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].brand }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.brand }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].model }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.model }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].price }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.price }}
           </td>
-          <td (click)="showDialogEdit(product[0].id)">
-            {{ product[0].amount }}
+          <td (click)="showDialogEdit(product.id)">
+            {{ product.amount }}
           </td>
           <td>
             <p-button
+
               label="ลบ"
               styleClass="p-button-danger"
               [style.margin-left.px]="-25"
-              (onClick)="deleteItem(product[0].id, product[0].price)"
+              (onClick)="deleteItem(product.id, product.price)"
             >
             </p-button>
           </td>
@@ -389,70 +393,72 @@
     </p-table>
     <br />
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">Brand</label>
-        <input
-          pInputText
-          id="brand"
-          aria-describedby="brand-help"
-          [(ngModel)]="brand"
-        />
+    <form [formGroup]="inputForms">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="brand">Brand</label>
+          <input
+            pInputText
+            id="brand"
+            aria-describedby="brand"
+            formControlName="brand"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="model">Model</label>
+          <input
+            pInputText
+            id="model"
+            aria-describedby="model"
+            formControlName="model"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="price">Price</label>
+          <input
+            pInputText
+            id="price"
+            aria-describedby="price"
+            formControlName="price"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="model">Model</label>
-        <input
-          pInputText
-          id="model"
-          aria-describedby="model-help"
-          [(ngModel)]="model"
-        />
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="price">Price</label>
-        <input
-          pInputText
-          id="price"
-          aria-describedby="price-help"
-          [(ngModel)]="price"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="amount">Amount</label>
-        <input
-          pInputText
-          id="amount"
-          aria-describedby="amount-help"
-          [(ngModel)]="amount"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="amount">Amount</label>
+          <input
+            pInputText
+            id="amount"
+            aria-describedby="amount"
+            formControlName="amount"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            style="width: 444px"
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          style="width: 444px"
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="description">Description</label>
-        <textarea
-          rows="5"
-          cols="30"
-          pInputTextarea
-          [(ngModel)]="description"
-          style="width: 444px"
-        ></textarea>
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="description">Description</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="description"
+            style="width: 444px"
+          ></textarea>
+        </div>
       </div>
-    </div>
+    </form>
 
     <div class="card flex justify-content-center inputspacDialog">
       <p-button

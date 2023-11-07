@@ -276,17 +276,17 @@ export class SalePageComponent implements OnInit {
   }
 
   reduce(product: any, amount: any) {
-    for (let i = 0; i < product.length; i++) {
-      let newAmount;
-      this.getProductByidV2(product[i]).subscribe((result: any) => {
-        console.log('before: ' + result[0].amount);
-        newAmount = result[0].amount - amount[i];
-        result[0].amount = newAmount;
-        this.updateProductById(result[0]).subscribe((result) => {
-          console.log(result);
-        });
-      });
-    }
+    // for (let i = 0; i < product.length; i++) {
+    //   let newAmount;
+    //   this.getProductByidV2(product[i]).subscribe((result: any) => {
+    //     console.log('before: ' + result[0].amount);
+    //     newAmount = result[0].amount - amount[i];
+    //     result[0].amount = newAmount;
+    //     this.updateProductById(result[0]).subscribe((result) => {
+    //       console.log(result);
+    //     });
+    //   });
+    // }
   }
 
   // ------------------------ Service ------------------------
@@ -328,8 +328,8 @@ export class SalePageComponent implements OnInit {
   }
 
   //update
-  updateProductById(product: Product) {
-    return this.productService.updateProductV2(product);
+  updateProductById(id:any, product: Product) {
+    return this.productService.updateProductV2(id, product);
   }
 
   //GET BY ID

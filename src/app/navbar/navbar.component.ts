@@ -57,7 +57,7 @@ export class NavbarComponent implements OnInit {
 
   getProfileImage(){
     this.employeeService.getImageEmployeesV2Byid(this.getCookieAccountId()).subscribe((result: any)=>{
-      this.profileImage = result[0].image;
+      this.profileImage = result.image;
     });
   }
 

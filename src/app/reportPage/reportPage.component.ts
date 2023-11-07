@@ -42,13 +42,13 @@ export class ReportPageComponent implements OnInit {
   // ----------------------- Function --------------------------------
   showDialog(id: any) {
     this.getProductById(id).subscribe((result: any)=>{
-      this.image = result[0].image;
-      this.id = result[0].id;
-      this.brand = result[0].brand;
-      this.model = result[0].model;
-      this.description = result[0].description;
-      this.amount = result[0].amount;
-      this.price = result[0].price;
+      this.image = result.image;
+      this.id = result.id;
+      this.brand = result.brand;
+      this.model = result.model;
+      this.description = result.description;
+      this.amount = result.amount;
+      this.price = result.price;
     });
     this.visible = true;
   }
@@ -64,14 +64,14 @@ export class ReportPageComponent implements OnInit {
   show(id: any) {
     this.itemHistory = [];
     this.getHistoryById(id).subscribe((result: any)=>{
-      let product_amount = result[0].amount.split(',');
-      let product_id = result[0].product.split(',');
+      let product_amount = result.amount.split(',');
+      let product_id = result.product.split(',');
       for (let i=0;i<product_amount.length ;i++){
         this.getProductById(product_id[i]).subscribe(pro=>{
           let product = {
-            id : pro[0].id ,
-            brand : pro[0].brand,
-            price: pro[0].price,
+            id : pro.id ,
+            brand : pro.brand,
+            price: pro.price,
             amount: product_amount[i]
           };
           this.itemHistory.push(product);
@@ -80,12 +80,12 @@ export class ReportPageComponent implements OnInit {
     })
   }
 
-  setImage(id: any){
-    this.getProductById(id).subscribe((result: any)=>{
-      console.log(result[0].image);
-      this.imageList.push(result[0].image);
-    })
-  }
+  // setImage(id: any){
+  //   this.getProductById(id).subscribe((result: any)=>{
+  //     console.log(result.image);
+  //     // this.imageList.push(result.image);
+  //   })
+  // }
 
   // ----------------------- Service --------------------------------
   // GET ALL

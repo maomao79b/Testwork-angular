@@ -1,10 +1,11 @@
+import { Login } from './../../model/model';
+
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Employee } from 'src/app/model/model';
 import { Observable } from 'rxjs';
-import { Environment, Login } from 'src/app/config/global';
-
+import { Environment} from 'src/app/config/global';
 @Injectable({
   providedIn: 'root',
 })
@@ -41,23 +42,15 @@ export class EmployeeServiceService {
     }
   }
 
-  //Put pass
+  //Put
   async updateEmployee(
     id: any,
-    name: any,
-    age: any,
-    address: any,
-    phone: any,
-    username: any,
-    password: any,
-    position: any,
-    image: any
+    employee: Employee
   ) {
     try {
       await this.http
         .put<Employee[]>(
-          `http://localhost:5148/api/Employee?id=${id}&name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}&position=${position}&image=${image}`,
-          {}
+          this.baseUrl + '/' + id, employee
         )
         .toPromise();
     } catch (error) {
@@ -65,22 +58,14 @@ export class EmployeeServiceService {
     }
   }
 
-  //Post pass
+  //Post
   async insertEmployee(
-    name: any,
-    age: any,
-    address: any,
-    phone: any,
-    username: any,
-    password: any,
-    position: any,
-    image: any
+    newEmployee: Employee
   ) {
     try {
       await this.http
         .post<Employee[]>(
-          `http://localhost:5148/api/Employee?name=${name}&age=${age}&address=${address}&phone=${phone}&username=${username}&password=${password}&position=${position}&phone=${phone}&username=${username}&password=${password}&image=${image}`,
-          {}
+          this.baseUrl,newEmployee
         )
         .toPromise();
     } catch (error) {
@@ -88,38 +73,27 @@ export class EmployeeServiceService {
     }
   }
 
-  //POST pass
+  //POST
   getLogin(login: Login): Observable<any> {
     return this.http
     .post<Employee[]>(this.baseUrl+'/login', login, { headers: this.headers});
   }
 
-    // //POST pass
-    // async insertCustomer(customers: Customer) {
-    //   try {
-    //     await this.http
-    //       .post<Customer[]>(this.url, customers, { headers: this.headers })
-    //       .toPromise();
-    //   } catch (error) {
-    //     console.error('insertCustomer: ', error);
-    //   }
-    // }
-
 // ---------------------------------------- Version 2 -------------------------------------
-//GET pass
+//GET
 getEmployeesV2(): Observable<any> {
   return this.http
-  .get<Employee[]>('http://localhost:5148/api/Employee');
+  .get<Employee[]>(this.baseUrl);
 }
-//GET pass
-getImageEmployeesV2Byid(id: string): Observable<any> {
+//GET
+getImageEmployeesV2Byid(id: any): Observable<any> {
   return this.http
-  .get<Employee[]>('http://localhost:5148/api/Employee/image?id='+id);
+  .get<Employee[]>(this.baseUrl + '/' + id);
 }
-//SEARCH pass
+//SEARCH
 getSearchV2(text: string): Observable<any> {
   return this.http
-  .get<Employee[]>('http://localhost:5148/api/Employee/search?search='+text);
+  .get<Employee[]>(this.baseUrl + '/search/' + text);
 }
 
 }

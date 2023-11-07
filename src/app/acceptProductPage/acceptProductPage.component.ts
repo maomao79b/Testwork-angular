@@ -90,7 +90,7 @@ export class AcceptProductPageComponent implements OnInit {
       id: id,
       status: StatusProductToRequestAceept.DISAPPROVAL
     }
-    await this.serviceAccept.updateStatus(update);
+    await this.serviceAccept.updateStatus(id, update);
     window.location.reload();
   }
 
@@ -123,7 +123,7 @@ export class AcceptProductPageComponent implements OnInit {
         status: StatusProductToRequestAceept.APPROVED
       }
       await this.serviceProduct.insertProduct(product);
-      await this.serviceAccept.updateStatus(update);
+      await this.serviceAccept.updateStatus(id, update);
       location.reload();
       // this.deleteAcceptProduct(id);
     } catch (error) {

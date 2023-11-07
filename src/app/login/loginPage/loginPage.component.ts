@@ -1,3 +1,4 @@
+import { Login as getLogin } from './../../model/model';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Account, CurrentPath, Login, Position } from 'src/app/config/global';
@@ -43,16 +44,16 @@ export class LoginPageComponent implements OnInit {
 
   // ---------------- Functions --------------------------------
   async checkPassword() {
-    let login: Login = {
-      username: this.username,
-      password: this.password
+    let login: getLogin = {
+      username: this.username!,
+      password: this.password!
     }
-    await this.getLogin(login!);
+    await this.getLogin(login);
   }
 
   //-------------------- service --------------------
   //GET
-  async getLogin(login: Login): Promise<void> {
+  async getLogin(login: getLogin): Promise<void> {
     await this.service.getLogin(login).subscribe((result:any)=>{
 
       console.log(result != null);

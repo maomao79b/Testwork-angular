@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Environment } from 'src/app/config/global';
 import { Product } from 'src/app/model/model';
 @Injectable({
   providedIn: 'root',
@@ -8,17 +9,17 @@ import { Product } from 'src/app/model/model';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  url: string = 'http://localhost:5148/api/Product';
+  baseUrl: string = Environment.Products;
   headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
 
-  //GET pass
+  search: string = '/search/';
+
+  //GET All
   async getProducts() {
     try {
-      const response = await this.http
-        .get<Product[]>('http://localhost:5148/api/Product?id=')
-        .toPromise();
+      const response = await this.http.get<Product[]>(this.baseUrl).toPromise();
       return response;
     } catch (error) {
       console.log('getProduct: ', error);
@@ -26,12 +27,11 @@ export class ProductService {
     }
   }
 
-  //GET pass
-  async getProductsById(id: string) {
+  //GET By ID
+  async getProductsById(id: any) {
+    let url: string = this.baseUrl + '/' + id;
     try {
-      const response = await this.http
-        .get<Product>('http://localhost:5148/api/Product?id=' + id)
-        .toPromise();
+      const response = await this.http.get<Product>(url).toPromise();
       return response;
     } catch (error) {
       console.log('getProduct: ', error);
@@ -39,12 +39,11 @@ export class ProductService {
     }
   }
 
-  //POST pass
+  //POST
   insertProduct(products: Product) {
     try {
-      console.log('this is product: ', products);
       let response = this.http
-        .post<Product[]>(this.url, products, { headers: this.headers })
+        .post<Product[]>(this.baseUrl, products, { headers: this.headers })
         .toPromise();
       return response;
     } catch (error) {
@@ -53,22 +52,21 @@ export class ProductService {
     }
   }
 
-  //DELETE pass
+  //DELETE
   async deleteProduct(id: any) {
+    let url: string = this.baseUrl + '/' + id;
     try {
-      await this.http
-        .delete<Product[]>(`http://localhost:5148/api/Product?id=${id}`)
-        .toPromise();
+      await this.http.delete<Product[]>(url).toPromise();
     } catch (error) {
       console.log('deleteProduct: ', error);
     }
   }
 
-  //Put pass
+  //Put
   updateProduct(products: Product) {
     try {
       this.http
-        .put<Product[]>(this.url, products, { headers: this.headers })
+        .put<Product[]>(this.baseUrl, products, { headers: this.headers })
         .toPromise();
     } catch (error) {
       console.log('updateProduct: ', error);
@@ -76,25 +74,22 @@ export class ProductService {
   }
 
   //--------------------- V2 --------------------------
-  //Search pass
+  //Search
   getSearchV2(text: string): Observable<any> {
-    return this.http.get<Product[]>(
-      `http://localhost:5148/api/Product/search?search=${text}`
-    );
+    let url: string = this.baseUrl + this.search + text;
+    return this.http.get<Product[]>(url);
   }
-  //GET ALL pass
+  //GET ALL
   getProductsV2(): Observable<any> {
-    return this.http.get<Product[]>('http://localhost:5148/api/Product?id=');
+    return this.http.get<Product[]>(this.baseUrl);
   }
-  //GET pass
+  //GET By ID
   getProductsByIdV2(id: string): Observable<any> {
-    return this.http.get<Product[]>(
-      'http://localhost:5148/api/Product?id=' + id
-    );
+    let url: string = this.baseUrl + '/' + id;
+    return this.http.get<Product[]>(url);
   }
-  //GET Put pass
-  updateProductV2(products: Product): Observable<any> {
-    return this.http
-    .put<Product[]>("http://localhost:5148/api/Product", products, { headers: this.headers });
+  //PUT
+  updateProductV2(id:any, products: Product): Observable<any> {
+    return this.http.put<Product[]>(this.baseUrl + '/' + id, products);
   }
 }

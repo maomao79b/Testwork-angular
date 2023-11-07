@@ -7,10 +7,12 @@ import {
   Account,
   Category,
   CurrentPath,
+  Login,
   StatusProductToRequestAceept,
 } from '../config/global';
 // import { PackProductsService } from '../service/packProducts/packProducts.service';
 import { AcceptProductService } from '../service/acceptProduct/acceptProduct.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-packProduct',
@@ -18,8 +20,8 @@ import { AcceptProductService } from '../service/acceptProduct/acceptProduct.ser
   styleUrls: ['./packProduct.component.css'],
 })
 export class PackProductComponent implements OnInit {
-  // packProductList: PackProducts[] = [];
-  // packProductFilter: PackProducts[] = [];
+  inputForms: FormGroup;
+
   packProductList: AcceptProduct[] = [];
   packProductFilter: AcceptProduct[] = [];
   addPackProducts: Product[] = [];
@@ -56,7 +58,19 @@ export class PackProductComponent implements OnInit {
     // private packProductsService: PackProductsService,
     private acceptProductService: AcceptProductService,
     private cookieService: CookieService
-  ) {}
+  ) {
+    this.inputForms = new FormGroup({
+      id: new FormControl(''),
+      Ename: new FormControl(''),
+      brand: new FormControl('', [Validators.required]),
+      model: new FormControl('', [Validators.required]),
+      description: new FormControl(''),
+      price: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [Validators.required]),
+      status: new FormControl(''),
+      image: new FormControl('', [Validators.required]),
+    });
+  }
 
   ngOnInit() {
     this.getPackProducts();
@@ -67,33 +81,69 @@ export class PackProductComponent implements OnInit {
     );
   }
 
-  async showDialog(id: any) {
-    this.productsFilter = [];
-    this.packProductFilter.filter((p) => {
-      if (p.id === id) {
-        this.id = p.id;
-        this.brand = p.brand;
-        this.model = p.model;
-        this.description = p.description;
-        this.price = p.price;
-        this.amount = p.amount;
-        this.product = p.product.split(',');
-        this.image = p.image;
-      }
-    });
-    this.visible = true;
+  async showDialog(id: any, status: any) {
+    const formControls = this.inputForms.controls;
+    if (status == 'บันทึกร่าง') {
+      this.addPackProducts = [];
+      this.addPackProductsFilter = [];
+      this.arrayTextIdProduct = [];
+      this.acceptProductService
+        .getAcceptProductsByIdV2(id)
+        .subscribe((result: any) => {
+          if (result.product.length != 0) {
+            let ar = result.product.split(',');
+            ar.forEach((element: any) => {
+              this.productService
+                .getProductsByIdV2(element)
+                .subscribe((result: any) => {
+                  let objLength = Object.values(result).length;
+                  if (objLength > 0) {
+                    this.arrayTextIdProduct.push(element);
+                    this.addPackProducts.push(result);
+                    this.addPackProductsFilter = this.addPackProducts.slice();
+                    this.sumPrice();
+                  }
+                });
+            });
+          }
+          formControls['brand'].setValue(result.brand);
+          formControls['model'].setValue(result.model);
+          formControls['description'].setValue(result.description);
+          formControls['price'].setValue(result.price);
+          formControls['amount'].setValue(result.amount);
+          formControls['image'].setValue(result.image);
+        });
+      formControls['id'].setValue(id);
+      this.editVisible = true;
+    } else {
+      this.productsFilter = [];
+      this.packProductFilter.filter((p) => {
+        if (p.id === id) {
+          formControls['id'].setValue(p.id);
+          formControls['brand'].setValue(p.brand);
+          formControls['model'].setValue(p.model);
+          formControls['description'].setValue(p.description);
+          formControls['price'].setValue(p.price);
+          formControls['amount'].setValue(p.amount);
+          formControls['image'].setValue(p.image);
+          this.product = p.product.split(',');
+        }
+      });
+      this.visible = true;
 
-    for (let numId of this.product) {
-      let newNum = parseInt(numId);
-      for (let p of this.productsList) {
-        if (newNum === p.id) {
-          this.productsFilter.push(p);
+      for (let numId of this.product) {
+        let newNum = parseInt(numId);
+        for (let p of this.productsList) {
+          if (newNum === p.id) {
+            this.productsFilter.push(p);
+          }
         }
       }
     }
   }
 
   showDialogEdit(id: number) {
+    // const formControls = this.inputForms.controls;
     this.productsList.filter((p) => {
       if (p.id === id) {
         this.id = p.id;
@@ -108,89 +158,18 @@ export class PackProductComponent implements OnInit {
     this.visibleEdit2 = true;
   }
 
-  showAddItemDialog(id: number) {
-    let check: Array<any> = [];
-    this.addPackProductsFilter.filter((p) => {
-      check.push(p);
-    });
-    check.forEach((item) => {
-      item.forEach(
-        (element: {
-          id: any;
-          brand: any;
-          description: any;
-          model: any;
-          price: any;
-          amount: any;
-          image: any;
-        }) => {
-          if (element.id === id) {
-            this.id = element.id;
-            this.brand = element.brand;
-            this.model = element.model;
-            this.description = element.description;
-            this.price = element.price;
-            this.amount = element.amount;
-            this.image = element.image;
-            // console.log(this.id, this.brand, this.description, this.model, this.price, this.amount, this.image)
-          }
-        }
-      );
-    });
-    this.visible = true;
-  }
-
   showAddDialog() {
+    const formControls = this.inputForms.controls;
     this.addPackProducts = [];
     this.addPackProductsFilter = [];
-    this.Ename = '';
-    this.brand = '';
-    this.model = '';
-    this.amount = null!;
-    this.description = '';
-    this.status = '';
-    this.image = '';
+    formControls['Ename'].setValue('');
+    formControls['brand'].setValue('');
+    formControls['model'].setValue('');
+    formControls['description'].setValue('');
+    formControls['amount'].setValue(null);
+    formControls['status'].setValue('');
+    formControls['image'].setValue('');
     this.addVisible = true;
-  }
-
-  showEditDialog(id: any, status: any) {
-    if (status == 'บันทึกร่าง') {
-      this.addPackProducts = [];
-      this.addPackProductsFilter = [];
-      this.arrayTextIdProduct = [];
-      this.acceptProductService
-        .getAcceptProductsByIdV2(id)
-        .subscribe((result: any) => {
-          console.log(result[0].product.length);
-          if (result[0].product.length != 0) {
-            let ar = result[0].product.split(',');
-            ar.forEach((element: any) => {
-              this.productService
-                .getProductsByIdV2(element)
-                .subscribe((result: any) => {
-                  console.log(result);
-                  let objLength = Object.values(result).length;
-                  if (objLength > 0) {
-                    this.arrayTextIdProduct.push(element);
-                    console.log(this.arrayTextIdProduct);
-                    this.addPackProducts.push(result);
-                    this.addPackProductsFilter = this.addPackProducts.slice();
-                    this.sumPrice();
-                  }
-                });
-            });
-          }
-          this.Ename = result[0].Eid;
-          this.brand = result[0].brand;
-          this.model = result[0].model;
-          this.price = result[0].price;
-          this.amount = result[0].amount;
-          this.description = result[0].description;
-          this.image = result[0].image;
-        });
-      this.id = id;
-      this.editVisible = true;
-    }
   }
 
   async addProduct() {
@@ -206,6 +185,7 @@ export class PackProductComponent implements OnInit {
           console.log(this.arrayTextIdProduct);
           this.addPackProducts.push(newproduct);
           this.addPackProductsFilter = this.addPackProducts.slice();
+          console.log(this.addPackProducts);
           this.sumPrice();
         } else {
           console.log('Length: ', objLength);
@@ -220,23 +200,8 @@ export class PackProductComponent implements OnInit {
     this.total -= price;
     let indexOfText = this.arrayTextIdProduct.indexOf('' + id);
     this.arrayTextIdProduct.splice(indexOfText, 1);
-    let check: Array<any> = [];
-    this.addPackProductsFilter.filter((p) => {
-      check.push(p);
-    });
-    // console.log(check); //[[a],[a]]
-    let count = 0;
-    let index;
-    const loop = check.filter((c) => {
-      let a = c.findIndex((c: any) => {
-        if (c.id === id) {
-          index = count;
-        }
-      });
-      count++;
-    });
-    this.addPackProducts.splice(index!, 1);
-    this.addPackProductsFilter = this.addPackProducts;
+    this.addPackProductsFilter.splice(indexOfText, 1);
+    this.addPackProducts = this.addPackProductsFilter;
   }
 
   sumPrice() {
@@ -245,10 +210,9 @@ export class PackProductComponent implements OnInit {
     this.addPackProductsFilter.filter((p) => {
       check.push(p);
     });
+
     check.forEach((item) => {
-      item.forEach((element: { price: any }) => {
-        this.total += parseFloat(element.price);
-      });
+      this.total += parseFloat(item.price);
     });
   }
 
@@ -262,15 +226,6 @@ export class PackProductComponent implements OnInit {
     } else {
       return 'warning';
     }
-    // if (text === StatusProductToRequestAceept.APPROVED) {
-    //   return '#22C55E';
-    // } else if (text === StatusProductToRequestAceept.DISAPPROVAL) {
-    //   return '#EF4444';
-    // } else if (text === StatusProductToRequestAceept.DRAFT) {
-    //   return '#3B82F6';
-    // } else {
-    //   return '#F59E0B';
-    // }
   }
 
   iconsSetting(text: string) {
@@ -286,14 +241,13 @@ export class PackProductComponent implements OnInit {
     const response = await this.acceptProductService.getAcceptProducts();
     this.packProductList = <AcceptProduct[]>response;
     this.packProductFilter = this.packProductList;
-    // console.log(response);
   }
 
   //Search
   search() {
     if (this.searchText != '' && this.searchText != null) {
       this.acceptProductService
-        .getPackProductSearchV2(this.searchText)
+        .getAcceptProductsSearchV2(this.searchText)
         .subscribe((result: any) => {
           console.log(result);
           this.packProductFilter = result;
@@ -319,6 +273,7 @@ export class PackProductComponent implements OnInit {
 
   //INSERT IN TO ACCRPTPRODUCT
   async insetProduct(action: string) {
+    const formControls = this.inputForms.controls;
     if (this.arrayTextIdProduct.length > 0 && this.arrayTextIdProduct != null) {
       let status = '';
       let product = this.arrayTextIdProduct.toString();
@@ -333,15 +288,15 @@ export class PackProductComponent implements OnInit {
           id: 0,
           Eid: parseInt(this.accountID),
           Ename: this.accountName,
-          brand: this.brand!,
-          model: this.model!,
-          description: this.description!,
+          brand: formControls["brand"].value,
+          model: formControls["model"].value,
+          description: formControls["description"].value,
           date: new Date(),
-          price: this.price!,
-          amount: this.amount!,
+          price: formControls["price"].value,
+          amount: formControls["amount"].value,
           status: status,
           product: product, //fix this !!!! to array
-          image: this.image!,
+          image: formControls["image"].value,
         };
 
         let response = await this.acceptProductService.insertAcceptProduct(
@@ -359,6 +314,7 @@ export class PackProductComponent implements OnInit {
 
   //UPDATE INTO PACK_PRODUCT
   updateProduct(action: string) {
+    const formControls = this.inputForms.controls;
     let status = '';
     let product = this.arrayTextIdProduct.toString();
     if (action === 'SAVE') {
@@ -367,24 +323,26 @@ export class PackProductComponent implements OnInit {
       status = StatusProductToRequestAceept.NOT_YET_APPROVED;
     }
     let packProduct: AcceptProduct = {
-      id: this.id!,
+      id: formControls["id"].value,
       Eid: parseInt(this.accountID),
       Ename: this.accountName,
-      brand: this.brand!,
-      model: this.model!,
-      description: this.description!,
+      brand: formControls["brand"].value,
+      model: formControls["model"].value,
+      description: formControls["description"].value,
       date: new Date(),
-      price: this.price!,
-      amount: this.amount!,
+      price: formControls["price"].value,
+      amount: formControls["amount"].value,
       status: status,
       product: product, //fix this !!!! to array
-      image: this.image!,
+      image: formControls["image"].value,
     };
+    console.log(packProduct);
+
     console.log('before');
-    this.acceptProductService.updateProductV2(packProduct).subscribe();
+    this.acceptProductService.updateProductV2(formControls["id"].value, packProduct).subscribe();
     console.log('after');
 
-    setTimeout(() => window.location.reload(), 0);
+    setTimeout(() => window.location.reload(), 1000); //ตั้งเวลาเร็วไป service ทำงานไม่ทัน
   }
 
   // --------------------- Cookie Service ------------------------

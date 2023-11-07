@@ -14,7 +14,11 @@
       </span>
     </div>
     <!-- Create Button -->
-    <p-button label="เพิ่มสมาชิก" icon="pi pi-plus" (onClick)="showAddDialog()"></p-button>
+    <p-button
+      label="เพิ่มสมาชิก"
+      icon="pi pi-plus"
+      (onClick)="showAddDialog()"
+    ></p-button>
   </div>
   <!-- Table customer -->
   <div class="card">
@@ -48,7 +52,12 @@
               [alt]="customer.image"
               src="{{ customer.image }}"
               width="32"
-              style="vertical-align: middle; border-radius: 50%; height: 32px; width: 32px;"
+              style="
+                vertical-align: middle;
+                border-radius: 50%;
+                height: 32px;
+                width: 32px;
+              "
             />
             <span class="ml-1 vertical-align-middle"> {{ customer.name }}</span>
           </td>
@@ -88,104 +97,112 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Customer ID</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="id"
-          [disabled]="true"
-        />
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Name</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="name"
-        />
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label>Age</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="age"
-        />
-      </div>
-    </div>
-
-    <div class="card flex justify-content-center inputspacDialog">
-      <!-- Address -->
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Address</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="address"
-          class="longInputDialog"
-        />
-      </div>
-      <!-- Phone -->
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="Phone">Phone</label>
-        <input
-          pInputText
-          id="Phone"
-          aria-describedby="Phone-help"
-          [(ngModel)]="phone"
-        />
-      </div>
-    </div>
-
-    <div class="card flex justify-content-center inputspacDialog">
-      <!-- Username -->
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Username</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="username"
-          class="longInputDialog"
-        />
+    <form [formGroup]="inputForms">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="id">Customer ID</label>
+          <input
+            pInputText
+            id="id"
+            aria-describedby="id"
+            formControlName="id"
+            [disabled]="true"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="name">Name</label>
+          <input
+            pInputText
+            id="name"
+            aria-describedby="name"
+            formControlName="name"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="age">Age</label>
+          <input
+            pInputText
+            id="age"
+            aria-describedby="age"
+            formControlName="age"
+          />
+        </div>
       </div>
 
-      <!-- Password -->
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Password</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="password"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <!-- Address -->
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="address">Address</label>
+          <input
+            pInputText
+            id="address"
+            aria-describedby="address"
+            formControlName="address"
+            class="longInputDialog"
+          />
+        </div>
+        <!-- Phone -->
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="phone">Phone</label>
+          <input
+            pInputText
+            id="phone"
+            aria-describedby="phone"
+            formControlName="phone"
+          />
+        </div>
       </div>
-    </div>
 
-    <!-- Image -->
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <!-- Username -->
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="username">Username</label>
+          <input
+            pInputText
+            id="username"
+            aria-describedby="username"
+            formControlName="username"
+            class="longInputDialog"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="password">Password</label>
+          <input
+            pInputText
+            id="password"
+            aria-describedby="password"
+            formControlName="password"
+          />
+        </div>
       </div>
-    </div>
 
-    <!-- Confirm Button -->
-    <div class="card flex justify-content-center">
-      <button pButton pRipple label="ยืนยันการแก้ไข" (click)="confirmEdit()" class="p-button-success"></button>
-    </div>
+      <!-- Image -->
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+            class="longInputDialog"
+          />
+        </div>
+      </div>
+
+      <!-- Confirm Button -->
+      <div class="card flex justify-content-center">
+        <button
+          pButton
+          pRipple
+          label="ยืนยันการแก้ไข"
+          (click)="confirmEdit()"
+          class="p-button-success"
+        ></button>
+      </div>
+    </form>
   </p-dialog>
 </div>
 
@@ -199,88 +216,149 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Name</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="name"
-          class="longInputDialog"
-        />
+    <form [formGroup]="inputForms">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="name">Name</label>
+          <!-- <input id="name" type="text" formControlName="name"> -->
+          <input
+            pInputText
+            id="name"
+            aria-describedby="name"
+            formControlName="name"
+            class="longInputDialog"
+          />
+          <!-- <input
+            pInputText
+            id="name"
+            aria-describedby="name"
+            [(ngModel)]="name"
+            class="longInputDialog"
+          /> -->
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="age">Age</label>
+          <!-- <input id="age" type="text" formControlName="age"> -->
+          <input
+            pInputText
+            id="age"
+            aria-describedby="age"
+            formControlName="age"
+          />
+          <!-- <input
+            pInputText
+            id="username"
+            aria-describedby="username-help"
+            [(ngModel)]="age"
+          /> -->
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Age</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="age"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Address</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="address"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="address">Address</label>
+          <!-- <input id="address" type="text" formControlName="address"> -->
+          <input
+            pInputText
+            id="address"
+            aria-describedby="address"
+            formControlName="address"
+            class="longInputDialog"
+          />
+          <!-- <input
+            pInputText
+            id="username"
+            aria-describedby="username-help"
+            [(ngModel)]="address"
+            class="longInputDialog"
+          /> -->
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="phone">Phone</label>
+          <!-- <input id="phone" type="text" formControlName="phone"> -->
+          <input
+            pInputText
+            id="phone"
+            aria-describedby="phone"
+            formControlName="phone"
+          />
+          <!-- <input
+            pInputText
+            id="username"
+            aria-describedby="username-help"
+            [(ngModel)]="phone"
+          /> -->
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Phone</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="phone"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Username</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="username"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="username">Username</label>
+          <!-- <input id="username" type="text" formControlName="username"> -->
+          <input
+            pInputText
+            id="username"
+            aria-describedby="username"
+            formControlName="username"
+            class="longInputDialog"
+          />
+          <!-- <input
+            pInputText
+            id="username"
+            aria-describedby="username-help"
+            [(ngModel)]="username"
+            class="longInputDialog"
+          /> -->
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="password">Password</label>
+          <!-- <input id="password" type="text" formControlName="password"> -->
+          <input
+            pInputText
+            id="password"
+            aria-describedby="password"
+            formControlName="password"
+          />
+          <!-- <input
+            pInputText
+            id="username"
+            aria-describedby="username-help"
+            [(ngModel)]="password"
+          /> -->
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Password</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="password"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <!-- <input id="image" type="text" formControlName="image"> -->
+          <input
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+            class="longInputDialog"
+          />
+          <!-- <input
+            pInputText
+            id="image"
+            aria-describedby="image-help"
+            [(ngModel)]="image"
+            class="longInputDialog"
+          /> -->
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center">
-      <button pButton pRipple label="บันทึก" (click)="confirmInsertCustomer()" class="p-button-success"></button>
-    </div>
+      <div class="card flex justify-content-center">
+        <button
+          pButton
+          pRipple
+          label="บันทึก"
+          (click)="confirmInsertCustomer()"
+          class="p-button-success"
+        ></button>
+      </div>
+    </form>
   </p-dialog>
 </div>
 

@@ -128,11 +128,12 @@ export class ProductPageComponent implements OnInit {
       category: this.category,
       image: this.image,
     };
-    this.service.updateProductV2(product).subscribe(result=>{
+    this.service.updateProductV2(this.id, product).subscribe(result=>{
       console.log(result);
     });
     this.editVisible = false;
-    location.reload();
+    // location.reload();
+    setTimeout(() => window.location.reload(), 1000);
   }
 
   //INSERT

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogModule } from 'primeng/dialog';
-import { FormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { CookieService } from 'ngx-cookie-service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -80,6 +80,7 @@ const appRoute: Routes = [
     TagModule,
     MessagesModule,
     ToastModule,
+    ReactiveFormsModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

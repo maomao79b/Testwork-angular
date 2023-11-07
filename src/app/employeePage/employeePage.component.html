@@ -53,7 +53,8 @@
             <img
               [alt]="employee.image"
               src="{{ employee.image }}"
-              width="32" shape="circle"
+              width="32"
+              shape="circle"
               style="vertical-align: middle"
             />
             <span class="ml-1 vertical-align-middle"> {{ employee.name }}</span>
@@ -95,115 +96,117 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Customer ID</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="id"
-          [disabled]="true"
-        />
+    <form [formGroup]="inputForms">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="id">Customer ID</label>
+          <input
+            pInputText
+            id="id"
+            aria-describedby="id"
+            formControlName="id"
+            [disabled]="true"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="name">Name</label>
+          <input
+            pInputText
+            id="name"
+            aria-describedby="name"
+            formControlName="name"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Name</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="name"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Position</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="position"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="position">Position</label>
+          <input
+            pInputText
+            id="position"
+            aria-describedby="position"
+            formControlName="position"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="age">Age</label>
+          <input
+            pInputText
+            id="age"
+            aria-describedby="age"
+            formControlName="age"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Age</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="age"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Address</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="address"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="address">Address</label>
+          <input
+            pInputText
+            id="address"
+            aria-describedby="address"
+            formControlName="address"
+            class="longInputDialog"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="phone">Phone</label>
+          <input
+            pInputText
+            id="phone"
+            aria-describedby="phone"
+            formControlName="phone"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Phone</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="phone"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Username</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="username"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="username">Username</label>
+          <input
+            pInputText
+            id="username"
+            aria-describedby="username"
+            formControlName="username"
+            class="longInputDialog"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="password">Password</label>
+          <input
+            pInputText
+            id="password"
+            aria-describedby="password"
+            formControlName="password"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Password</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="password"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+            class="longInputDialog"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center">
-      <button
-        pButton
-        pRipple
-        label="ยืนยันการแก้ไข"
-        (click)="confirmEdit()"
-        class="p-button-success"
-      ></button>
-    </div>
+      <div class="card flex justify-content-center">
+        <button
+          pButton
+          pRipple
+          label="ยืนยันการแก้ไข"
+          (click)="confirmEdit()"
+          class="p-button-success"
+        ></button>
+      </div>
+    </form>
   </p-dialog>
 </div>
 
@@ -217,101 +220,103 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Name</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="name"
-        />
+    <form [formGroup]="inputForms">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="name">Name</label>
+          <input
+            pInputText
+            id="name"
+            aria-describedby="name"
+            formControlName="name"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="position">Position</label>
+          <input
+            pInputText
+            id="position"
+            aria-describedby="position"
+            formControlName="position"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="age">Age</label>
+          <input
+            pInputText
+            id="age"
+            aria-describedby="age"
+            formControlName="age"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Position</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="position"
-        />
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Age</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="age"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Address</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="address"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="address">Address</label>
+          <input
+            pInputText
+            id="address"
+            aria-describedby="address"
+            formControlName="address"
+            class="longInputDialog"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="phone">Phone</label>
+          <input
+            pInputText
+            id="phone"
+            aria-describedby="phone"
+            formControlName="phone"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Phone</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="phone"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Username</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="username"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="username">Username</label>
+          <input
+            pInputText
+            id="username"
+            aria-describedby="username"
+            formControlName="username"
+            class="longInputDialog"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="password">Password</label>
+          <input
+            pInputText
+            id="password"
+            aria-describedby="password"
+            formControlName="password"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="username">Password</label>
-        <input
-          pInputText
-          id="username"
-          aria-describedby="username-help"
-          [(ngModel)]="password"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-          class="longInputDialog"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+            class="longInputDialog"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center">
-      <button
-        pButton
-        pRipple
-        label="บันทึก"
-        (click)="confirmInsertEmployee()"
-        class="p-button-success"
-      ></button>
-    </div>
+      <div class="card flex justify-content-center">
+        <button
+          pButton
+          pRipple
+          label="บันทึก"
+          (click)="confirmInsertEmployee()"
+          class="p-button-success"
+        ></button>
+      </div>
+    </form>
   </p-dialog>
 </div>
