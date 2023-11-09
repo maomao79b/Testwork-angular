@@ -39,6 +39,10 @@ export class NavbarComponent implements OnInit {
     // this.cookieServive.set(Login.LoginStatus, Login.LOGOUT);
     // this.cookieServive.set(CurrentPath.CURRENT_PATH, CurrentPath.CUSTOMERS_PATH);
     // this.cookieServive.set(Position.POSITION, Position.POSITION);
+    localStorage.removeItem('ProductList');
+    localStorage.removeItem('amountProduct');
+    localStorage.removeItem('product');
+    localStorage.removeItem('total');
     this.cookieServive.deleteAll();
     window.location.reload();
   }

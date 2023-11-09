@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
-import { Environment } from 'src/app/config/global';
+import { Environment, Token } from 'src/app/config/global';
 import { SaleHistory } from 'src/app/model/model';
 
 @Injectable({
@@ -11,11 +12,12 @@ export class SaleHistoryService {
   baseUrl: string = Environment.SaleHistories;
   headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.cookieService.get(Token)}`,
   });
 
   search: string = '/search/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   //POST
   insertProduct111(saleHistory: SaleHistory) {
@@ -41,11 +43,11 @@ export class SaleHistoryService {
   }
   // GET ALL
   getHistory(): Observable<any> {
-    return this.http.get<SaleHistory[]>(this.baseUrl);
+    return this.http.get<SaleHistory[]>(this.baseUrl, {headers : this.headers});
   }
   // GET BY ID
   getHistoryByid(id: any): Observable<any> {
     let url: string = this.baseUrl + '/' + id;
-    return this.http.get<SaleHistory[]>(url);
+    return this.http.get<SaleHistory[]>(url, {headers : this.headers});
   }
 }

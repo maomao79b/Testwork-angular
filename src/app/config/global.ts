@@ -43,11 +43,13 @@ export class StatusProductToRequestAceept{
 }
 
 export class Environment {
-  public static readonly baseUrl :string ="https://shopapi2.azurewebsites.net";
-  // public static readonly baseUrl :string ="https://localhost:7148";
+  // public static readonly baseUrl :string ="https://shopapi2.azurewebsites.net";
+  public static readonly baseUrl :string ="https://localhost:7148";
   public static readonly Customers :string = this.baseUrl + "/api/Customers";
   public static readonly Employees :string = this.baseUrl + "/api/Employees";
   public static readonly Products :string = this.baseUrl + "/api/Products";
   public static readonly AcceptProducts :string = this.baseUrl + "/api/AcceptProducts";
   public static readonly SaleHistories :string = this.baseUrl + "/api/SaleHistories";
 }
+
+export const Token: string = "Token";

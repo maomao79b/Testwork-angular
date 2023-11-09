@@ -167,6 +167,7 @@ export class PackProductComponent implements OnInit {
     formControls['model'].setValue('');
     formControls['description'].setValue('');
     formControls['amount'].setValue(null);
+    formControls['price'].setValue(null);
     formControls['status'].setValue('');
     formControls['image'].setValue('');
     this.addVisible = true;

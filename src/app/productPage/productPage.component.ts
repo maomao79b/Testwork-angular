@@ -3,6 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product/product.service';
 import { Category, CurrentPath, Position } from '../config/global';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-productPage',
@@ -11,6 +12,8 @@ import { Category, CurrentPath, Position } from '../config/global';
 })
 export class ProductPageComponent implements OnInit {
   // --------------------- Attribute ------------------------
+  inputForms: FormGroup;
+
   productList: Product[] = [];
   productFilter: Product[] = [];
 
@@ -20,14 +23,14 @@ export class ProductPageComponent implements OnInit {
   editVisible: boolean = false;
   addVisible: boolean = false;
 
-  id: any;
-  brand: any;
-  model: any;
-  description: any;
-  price: any;
-  amount: any;
-  image: any;
-  category: any;
+  // id: any;
+  // brand: any;
+  // model: any;
+  // description: any;
+  // price: any;
+  // amount: any;
+  // image: any;
+  // category: any;
 
   position: string | undefined;
   textOwner: string = Position.OWNER;
@@ -37,7 +40,18 @@ export class ProductPageComponent implements OnInit {
   constructor(
     private service: ProductService,
     private cookieService: CookieService
-  ) {}
+  ) {
+    this.inputForms = new FormGroup({
+      id: new FormControl(''),
+      brand: new FormControl('', [Validators.required]),
+      model: new FormControl('', [Validators.required]),
+      description: new FormControl(''),
+      price: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [Validators.required]),
+      image: new FormControl(''),
+      category: new FormControl('', [Validators.required]),
+    });
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -46,45 +60,47 @@ export class ProductPageComponent implements OnInit {
   }
 
   showDialog(id: number) {
+    const formControls = this.inputForms.controls;
     this.productFilter.filter((p) => {
       if (p.id === id) {
-        this.id = p.id;
-        this.brand = p.brand;
-        this.model = p.model;
-        this.description = p.description;
-        this.price = p.price;
-        this.amount = p.amount;
-        this.image = p.image;
+        formControls['id'].setValue(p.id);
+        formControls['brand'].setValue(p.brand);
+        formControls['model'].setValue(p.model);
+        formControls['description'].setValue(p.description);
+        formControls['price'].setValue(p.price);
+        formControls['amount'].setValue(p.amount);
+        formControls['image'].setValue(p.image);
       }
     });
     this.visible = true;
   }
 
   showEditDialog(id: string) {
-
+    const formControls = this.inputForms.controls;
     const Pid = parseInt(id);
     this.editVisible = true;
     this.productList.filter((product) => {
       if (product.id == Pid) {
-        this.id = product.id;
-        this.brand = product.brand;
-        this.model = product.model;
-        this.description = product.description;
-        this.price = product.price;
-        this.amount = product.amount;
-        this.image = product.image;
-        this.category = product.category;
+        formControls['id'].setValue(product.id);
+        formControls['brand'].setValue(product.brand);
+        formControls['model'].setValue(product.model);
+        formControls['description'].setValue(product.description);
+        formControls['price'].setValue(product.price);
+        formControls['amount'].setValue(product.amount);
+        formControls['image'].setValue(product.image);
+        formControls['category'].setValue(product.category);
       }
     });
   }
 
   showAddDialog() {
-    this.brand = '';
-    this.model = '';
-    this.description = '';
-    this.price = 0;
-    this.amount = 0;
-    this.image = '';
+    const formControls = this.inputForms.controls;
+    formControls['brand'].setValue('');
+    formControls['model'].setValue('');
+    formControls['description'].setValue('');
+    formControls['price'].setValue(null);
+    formControls['amount'].setValue(null);
+    formControls['image'].setValue('');
     this.addVisible = true;
   }
 
@@ -118,19 +134,22 @@ export class ProductPageComponent implements OnInit {
 
   //UPDATE
   confirmEdit() {
+    const formControls = this.inputForms.controls;
     let product: Product = {
-      id: this.id,
-      brand: this.brand,
-      model: this.model,
-      description: this.description,
-      price: this.price,
-      amount: this.amount,
-      category: this.category,
-      image: this.image,
+      id: formControls['id'].value,
+      brand: formControls['brand'].value,
+      model: formControls['model'].value,
+      description: formControls['description'].value,
+      price: formControls['price'].value,
+      amount: formControls['amount'].value,
+      image: formControls['image'].value,
+      category: formControls['category'].value,
     };
-    this.service.updateProductV2(this.id, product).subscribe(result=>{
-      console.log(result);
-    });
+    this.service
+      .updateProductV2(formControls['id'].value, product)
+      .subscribe((result) => {
+        console.log(result);
+      });
     this.editVisible = false;
     // location.reload();
     setTimeout(() => window.location.reload(), 1000);
@@ -138,16 +157,17 @@ export class ProductPageComponent implements OnInit {
 
   //INSERT
   async insetProduct() {
+    const formControls = this.inputForms.controls;
     try {
       let product: Product = {
         id: 0,
-        brand: this.brand!,
-        model: this.model!,
-        description: this.description!,
-        price: this.price!,
-        amount: this.amount!,
-        category: "NORMAL",
-        image: this.image!,
+        brand: formControls['brand'].value,
+        model: formControls['model'].value,
+        description: formControls['description'].value,
+        price: formControls['price'].value,
+        amount: formControls['amount'].value,
+        image: formControls['image'].value,
+        category: 'NORMAL',
       };
 
       let response = await this.service.insertProduct(product);

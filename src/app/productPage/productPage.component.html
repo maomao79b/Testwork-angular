@@ -15,7 +15,7 @@
     </div>
     <!-- Create Button -->
     <p-button
-      label="เพิ่มสมาชิก"
+      label="เพิ่มสินค้า"
       icon="pi pi-plus"
       (onClick)="showAddDialog()"
       *ngIf="position === textOwner"
@@ -41,8 +41,14 @@
           <th style="width: 5%">ราคา</th>
           <th style="width: 5%">จำนวน</th>
           <th style="width: 5%">หมวดหมู่</th>
-          <th style="width: 5%" *ngIf="position === textOwner || position === textWarehouse"></th>
-          <th style="width: 1%" *ngIf="position === textOwner || position === textWarehouse"></th>
+          <th
+            style="width: 5%"
+            *ngIf="position === textOwner || position === textWarehouse"
+          ></th>
+          <th
+            style="width: 1%"
+            *ngIf="position === textOwner || position === textWarehouse"
+          ></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product>
@@ -50,7 +56,9 @@
           <td (click)="showDialog(product.id)">{{ product.id }}</td>
           <td (click)="showDialog(product.id)">{{ product.brand }}</td>
           <td (click)="showDialog(product.id)">{{ product.model }}</td>
-          <td (click)="showDialog(product.id)" class="content"><span class="truncate">{{ product.description }}</span></td>
+          <td (click)="showDialog(product.id)" class="content">
+            <span class="truncate">{{ product.description }}</span>
+          </td>
           <td (click)="showDialog(product.id)">{{ product.price }}</td>
           <td (click)="showDialog(product.id)">{{ product.amount }}</td>
           <td (click)="showDialog(product.id)">{{ product.category }}</td>
@@ -85,28 +93,49 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div
-      id="detailDialog"
-      class="card flex justify-content-center inputspacDialog"
-    >
-      <div style="display: flex; justify-content: center">
-        <img src="{{ image }}" alt style="width: 300px; height: 300px" />
+    <form [formGroup]="inputForms">
+      <div
+        id="detailDialog"
+        class="card flex justify-content-center inputspacDialog"
+      >
+        <div style="display: flex; justify-content: center">
+          <img
+            src="{{ inputForms.controls['image'].value }}"
+            alt
+            style="width: 300px; height: 300px"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="id"
+            ><strong>ID : </strong>{{ inputForms.controls["id"].value }}</label
+          >
+          <label for="brand"
+            ><strong>Brand : </strong
+            >{{ inputForms.controls["brand"].value }}</label
+          >
+          <label for="model"
+            ><strong>Model : </strong
+            >{{ inputForms.controls["model"].value }}</label
+          >
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="description"
+            ><strong>Description : </strong
+            >{{ inputForms.controls["description"].value }}</label
+          >
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="amount"
+            ><strong>Amount : </strong
+            >{{ inputForms.controls["amount"].value }}</label
+          >
+          <label for="price"
+            ><strong>Price : </strong
+            >{{ inputForms.controls["price"].value }} Bath</label
+          >
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>ID : </strong>{{ id }}</label>
-        <label htmlFor="id"><strong>Brand : </strong>{{ brand }}</label>
-        <label htmlFor="id"><strong>Model : </strong>{{ model }}</label>
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"
-          ><strong>Description : </strong>{{ description }}</label
-        >
-      </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="id"><strong>Amount : </strong>{{ amount }}</label>
-        <label htmlFor="id"><strong>Price : </strong>{{ price }} Bath</label>
-      </div>
-    </div>
+    </form>
   </p-dialog>
 </div>
 
@@ -120,89 +149,94 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div style="display: flex; justify-content: center">
-      <img src="{{ image }}" alt style="width: 300px; height: 300px" />
-    </div>
-    <div class="card flex justify-content-center inputspacDialog">
-           <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">Brand</label>
-        <input
-          pInputText
-          id="brand"
-          aria-describedby="brand-help"
-          [(ngModel)]="brand"
+    <form [formGroup]="inputForms">
+      <div style="display: flex; justify-content: center">
+        <img
+          src="{{ inputForms.controls['image'].value }}"
+          alt
+          style="width: 300px; height: 300px"
         />
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="model">Model</label>
-        <input
-          pInputText
-          id="model"
-          aria-describedby="model-help"
-          [(ngModel)]="model"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="brand">Brand</label>
+          <input
+            pInputText
+            id="brand"
+            aria-describedby="brand"
+            formControlName="brand"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="model">Model</label>
+          <input
+            pInputText
+            id="model"
+            aria-describedby="model"
+            formControlName="model"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="price">Price</label>
+          <input
+            pInputText
+            id="price"
+            aria-describedby="price"
+            formControlName="price"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="amount">Amount</label>
+          <input
+            pInputText
+            id="amount"
+            aria-describedby="amount"
+            formControlName="amount"
+          />
+        </div>
+      </div>
 
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="price">Price</label>
-        <input
-          pInputText
-          id="price"
-          aria-describedby="price-help"
-          [(ngModel)]="price"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+            style="width: 444px"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="amount">Amount</label>
-        <input
-          pInputText
-          id="amount"
-          aria-describedby="amount-help"
-          [(ngModel)]="amount"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-          style="width: 444px;"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="description">Description</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="description"
+            style="width: 444px"
+          ></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="description">Description</label>
-        <textarea
-          rows="5"
-          cols="30"
-          pInputTextarea
-          [(ngModel)]="description"
-          style="width: 444px"
-        ></textarea>
+      <div class="card flex justify-content-center">
+        <div class="flex flex-column gap-2 input-dialog">
+          <button
+            pButton
+            pRipple
+            label="ยืนยันการแก้ไข"
+            class="p-button-success"
+            (click)="confirmEdit()"
+          ></button>
+        </div>
       </div>
-    </div>
-
-    <div class="card flex justify-content-center">
-      <div class="flex flex-column gap-2 input-dialog">
-        <button
-          pButton
-          pRipple
-          label="ยืนยันการแก้ไข"
-          class="p-button-success"
-          (click)="confirmEdit()"
-        ></button>
-      </div>
-    </div>
+    </form>
   </p-dialog>
 </div>
 
@@ -216,87 +250,89 @@
     [draggable]="false"
     [resizable]="false"
   >
-    <div
-      class="card flex justify-content-center inputspacDialog"
-      style="justify-content: center !important"
-    >
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">Brand</label>
-        <input
-          pInputText
-          id="brand"
-          aria-describedby="brand-help"
-          [(ngModel)]="brand"
-        />
+    <form [formGroup]="inputForms">
+      <div
+        class="card flex justify-content-center inputspacDialog"
+        style="justify-content: center !important"
+      >
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="brand">Brand</label>
+          <input
+            pInputText
+            id="brand"
+            aria-describedby="brand"
+            formControlName="brand"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="model">Model</label>
+          <input
+            pInputText
+            id="model"
+            aria-describedby="model"
+            formControlName="model"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="model">Model</label>
-        <input
-          pInputText
-          id="model"
-          aria-describedby="model-help"
-          [(ngModel)]="model"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="price">Price</label>
-        <input
-          pInputText
-          id="price"
-          aria-describedby="price-help"
-          [(ngModel)]="price"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="price">Price</label>
+          <input
+            pInputText
+            id="price"
+            aria-describedby="price"
+            formControlName="price"
+          />
+        </div>
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="amount">Amount</label>
+          <input
+            pInputText
+            id="amount"
+            aria-describedby="amount"
+            formControlName="amount"
+          />
+        </div>
       </div>
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="amount">Amount</label>
-        <input
-          pInputText
-          id="amount"
-          aria-describedby="amount-help"
-          [(ngModel)]="amount"
-        />
-      </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="image">Image</label>
-        <input
-          style="width: 444px"
-          pInputText
-          id="image"
-          aria-describedby="image-help"
-          [(ngModel)]="image"
-        />
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="image">Image</label>
+          <input
+            style="width: 444px"
+            pInputText
+            id="image"
+            aria-describedby="image"
+            formControlName="image"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center inputspacDialog">
-      <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="description">Description</label>
-        <textarea
-          rows="5"
-          cols="30"
-          pInputTextarea
-          [(ngModel)]="description"
-          style="width: 444px"
-        ></textarea>
+      <div class="card flex justify-content-center inputspacDialog">
+        <div class="flex flex-column gap-2 input-dialog">
+          <label for="description">Description</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="description"
+            style="width: 444px"
+          ></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="card flex justify-content-center">
-      <div class="flex flex-column gap-2 input-dialog">
-        <button
-          pButton
-          pRipple
-          label="บันทึกข้อมูล"
-          class="p-button-success"
-          (click)="insetProduct()"
-        ></button>
+      <div class="card flex justify-content-center">
+        <div class="flex flex-column gap-2 input-dialog">
+          <button
+            pButton
+            pRipple
+            label="บันทึกข้อมูล"
+            class="p-button-success"
+            (click)="insetProduct()"
+          ></button>
+        </div>
       </div>
-    </div>
+    </form>
   </p-dialog>
 </div>

@@ -1,6 +1,6 @@
 <div class="main">
   <div class="head">
-    <!-- Search bar -->
+    <!-- Add bar -->
     <div class="card flex flex-wrap justify-content-center gap-3">
       <span class="p-input-icon-left">
         <i class="pi pi-box"></i>
@@ -11,7 +11,7 @@
           placeholder="ID สินค้า"
         />
       </span>
-      <!-- Create Button -->
+      <!-- Add Button -->
       <p-button
         label="เพิ่มสินค้า"
         icon="pi pi-plus"
@@ -52,27 +52,27 @@
       </ng-template>
       <ng-template pTemplate="body" let-product let-i="rowIndex">
         <tr>
-          <td (click)="addProductText = product[0].id">{{ product[0].id }}</td>
-          <td (click)="addProductText = product[0].id">
-            {{ product[0].brand }}
+          <td (click)="addProductText = product.id">{{ product.id }}</td>
+          <td (click)="addProductText = product.id">
+            {{ product.brand }}
           </td>
-          <td (click)="addProductText = product[0].id">
-            {{ product[0].model }}
+          <td (click)="addProductText = product.id">
+            {{ product.model }}
           </td>
-          <td (click)="addProductText = product[0].id">
-            {{ product[0].price }}
+          <td (click)="addProductText = product.id">
+            {{ product.price | number }}
           </td>
-          <td (click)="addProductText = product[0].id">
-            {{ amountProduct[i] }}
+          <td (click)="addProductText = product.id">
+            {{ amountProduct[i] | number }}
           </td>
-          <td (click)="addProductText = product[0].id">
-            {{ product[0].category }}
+          <td (click)="addProductText = product.id">
+            {{ product.category }}
           </td>
           <td>
             <p-button
               label="แก้ไข"
               styleClass="p-button-warning"
-              (onClick)="showEditDialog(i, product[0].amount)"
+              (onClick)="showEditDialog(i, product.amount)"
             ></p-button>
           </td>
           <td>
@@ -85,18 +85,18 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="summary"> ราคารวม {{ total }} บาท </ng-template>
+      <ng-template pTemplate="summary"> ราคารวม {{ payforms.controls["total"].value | number }} บาท </ng-template>
     </p-table>
   </div>
+  <!-- Pay Bill -->
   <p-button
-          label="ชำระเงิน"
-          icon="pi pi-money-bill"
-          (onClick)="payBill()"
-          [style]="{ 'margin-left': '20px' }"
-          styleClass="p-button-success"
-        ></p-button>
+    label="ชำระเงิน"
+    icon="pi pi-money-bill"
+    (onClick)="payBill()"
+    [style]="{ 'margin-left': '20px' }"
+    styleClass="p-button-success"
+  ></p-button>
 </div>
-
 
 <!-- Edit Dialog -->
 <div class="card flex justify-content-center" id="Edit-Add-Dialog">
@@ -150,28 +150,30 @@
     [draggable]="false"
     [resizable]="false"
   >
+  <form [formGroup]="payforms">
     <div class="card flex justify-content-center inputspacDialog">
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">ID/Phone ลูกค้า</label>
+        <label for="cidOrPhone">ID/Phone ลูกค้า</label>
         <input
           pInputText
-          id="fixAmount"
-          aria-describedby="fixAmount-help"
-          [(ngModel)]="cidOrPhone"
+          id="cidOrPhone"
+          aria-describedby="cidOrPhone"
+          formControlName="cidOrPhone"
           [style]="{ 'text-align': 'center' }"
         />
       </div>
       <div class="flex flex-column gap-2 input-dialog">
-        <label htmlFor="brand">จำนวนเงินที่รับมา</label>
+        <label for="getpaid">จำนวนเงินที่รับมา</label>
         <input
           pInputText
-          id="fixAmount"
-          aria-describedby="fixAmount-help"
-          [(ngModel)]="getpaid"
+          id="getpaid"
+          aria-describedby="getpaid"
+          formControlName="getpaid"
           [style]="{ 'text-align': 'center' }"
         />
       </div>
     </div>
+  </form>
 
     <div class="card flex justify-content-center">
       <div class="flex flex-column gap-2 input-dialog">
@@ -196,9 +198,13 @@
     [draggable]="false"
     [resizable]="false"
   >
-  <div>
-    <h1>เงินทอน <span style="color: green;">{{ change }}</span> บาท</h1><br/>
-  </div>
+    <div>
+      <h1>
+        เงินทอน <span style="color: green">{{ payforms.controls["change"].value }}</span> บาท
+      </h1>
+      <br />
+    </div>
   </p-dialog>
 </div>
+
 <p-toast></p-toast>

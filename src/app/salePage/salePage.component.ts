@@ -6,6 +6,7 @@ import { SaleHistoryService } from '../service/saleHistory/saleHistory.service';
 import { ProductService } from '../service/product/product.service';
 import { CustomerServiceService } from '../service/customer/customerService.service';
 import { MessageService } from 'primeng/api';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-salePage',
@@ -15,7 +16,7 @@ import { MessageService } from 'primeng/api';
 })
 export class SalePageComponent implements OnInit {
   // ------------------------ Attribute Variables ------------------------
-
+  payforms: FormGroup;
   productList: Product[] = [];
   productFilter: Product[] = [];
   amountProduct: number[] = [];
@@ -38,10 +39,10 @@ export class SalePageComponent implements OnInit {
   image: string | undefined;
 
   // SaleHistory
-  cidOrPhone: any;
-  total: number = 0;
-  getpaid: number = 0;
-  change: number = 0;
+  // cidOrPhone: any;
+  // total: number = 0;
+  // getpaid: number = 0;
+  // change: number = 0;
   product: string[] = [];
 
   fixAmount: number = 0;
@@ -54,16 +55,25 @@ export class SalePageComponent implements OnInit {
     private productService: ProductService,
     private customerService: CustomerServiceService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.payforms = new FormGroup({
+      cidOrPhone: new FormControl('', [Validators.required]),
+      getpaid: new FormControl(0, [Validators.required]),
+      total: new FormControl(0),
+      change: new FormControl(0)
+    });
+  }
 
   ngOnInit() {
+    const formControls = this.payforms.controls;
     this.cookieService.set(CurrentPath.CURRENT_PATH, CurrentPath.SALE_PATH);
     if (localStorage.getItem('ProductList') != null) {
       this.productList = JSON.parse(localStorage.getItem('ProductList')!);
       this.amountProduct = JSON.parse(localStorage.getItem('amountProduct')!);
       this.productFilter = this.productList.slice();
       this.product = JSON.parse(localStorage.getItem('product')!);
-      this.total = parseInt(localStorage.getItem('total')!);
+      formControls["total"].setValue(parseInt(localStorage.getItem('total')!));
+      // this.total = parseInt(localStorage.getItem('total')!);
     }
     this.sumPrice();
   }
@@ -91,6 +101,7 @@ export class SalePageComponent implements OnInit {
     //   }
     // }
   }
+
   // async showDialog(id: number) {
   //   // this.productsFilter = [];
   //   // this.packProductFilter.filter((p) => {
@@ -139,8 +150,6 @@ export class SalePageComponent implements OnInit {
   }
 
   confirmEdit() {
-    // console.log("pp : "+this.product[this.fixAmountIndex]);
-    //   console.log("aa : "+this.amountProduct[this.fixAmountIndex]);
     if (this.fixAmount > this.amount!) {
       this.amountProduct[this.fixAmountIndex] = this.amount!;
       alert('สินค่าเหลือ ' + this.amount + ' ชิ้น');
@@ -158,7 +167,7 @@ export class SalePageComponent implements OnInit {
   }
 
   deleteProduct(index: number) {
-    delete this.productList[index];
+    this.productList.splice(index, 1)
     this.productFilter = this.productList.slice();
     this.product.splice(index, 1);
     this.amountProduct.splice(index, 1);
@@ -167,7 +176,8 @@ export class SalePageComponent implements OnInit {
   }
 
   clearProduct() {
-    this.total = 0;
+    const formControls = this.payforms.controls;
+    formControls["total"].setValue(0);
     this.productList = [];
     this.productFilter = this.productList.slice();
     this.amountProduct = [];
@@ -179,7 +189,6 @@ export class SalePageComponent implements OnInit {
   }
 
   async addProduct() {
-    console.log('hi');
     if (this.addProductText != '') {
       if (/^[0-9]+$/.test(this.addProductText)) {
         const newProduct = await this.productService.getProductsById(
@@ -191,8 +200,8 @@ export class SalePageComponent implements OnInit {
           let count = 0;
           let check = true;
           this.productList.forEach((p) => {
-            let arr = <Array<Product>>(<unknown>p);
-            if (arr[0].id === parseInt(this.addProductText)) {
+            console.log("p = ",p);
+            if (p.id === parseInt(this.addProductText)) {
               this.amountProduct[count] += 1;
               check = false;
               return;
@@ -207,7 +216,6 @@ export class SalePageComponent implements OnInit {
           this.productFilter = this.productList.slice();
           this.sumPrice();
         } else {
-          console.log('Length: ', objLength);
           alert('ไม่เจอสินค้าที่ระบุ');
         }
       } else {
@@ -218,10 +226,12 @@ export class SalePageComponent implements OnInit {
   }
 
   sumPrice() {
-    this.total = 0;
+    const formControls = this.payforms.controls;
+    formControls["total"].setValue(0);
     for (let i = 0; i < this.product.length; i++) {
       this.getProductByidV2(this.product[i]).subscribe((result: any) => {
-        this.total += result[0].price * this.amountProduct[i];
+        formControls["total"].setValue(formControls["total"].value + (result.price * this.amountProduct[i]));
+        // this.total += result.price * this.amountProduct[i];
       });
     }
     this.saveTolocal();
@@ -235,7 +245,7 @@ export class SalePageComponent implements OnInit {
     localStorage.setItem('ProductList', JSON.stringify(this.productList));
     localStorage.setItem('amountProduct', JSON.stringify(this.amountProduct));
     localStorage.setItem('product', JSON.stringify(this.product));
-    localStorage.setItem('total', this.total.toString());
+    localStorage.setItem('total', this.payforms.controls["total"].value.toString());
   }
 
   payBill() {
@@ -247,13 +257,14 @@ export class SalePageComponent implements OnInit {
   }
 
   checkCustomerData() {
-    if (this.isNumber(this.cidOrPhone)) {
+    const formControls = this.payforms.controls;
+    if (this.isNumber(formControls["cidOrPhone"].value)) {
       this.customerService
-        .getCheckCustomerdataV2(this.cidOrPhone)
+        .getCheckCustomerdataV2(formControls["cidOrPhone"].value)
         .subscribe((result: any) => {
           if (result.length > 0) {
-            if (this.getpaid >= this.total) {
-              this.change = this.getpaid - this.total;
+            if (formControls["getpaid"].value >= formControls["total"].value) {
+              formControls["change"].setValue(formControls["getpaid"].value - formControls["total"].value);
               this.insertSaleHistory();
             } else {
               this.messageService.add({
@@ -276,17 +287,16 @@ export class SalePageComponent implements OnInit {
   }
 
   reduce(product: any, amount: any) {
-    // for (let i = 0; i < product.length; i++) {
-    //   let newAmount;
-    //   this.getProductByidV2(product[i]).subscribe((result: any) => {
-    //     console.log('before: ' + result[0].amount);
-    //     newAmount = result[0].amount - amount[i];
-    //     result[0].amount = newAmount;
-    //     this.updateProductById(result[0]).subscribe((result) => {
-    //       console.log(result);
-    //     });
-    //   });
-    // }
+    for (let i = 0; i < product.length; i++) {
+      let newAmount;
+      this.getProductByidV2(product[i]).subscribe((result: any) => {
+        newAmount = result.amount - amount[i];
+        result.amount = newAmount;
+        this.updateProductById(product[i], result).subscribe((result) => {
+          console.log(result);
+        });
+      });
+    }
   }
 
   // ------------------------ Service ------------------------
@@ -298,32 +308,42 @@ export class SalePageComponent implements OnInit {
 
   //POST History
   insertSaleHistory() {
-    // console.log(this.amountProduct.toString());
+    const formControls = this.payforms.controls;
     let saleHistory: SaleHistory = {
       id: 0,
-      cid: this.cidOrPhone,
-      total: this.total,
+      cid: formControls["cidOrPhone"].value,
+      total: formControls["total"].value,
       product: this.product.toString(),
       amount: this.amountProduct.toString(),
     };
     this.saleHistoryService.insertProduct(saleHistory).subscribe((result) => {
       this.reduce(this.product, this.amountProduct);
-      if (result === 'Insert Successfully') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'ชำระเงินเสร็จสิ้น',
-        });
-        this.changeVisible = true;
-        this.clearProduct();
-        this.payVisible = false;
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error Message',
-          detail: 'ชำระเงินไม่สำเร็จ',
-        });
-      }
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'ชำระเงินเสร็จสิ้น',
+      });
+      this.changeVisible = true;
+      this.clearProduct();
+      this.payVisible = false;
+
+      // if (result.length > 0) {
+      //   this.messageService.add({
+      //     severity: 'success',
+      //     summary: 'Success',
+      //     detail: 'ชำระเงินเสร็จสิ้น',
+      //   });
+      //   this.changeVisible = true;
+      //   this.clearProduct();
+      //   this.payVisible = false;
+      // } else {
+      //   this.messageService.add({
+      //     severity: 'error',
+      //     summary: 'Error Message',
+      //     detail: 'ชำระเงินไม่สำเร็จ',
+      //   });
+      // }
     });
   }
 
